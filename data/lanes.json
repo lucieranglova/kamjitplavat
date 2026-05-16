@@ -1,0 +1,29 @@
+{
+  "updated_at": "2026-05-16T22:00:00+02:00",
+  "pools": {
+    "podoli": {
+      "indoor_50m": {
+        "name": "Vnitřní 50m",
+        "schedule": [
+          { "time": "6:00–7:30", "type": "volno", "note": "Volné plavání" },
+          { "time": "7:30–9:00", "type": "klub", "note": "Rezervováno: PSK Olymp" },
+          { "time": "9:00–12:00", "type": "volno", "note": "Volné plavání" },
+          { "time": "12:00–14:00", "type": "kurzy", "note": "Plavecké kurzy" },
+          { "time": "14:00–17:00", "type": "volno", "note": "Volné plavání" },
+          { "time": "17:00–19:30", "type": "klub", "note": "Rezervováno: Slavia Praha" },
+          { "time": "19:30–21:45", "type": "volno", "note": "Volné plavání" }
+        ]
+      }
+    },
+    "sutka": {
+      "50m": {
+        "name": "50m bazén",
+        "schedule": [
+          { "time": "6:00–8:00", "type": "volno", "note": "Ranní plavání" },
+          { "time": "8:00–10:00", "type": "klub", "note": "Rezervováno: SC Šutka" },
+          { "time": "10:00–22:00", "type": "volno", "note": "Volné plavání (část drah)" }
+        ]
+      }
+    }
+  }
+}

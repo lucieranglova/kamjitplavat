@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plavecké bazény Praha — přehled, dráhy, Multisport</title>
+  <meta name="description" content="Přehled všech plaveckých bazénů v Praze. Otevírací doba, obsazenost drah, Multisport, ceník." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-wave">〰</span>
+        <span class="logo-text">Bazény<strong>Praha</strong></span>
+      </div>
+      <nav class="header-nav">
+        <a href="#bazeny">Bazény</a>
+        <a href="#mapa">Mapa</a>
+        <a href="#o-projektu">O projektu</a>
+      </nav>
+    </div>
+    <div class="header-hero">
+      <div class="hero-text">
+        <h1>Kam dnes<br/>zaplavat?</h1>
+        <p class="hero-sub">Přehled pražských bazénů — otevírací doba, volné dráhy, Multisport.</p>
+        <div class="hero-updated" id="updated-badge">
+          <span class="dot"></span> Aktualizováno dnes v noci
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="wave-anim">
+          <svg viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+            <path class="wave w1" d="M0,60 C50,20 100,100 150,60 C200,20 250,100 300,60 C350,20 400,100 400,60 L400,120 L0,120 Z"/>
+            <path class="wave w2" d="M0,75 C60,35 110,115 160,75 C210,35 260,115 310,75 C360,35 400,95 400,75 L400,120 L0,120 Z"/>
+            <path class="wave w3" d="M0,90 C70,60 120,110 180,90 C240,70 280,110 340,90 C370,75 400,100 400,90 L400,120 L0,120 Z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FILTERS -->
+  <section class="filters-bar" id="bazeny">
+    <div class="container">
+      <div class="filters-row">
+        <div class="filter-group">
+          <label>Hledat</label>
+          <input type="text" id="search-input" placeholder="název nebo MČ…" />
+        </div>
+        <div class="filter-group">
+          <label>Délka bazénu</label>
+          <div class="toggle-group" id="filter-length">
+            <button class="toggle active" data-val="all">Vše</button>
+            <button class="toggle" data-val="50">50 m</button>
+            <button class="toggle" data-val="25">25 m</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Multisport</label>
+          <div class="toggle-group" id="filter-multi">
+            <button class="toggle active" data-val="all">Vše</button>
+            <button class="toggle" data-val="yes">✓ Multisport</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Seřadit</label>
+          <select id="sort-select">
+            <option value="name">Název A–Z</option>
+            <option value="price">Cena ↑</option>
+            <option value="district">Městská část</option>
+          </select>
+        </div>
+      </div>
+      <div class="results-count" id="results-count"></div>
+    </div>
+  </section>
+
+  <!-- POOL CARDS -->
+  <main class="container" id="pool-grid">
+    <div class="loading-state">
+      <div class="loader"></div>
+      <p>Načítám bazény…</p>
+    </div>
+  </main>
+
+  <!-- MAP PLACEHOLDER -->
+  <section class="map-section" id="mapa">
+    <div class="container">
+      <h2 class="section-title">Mapa bazénů</h2>
+      <div class="map-placeholder" id="map-container">
+        <div class="map-pins" id="map-pins"></div>
+        <p class="map-hint">Interaktivní mapa — klikni na čip pro detail</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section" id="o-projektu">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-card">
+          <span class="about-icon">🔄</span>
+          <h3>Aktuální data každý večer</h3>
+          <p>Scrapers běžící přes GitHub Actions stahují obsazenost drah z webů jednotlivých bazénů každou noc.</p>
+        </div>
+        <div class="about-card">
+          <span class="about-icon">💳</span>
+          <h3>Multisport info</h3>
+          <p>Ověřené info, které bazény akceptují kartu Multisport — včetně podmínek využití.</p>
+        </div>
+        <div class="about-card">
+          <span class="about-icon">💧</span>
+          <h3>Otevřený projekt</h3>
+          <p>Kód je open-source na GitHubu. Našel jsi chybu nebo chybí bazén? Pošli pull request!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Projekt bazénů Praha • Neoficiální přehled • Data stahována automaticky</p>
+      <p><a href="https://github.com" target="_blank">GitHub</a> · Nahlásit chybu</p>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modal-close" aria-label="Zavřít">✕</button>
+      <div class="modal-content" id="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

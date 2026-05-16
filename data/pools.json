@@ -1,0 +1,226 @@
+[
+  {
+    "id": "podoli",
+    "name": "Plavecký stadion Podolí",
+    "address": "Podolská 74, Praha 4",
+    "district": "Praha 4",
+    "website": "https://pspodoli.cz",
+    "phone": "+420 220 407 311",
+    "lat": 50.0567,
+    "lng": 14.4183,
+    "multisport": true,
+    "multisport_note": "60+10 min zdarma, přečas 30 Kč/10 min",
+    "pools": [
+      { "name": "Vnitřní 50m", "length": 50, "lanes": 8, "type": "indoor" },
+      { "name": "Venkovní 50m", "length": 50, "lanes": 8, "type": "outdoor", "seasonal": true },
+      { "name": "Venkovní 33m", "length": 33, "lanes": 6, "type": "outdoor", "seasonal": true }
+    ],
+    "opening_hours": {
+      "note": "Otevřeno celoročně, zavřeno jen 2 dny na Vánoce a Nový rok",
+      "weekday": "6:00–21:45",
+      "weekend": "6:00–21:45"
+    },
+    "pricing": [
+      { "label": "Dospělý 60 min", "price": 110 },
+      { "label": "Dospělý 90 min", "price": 120 },
+      { "label": "Dospělý 120 min", "price": 130 },
+      { "label": "Děti / senioři 60 min", "price": 80 }
+    ],
+    "amenities": ["sauna", "fitness", "tobogán", "restaurace", "rehabilitace", "solarium"],
+    "lanes_url": "https://pspodoli.cz/cs/obsazenost-bazenu/",
+    "scraper_id": "podoli"
+  },
+  {
+    "id": "sutka",
+    "name": "Aquacentrum Šutka",
+    "address": "Čimická 848/41, Praha 8",
+    "district": "Praha 8",
+    "website": "https://www.sutka.eu",
+    "phone": "+420 283 851 111",
+    "lat": 50.1371,
+    "lng": 14.4418,
+    "multisport": true,
+    "multisport_note": "Platí pro vstup do bazénu",
+    "pools": [
+      { "name": "50m bazén", "length": 50, "lanes": 8, "type": "indoor" },
+      { "name": "Relaxační bazén", "length": null, "lanes": null, "type": "indoor" }
+    ],
+    "opening_hours": {
+      "weekday": "6:00–22:00",
+      "weekend": "10:00–22:00"
+    },
+    "pricing": [
+      { "label": "Dospělý 60 min", "price": 125 },
+      { "label": "Děti (do 15 let) 60 min", "price": 80 },
+      { "label": "Studenti / senioři / ZTP 60 min", "price": 95 }
+    ],
+    "amenities": ["aquapark", "tobogán", "vířivka", "divoká řeka", "vodopád", "bar"],
+    "lanes_url": "https://www.sutka.eu/rezervace",
+    "scraper_id": "sutka"
+  },
+  {
+    "id": "hostivar",
+    "name": "Plavecký areál Hostivař (UK)",
+    "address": "Weilova 1145/2, Praha 10",
+    "district": "Praha 10",
+    "website": "https://www.cuni.cz/UK-9175.html",
+    "phone": "+420 267 182 541",
+    "lat": 50.0607,
+    "lng": 14.5317,
+    "multisport": false,
+    "multisport_note": null,
+    "pools": [
+      { "name": "Krytý 25m", "length": 25, "lanes": 6, "type": "indoor" }
+    ],
+    "opening_hours": {
+      "note": "Omezený provoz, primárně pro UK. Zavřeno léto.",
+      "weekday": "dle rozvrhu",
+      "weekend": "dle rozvrhu"
+    },
+    "pricing": [
+      { "label": "Dospělý 60 min", "price": 90 }
+    ],
+    "amenities": ["skokanská věž"],
+    "lanes_url": null,
+    "scraper_id": null
+  },
+  {
+    "id": "prazacka",
+    "name": "Sportovní areál Pražačka",
+    "address": "Za Žižkovskou vozovnou 19, Praha 3",
+    "district": "Praha 3",
+    "website": "https://www.prazacka.cz",
+    "phone": "+420 222 782 481",
+    "lat": 50.0862,
+    "lng": 14.4712,
+    "multisport": false,
+    "multisport_note": null,
+    "pools": [
+      { "name": "Krytý bazén 16,7m", "length": 16.7, "lanes": 3, "type": "indoor" },
+      { "name": "Venkovní bazén 26m", "length": 26, "lanes": null, "type": "outdoor", "seasonal": true }
+    ],
+    "opening_hours": {
+      "weekday": "6:00–8:00, 19:30–21:30",
+      "weekend": "10:00–18:30"
+    },
+    "pricing": [
+      { "label": "Dospělý 60 min", "price": 65 },
+      { "label": "Dospělý 90 min", "price": 90 }
+    ],
+    "amenities": ["nejtepleší voda v Praze", "výhled na město"],
+    "lanes_url": null,
+    "scraper_id": null
+  },
+  {
+    "id": "vystaviste",
+    "name": "Bazén Výstaviště Holešovice",
+    "address": "Areál Výstaviště 67, Praha 7",
+    "district": "Praha 7",
+    "website": "https://www.bazenvystaviste.cz",
+    "phone": "+420 220 103 271",
+    "lat": 50.1058,
+    "lng": 14.4316,
+    "multisport": false,
+    "multisport_note": null,
+    "pools": [
+      { "name": "Krytý 25m", "length": 25, "lanes": 6, "type": "indoor" }
+    ],
+    "opening_hours": {
+      "weekday": "7:00–21:30",
+      "weekend": "10:00–20:00"
+    },
+    "pricing": [
+      { "label": "Dospělý 60 min", "price": 100 },
+      { "label": "Dospělý 90 min", "price": 130 }
+    ],
+    "amenities": ["parní sauna", "bezbariérový přístup"],
+    "lanes_url": null,
+    "scraper_id": null
+  },
+  {
+    "id": "slavia",
+    "name": "Plavecký stadion Slavia Praha",
+    "address": "Vladivostocká 1460/10, Praha 10",
+    "district": "Praha 10",
+    "website": "https://www.slaviapraha.cz/bazen",
+    "phone": "+420 267 311 414",
+    "lat": 50.0698,
+    "lng": 14.4651,
+    "multisport": false,
+    "multisport_note": null,
+    "pools": [
+      { "name": "Krytý 25m", "length": 25, "lanes": 5, "type": "indoor" },
+      { "name": "Venkovní 50m", "length": 50, "lanes": 8, "type": "outdoor", "seasonal": true }
+    ],
+    "opening_hours": {
+      "mon": "6:00–9:00",
+      "tue": "6:00–14:15",
+      "wed_thu": "6:00–14:00",
+      "fri": "6:00–20:00",
+      "weekend": "9:00–19:00"
+    },
+    "pricing": [
+      { "label": "Dospělý 60 min", "price": 100 },
+      { "label": "Dospělý 90 min", "price": 100 },
+      { "label": "Dospělý 120 min", "price": 110 }
+    ],
+    "amenities": ["venkovní bazén (léto)", "výukový dětský bazén"],
+    "lanes_url": null,
+    "scraper_id": null
+  },
+  {
+    "id": "hloubetín",
+    "name": "Plavecký areál Hloubětín",
+    "address": "Hloubětínská 10, Praha 9",
+    "district": "Praha 9",
+    "website": "https://www.hloubetinskybazen.cz",
+    "phone": "+420 281 861 961",
+    "lat": 50.1035,
+    "lng": 14.5104,
+    "multisport": true,
+    "multisport_note": "Platí pro vstup do bazénu",
+    "pools": [
+      { "name": "Krytý 25m (slaná voda)", "length": 25, "lanes": 6, "type": "indoor" },
+      { "name": "Krytý 25m (slaná voda) #2", "length": 25, "lanes": 6, "type": "indoor" }
+    ],
+    "opening_hours": {
+      "weekday": "6:00–22:00",
+      "weekend": "8:00–22:00"
+    },
+    "pricing": [
+      { "label": "Dospělý 60 min", "price": 120 },
+      { "label": "Studenti 60 min", "price": 110 },
+      { "label": "Důchodci 60 min", "price": 100 }
+    ],
+    "amenities": ["slaná voda", "venkovní bazén", "parní lázně"],
+    "lanes_url": null,
+    "scraper_id": null
+  },
+  {
+    "id": "ymca",
+    "name": "Sportcentrum YMCA",
+    "address": "Na Poříčí 12, Praha 1",
+    "district": "Praha 1",
+    "website": "https://www.ymca.cz",
+    "phone": "+420 224 872 020",
+    "lat": 50.0901,
+    "lng": 14.4358,
+    "multisport": false,
+    "multisport_note": null,
+    "pools": [
+      { "name": "Podzemní 25m", "length": 25, "lanes": 4, "type": "indoor" }
+    ],
+    "opening_hours": {
+      "weekday": "6:30–22:00",
+      "fri": "6:30–21:00",
+      "sat": "9:00–17:00",
+      "sun": "13:00–21:00"
+    },
+    "pricing": [
+      { "label": "Dospělý 60 min", "price": 110 }
+    ],
+    "amenities": ["centrum Prahy", "aqua aerobik"],
+    "lanes_url": null,
+    "scraper_id": null
+  }
+]

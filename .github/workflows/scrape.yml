@@ -1,0 +1,71 @@
+name: Nightly scrape + deploy
+
+on:
+  schedule:
+    # Každou noc ve 23:00 SEČ (21:00 UTC)
+    - cron: '0 21 * * *'
+  workflow_dispatch:  # Možnost spustit ručně z GitHub UI
+
+permissions:
+  contents: write   # Potřeba pro commit + push do repozitáře
+  pages: write
+  id-token: write
+
+jobs:
+  scrape:
+    name: Scrape lane data
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run scrapers
+        run: python scrapers/run_all.py
+        # Pokračuje i při částečné chybě — lepší stará data než nic
+        continue-on-error: true
+
+      - name: Commit updated lanes.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/lanes.json
+          # Commit jen pokud jsou změny
+          git diff --cached --quiet || git commit -m "chore: update lanes data $(date +'%Y-%m-%d')"
+          git push
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: scrape
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: main   # Po commitu scraperů
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'   # Celý root repozitáře = index.html + data/ + style.css + script.js
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
