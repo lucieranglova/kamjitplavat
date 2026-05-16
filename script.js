@@ -380,14 +380,45 @@ function setupModal() {
 
 function openModal(pool) {
   document.getElementById('modal-content').innerHTML = buildModalHTML(pool);
-  // Setup day tabs in modal
+
+  const poolLaneData = lanesData[pool.id];
+  const poolKeys = poolLaneData ? Object.keys(poolLaneData) : [];
+  const today = todayKey();
+  let activePoolKey = poolKeys[0] || null;
+  let activeDay = today;
+
+  function refresh() {
+    const el = document.getElementById('modal-schedule-rows');
+    if (el) {
+      el.style.opacity = '0';
+      setTimeout(() => {
+        el.innerHTML = buildScheduleHTML(pool, activeDay, activePoolKey);
+        el.style.transition = 'opacity 0.18s';
+        el.style.opacity = '1';
+      }, 80);
+    }
+  }
+
+  // Pool tabs
+  document.querySelectorAll('.pool-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.pool-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activePoolKey = tab.dataset.poolKey;
+      refresh();
+    });
+  });
+
+  // Day tabs
   document.querySelectorAll('.day-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      renderModalSchedule(pool, tab.dataset.day);
+      activeDay = tab.dataset.day;
+      refresh();
     });
   });
+
   const overlay = document.getElementById('modal-overlay');
   overlay.setAttribute('aria-hidden', 'false');
   overlay.classList.add('open');
@@ -463,38 +494,47 @@ function buildModalLaneSection(pool) {
   const poolLaneData = lanesData[pool.id];
   if (!poolLaneData) return '';
 
+  const poolKeys = Object.keys(poolLaneData);
   const today = todayKey();
   const days = ['po','ut','st','ct','pa','so','ne'];
   const dayNames = { po:'Po', ut:'Út', st:'St', ct:'Čt', pa:'Pá', so:'So', ne:'Ne' };
 
-  const tabs = days.map(d =>
-    `<button class="day-tab${d === today ? ' active' : ''}" data-day="${d}">${dayNames[d]}</button>`
-  ).join('');
+  // Pool tabs — only when more than one pool
+  const poolTabsHTML = poolKeys.length > 1
+    ? `<div class="pool-tabs">
+        ${poolKeys.map((key, i) => {
+          const info = poolLaneData[key];
+          return `<button class="pool-tab${i === 0 ? ' active' : ''}" data-pool-key="${key}">${info.name}${info.seasonal ? ' ☀' : ''}</button>`;
+        }).join('')}
+      </div>`
+    : '';
 
-  const scheduleHTML = buildScheduleHTML(pool, today);
+  const dayTabsHTML = `<div class="day-tabs">
+    ${days.map(d =>
+      `<button class="day-tab${d === today ? ' active' : ''}" data-day="${d}">${dayNames[d]}</button>`
+    ).join('')}
+  </div>`;
+
+  const scheduleHTML = buildScheduleHTML(pool, today, poolKeys[0]);
 
   return `
     <div class="modal-section">
       <h4>Rozvrh drah</h4>
-      <div class="day-tabs">${tabs}</div>
+      ${poolTabsHTML}
+      ${dayTabsHTML}
       <div class="modal-schedule" id="modal-schedule-rows">${scheduleHTML}</div>
-      <p style="font-size:.73rem;color:var(--ink-light);margin-top:8px">
-        Data stahována automaticky každou noc · pouze bazény s online rozvržením
+      <p style="font-size:.73rem;color:var(--muted);margin-top:8px">
+        Data stahována automaticky každou noc
       </p>
     </div>`;
 }
 
-function renderModalSchedule(pool, day) {
-  const el = document.getElementById('modal-schedule-rows');
-  if (el) el.innerHTML = buildScheduleHTML(pool, day);
-}
-
-function buildScheduleHTML(pool, day) {
+function buildScheduleHTML(pool, day, poolKey) {
   const poolLaneData = lanesData[pool.id];
   if (!poolLaneData) return '<p class="lanes-no-data">Data nejsou k dispozici.</p>';
 
-  const poolKey = Object.keys(poolLaneData)[0];
-  const poolInfo = poolLaneData[poolKey];
+  const key = poolKey || Object.keys(poolLaneData)[0];
+  const poolInfo = poolLaneData[key];
   const slots = poolInfo?.schedule?.[day] || [];
 
   if (!slots.length) return '<p class="lanes-no-data">Pro tento den není rozvrh k dispozici.</p>';
@@ -508,7 +548,7 @@ function buildScheduleHTML(pool, day) {
     const freeSet = new Set(slot.free_lanes || []);
     const resSet  = new Set(slot.reserved_lanes || []);
 
-    const laneBubbles = Array.from({length: total}, (_,i) => {
+    const laneBubbles = Array.from({length: total}, (_, i) => {
       const n = i + 1;
       const cls = freeSet.has(n) ? 'free' : resSet.has(n) ? 'reserved' : 'free';
       return `<span class="sch-lane ${cls}" title="Dráha ${n}">${n}</span>`;
@@ -517,8 +557,8 @@ function buildScheduleHTML(pool, day) {
     const freeCnt = slot.free_lanes?.length ?? 0;
     const resCnt  = slot.reserved_lanes?.length ?? 0;
     const countsTxt = resCnt
-      ? `<span style="font-size:.75rem;color:var(--ink-light)">${freeCnt} volných · ${resCnt} rezerv.</span>`
-      : `<span style="font-size:.75rem;color:var(--ink-light)">${freeCnt} volných</span>`;
+      ? `<span class="sch-counts">${freeCnt} vol. · ${resCnt} rez.</span>`
+      : `<span class="sch-counts">${freeCnt} volných</span>`;
 
     return `
       <div class="schedule-row${isNow ? ' highlight' : ''}">

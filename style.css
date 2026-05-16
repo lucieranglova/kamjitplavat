@@ -710,6 +710,35 @@ a:hover { text-decoration: underline; }
 .modal-pool-name { font-weight: 700; font-family: 'DM Sans', sans-serif; text-transform: uppercase; font-size: 0.82rem; letter-spacing: 0.04em; }
 .modal-pool-info { color: var(--muted); font-size: 0.76rem; }
 
+/* Pool selector tabs in modal (bazén výběr) */
+.pool-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.pool-tab {
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  border: var(--border);
+  border-right: none;
+  background: var(--white);
+  color: var(--black);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background 0.12s;
+}
+.pool-tab:last-child { border-right: var(--border); }
+.pool-tab:hover { background: var(--grey); }
+.pool-tab.active {
+  background: var(--black);
+  color: var(--teal);
+}
+
 /* Day tabs */
 .day-tabs { display: flex; gap: 0; margin-bottom: 10px; flex-wrap: wrap; }
 .day-tab {
