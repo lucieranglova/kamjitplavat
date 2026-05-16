@@ -35,114 +35,99 @@
       <p class="hero-kicker">Pražské bazény 2026</p>
       <h1 class="hero-title">KAM JÍT<br/>PLAVAT?</h1>
       <p class="hero-sub">Přehled otevírací doby, volných drah a Multisport přijetí pro všechny pražské bazény na jednom místě.</p>
-      <div class="hero-badge">
-        <span class="pulse-dot"></span>
-        <span id="updated-text">Aktualizováno každou noc</span>
-      </div>
     </div>
 
-    <!-- Hand-drawn outline swimmers SVG -->
+    <!-- Hand-drawn swimming gear SVG -->
     <div class="hero-swimmers">
       <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" fill="none">
-        <!-- water line strokes -->
-        <path d="M0 220 Q52 208 105 220 Q158 232 210 220 Q262 208 315 220 Q368 232 420 220" stroke="#0d0d0d" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M0 232 Q60 220 115 232 Q170 244 220 232 Q275 220 325 232 Q375 244 420 232" stroke="#0d0d0d" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
 
-        <!-- === SWIMMER LEFT === -->
-        <!-- head -->
-        <ellipse cx="80" cy="168" rx="26" ry="28" stroke="#0d0d0d" stroke-width="3" fill="white"/>
-        <!-- swim cap — thick black outline arc -->
-        <path d="M54 165 Q58 138 80 134 Q102 138 106 165" stroke="#0d0d0d" stroke-width="3" fill="#0d0d0d"/>
-        <!-- cap highlight lines -->
-        <path d="M60 155 Q80 144 100 155" stroke="white" stroke-width="1.5" fill="none"/>
-        <!-- left goggle -->
-        <circle cx="70" cy="170" r="8" stroke="#0d0d0d" stroke-width="2.5" fill="white"/>
-        <!-- right goggle -->
-        <circle cx="91" cy="170" r="8" stroke="#0d0d0d" stroke-width="2.5" fill="white"/>
-        <!-- goggle bridge -->
-        <line x1="78" y1="170" x2="83" y2="170" stroke="#0d0d0d" stroke-width="2.5"/>
-        <!-- goggle strap left -->
-        <path d="M62 170 Q55 167 54 165" stroke="#0d0d0d" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <!-- goggle strap right -->
-        <path d="M99 170 Q106 167 107 165" stroke="#0d0d0d" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <!-- goggle lens dots -->
-        <circle cx="70" cy="170" r="2.5" fill="#0d0d0d"/>
-        <circle cx="91" cy="170" r="2.5" fill="#0d0d0d"/>
-        <!-- smile -->
-        <path d="M72 184 Q80 190 88 184" stroke="#0d0d0d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <!-- neck + shoulders emerging from water -->
-        <path d="M70 196 L68 218" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round"/>
-        <path d="M90 196 L92 218" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round"/>
-        <!-- left shoulder -->
-        <path d="M68 218 Q40 222 20 218" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <!-- right shoulder -->
-        <path d="M92 218 Q110 222 125 218" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <!-- body fill in water -->
-        <path d="M40 220 Q80 212 125 220 L125 240 Q80 232 40 240 Z" fill="white" stroke="#0d0d0d" stroke-width="2"/>
-        <!-- swimsuit straps -->
-        <line x1="72" y1="197" x2="70" y2="218" stroke="#0d0d0d" stroke-width="2.5"/>
-        <line x1="88" y1="197" x2="90" y2="218" stroke="#0d0d0d" stroke-width="2.5"/>
-        <!-- extended arm left -->
-        <path d="M40 219 Q20 210 4 214" stroke="white" stroke-width="8" stroke-linecap="round"/>
-        <path d="M40 219 Q20 210 4 214" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <!-- ===== GOGGLES (top left) ===== -->
+        <!-- left lens -->
+        <rect x="30" y="30" width="70" height="50" rx="14" stroke="#0d0d0d" stroke-width="3.5" fill="white"/>
+        <!-- right lens -->
+        <rect x="118" y="30" width="70" height="50" rx="14" stroke="#0d0d0d" stroke-width="3.5" fill="white"/>
+        <!-- bridge between lenses -->
+        <path d="M100 55 Q109 48 118 55" stroke="#0d0d0d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <!-- left strap -->
+        <path d="M30 55 Q18 55 8 52" stroke="#0d0d0d" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- right strap -->
+        <path d="M188 55 Q200 55 210 52" stroke="#0d0d0d" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- lens reflections -->
+        <path d="M44 40 Q50 36 58 40" stroke="#0d0d0d" stroke-width="2" stroke-linecap="round" opacity="0.25"/>
+        <path d="M132 40 Q138 36 146 40" stroke="#0d0d0d" stroke-width="2" stroke-linecap="round" opacity="0.25"/>
+        <!-- teal tint in lenses -->
+        <rect x="33" y="33" width="64" height="44" rx="11" fill="#00b4d8" opacity="0.18"/>
+        <rect x="121" y="33" width="64" height="44" rx="11" fill="#00b4d8" opacity="0.18"/>
 
-        <!-- === SWIMMER MIDDLE — waves arm === -->
-        <!-- head -->
-        <ellipse cx="210" cy="165" rx="27" ry="29" stroke="#0d0d0d" stroke-width="3" fill="white"/>
-        <!-- dark cap with number -->
-        <path d="M183 162 Q187 134 210 130 Q233 134 237 162" stroke="#0d0d0d" stroke-width="3" fill="#1a1a1a"/>
-        <path d="M188 150 Q210 140 232 150" stroke="white" stroke-width="1.5" fill="none"/>
-        <!-- number on cap -->
-        <text x="210" y="152" font-family="'DM Sans',sans-serif" font-size="13" font-weight="700" fill="#00b4d8" text-anchor="middle">9</text>
-        <!-- goggles -->
-        <circle cx="199" cy="168" r="8" stroke="#0d0d0d" stroke-width="2.5" fill="white"/>
-        <circle cx="221" cy="168" r="8" stroke="#0d0d0d" stroke-width="2.5" fill="white"/>
-        <line x1="207" y1="168" x2="213" y2="168" stroke="#0d0d0d" stroke-width="2.5"/>
-        <path d="M191 168 Q184 165 183 162" stroke="#0d0d0d" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <path d="M229 168 Q236 165 237 162" stroke="#0d0d0d" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <circle cx="199" cy="168" r="2.5" fill="#0d0d0d"/>
-        <circle cx="221" cy="168" r="2.5" fill="#0d0d0d"/>
-        <!-- mouth open -->
-        <path d="M202 183 Q210 192 218 183" stroke="#0d0d0d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <!-- neck + body -->
-        <path d="M200 194 L198 220" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round"/>
-        <path d="M220 194 L222 220" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round"/>
-        <path d="M175 220 Q210 212 248 220 L248 242 Q210 234 175 242 Z" fill="white" stroke="#0d0d0d" stroke-width="2"/>
-        <line x1="202" y1="195" x2="200" y2="220" stroke="#0d0d0d" stroke-width="2.5"/>
-        <line x1="218" y1="195" x2="220" y2="220" stroke="#0d0d0d" stroke-width="2.5"/>
-        <!-- waving arm — big upswing -->
-        <path d="M240 210 Q258 185 268 160 Q274 140 278 124" stroke="white" stroke-width="10" stroke-linecap="round"/>
-        <path d="M240 210 Q258 185 268 160 Q274 140 278 124" stroke="#0d0d0d" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <!-- hand / fingers -->
-        <path d="M278 124 Q282 112 286 108" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round"/>
-        <path d="M278 124 Q285 115 290 114" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round"/>
-        <path d="M278 124 Q285 122 290 125" stroke="#0d0d0d" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M278 124 Q282 130 285 136" stroke="#0d0d0d" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- ===== SWIM CAP (top right, tilted) ===== -->
+        <g transform="translate(260,10) rotate(18)">
+          <!-- cap body -->
+          <ellipse cx="55" cy="52" rx="52" ry="44" stroke="#0d0d0d" stroke-width="3.5" fill="white"/>
+          <!-- cap fold at bottom -->
+          <path d="M6 68 Q55 80 104 68" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <!-- texture lines -->
+          <path d="M18 35 Q55 22 92 35" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/>
+          <path d="M10 50 Q55 37 100 50" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" opacity="0.2"/>
+          <!-- teal fill -->
+          <ellipse cx="55" cy="50" rx="49" ry="41" fill="#00b4d8" opacity="0.22"/>
+        </g>
 
-        <!-- === SWIMMER RIGHT — red cap === -->
-        <!-- head -->
-        <ellipse cx="358" cy="167" rx="26" ry="28" stroke="#0d0d0d" stroke-width="3" fill="white"/>
-        <!-- red cap -->
-        <path d="M332 164 Q336 136 358 132 Q380 136 384 164" stroke="#0d0d0d" stroke-width="3" fill="#cc2222"/>
-        <path d="M338 153 Q358 143 378 153" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="none"/>
-        <!-- goggles -->
-        <circle cx="347" cy="169" r="8" stroke="#0d0d0d" stroke-width="2.5" fill="white"/>
-        <circle cx="369" cy="169" r="8" stroke="#0d0d0d" stroke-width="2.5" fill="white"/>
-        <line x1="355" y1="169" x2="361" y2="169" stroke="#0d0d0d" stroke-width="2.5"/>
-        <path d="M339 169 Q332 166 332 164" stroke="#0d0d0d" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <path d="M377 169 Q384 166 384 164" stroke="#0d0d0d" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <circle cx="347" cy="169" r="2.5" fill="#0d0d0d"/>
-        <circle cx="369" cy="169" r="2.5" fill="#0d0d0d"/>
-        <!-- tiny happy expression -->
-        <path d="M350 183 Q358 189 366 183" stroke="#0d0d0d" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <!-- neck + body -->
-        <path d="M349 195 L347 218" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round"/>
-        <path d="M367 195 L369 218" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round"/>
-        <path d="M325 220 Q358 212 395 220 L395 242 Q358 234 325 242 Z" fill="white" stroke="#0d0d0d" stroke-width="2"/>
-        <line x1="350" y1="196" x2="348" y2="218" stroke="#0d0d0d" stroke-width="2.5"/>
-        <line x1="366" y1="196" x2="368" y2="218" stroke="#0d0d0d" stroke-width="2.5"/>
-        <!-- right shoulder relaxed -->
-        <path d="M395 220 Q408 218 420 222" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <!-- ===== SNORKEL (bottom left area) ===== -->
+        <!-- tube — long curved pipe -->
+        <path d="M60 140 Q48 160 52 185 Q56 210 62 230 Q66 248 68 268"
+              stroke="#0d0d0d" stroke-width="4" stroke-linecap="round"/>
+        <!-- mouthpiece -->
+        <path d="M68 268 Q80 272 86 268 Q90 264 88 258 Q84 252 76 254 Q68 256 68 268Z"
+              stroke="#0d0d0d" stroke-width="3" fill="white"/>
+        <!-- top purge valve / tip -->
+        <circle cx="60" cy="138" r="7" stroke="#0d0d0d" stroke-width="3" fill="white"/>
+        <line x1="60" y1="118" x2="60" y2="131" stroke="#0d0d0d" stroke-width="3" stroke-linecap="round"/>
+        <!-- purge holes -->
+        <circle cx="60" cy="138" r="2.5" fill="#0d0d0d"/>
+
+        <!-- ===== FLIPPER / PLOUTEV LEFT (center-bottom) ===== -->
+        <g transform="translate(130,155)">
+          <!-- foot pocket -->
+          <path d="M30 0 Q50 0 58 10 L60 35 Q50 40 30 40 Q10 40 2 35 L0 10 Q8 0 30 0Z"
+                stroke="#0d0d0d" stroke-width="3.5" fill="white"/>
+          <!-- blade -->
+          <path d="M4 32 Q0 60 10 100 Q20 130 30 145 Q40 130 50 100 Q60 60 56 32"
+                stroke="#0d0d0d" stroke-width="3.5" fill="white"/>
+          <!-- blade channels -->
+          <path d="M20 50 Q22 90 28 140" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/>
+          <path d="M30 48 Q32 90 30 142" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/>
+          <path d="M40 50 Q38 90 32 140" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/>
+          <!-- teal fill on blade -->
+          <path d="M6 34 Q2 62 12 102 Q22 132 30 145 Q38 132 48 102 Q58 62 54 34Z"
+                fill="#00b4d8" opacity="0.2"/>
+        </g>
+
+        <!-- ===== FLIPPER RIGHT (overlapping, rotated) ===== -->
+        <g transform="translate(268,148) rotate(-22)">
+          <path d="M30 0 Q50 0 58 10 L60 35 Q50 40 30 40 Q10 40 2 35 L0 10 Q8 0 30 0Z"
+                stroke="#0d0d0d" stroke-width="3.5" fill="white"/>
+          <path d="M4 32 Q0 60 10 100 Q20 130 30 145 Q40 130 50 100 Q60 60 56 32"
+                stroke="#0d0d0d" stroke-width="3.5" fill="white"/>
+          <path d="M20 50 Q22 90 28 140" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/>
+          <path d="M30 48 Q32 90 30 142" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/>
+          <path d="M40 50 Q38 90 32 140" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/>
+          <path d="M6 34 Q2 62 12 102 Q22 132 30 145 Q38 132 48 102 Q58 62 54 34Z"
+                fill="#00b4d8" opacity="0.2"/>
+        </g>
+
+        <!-- ===== KICKBOARD (top right of gear area) ===== -->
+        <g transform="translate(300,130) rotate(-12)">
+          <!-- board body — rounded rectangle -->
+          <rect x="0" y="0" width="100" height="62" rx="20" stroke="#0d0d0d" stroke-width="3.5" fill="white"/>
+          <!-- teal stripe -->
+          <rect x="0" y="18" width="100" height="26" rx="0" fill="#00b4d8" opacity="0.28"/>
+          <!-- hand holes -->
+          <ellipse cx="30" cy="31" rx="10" ry="7" stroke="#0d0d0d" stroke-width="2.5" fill="white"/>
+          <ellipse cx="70" cy="31" rx="10" ry="7" stroke="#0d0d0d" stroke-width="2.5" fill="white"/>
+          <!-- brand line -->
+          <path d="M20 10 Q50 6 80 10" stroke="#0d0d0d" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>
+        </g>
+
       </svg>
     </div>
   </div>

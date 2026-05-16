@@ -74,19 +74,16 @@ a:hover { text-decoration: underline; }
 .header-nav { display: flex; gap: 4px; }
 .header-nav a {
   color: var(--black);
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   font-weight: 700;
-  padding: 6px 16px;
-  border: var(--border-thin);
-  border-radius: 0;
+  padding: 6px 14px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  transition: background 0.14s;
+  transition: color 0.14s;
   font-family: 'DM Sans', sans-serif;
 }
 .header-nav a:hover {
-  background: var(--black);
-  color: var(--teal);
+  color: white;
   text-decoration: none;
 }
 
