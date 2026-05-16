@@ -216,10 +216,7 @@ function cardHTML(pool, idx, day, timeMins) {
         ${lanesSummary}
       </div>
       <div class="card-footer">
-        <button class="btn btn-primary">Detail a rozvrh drah</button>
-        ${pool.website
-          ? `<a class="btn btn-secondary" href="${pool.website}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Web ↗</a>`
-          : ''}
+        <button class="btn btn-primary">Detail</button>
       </div>
     </article>`;
 }
@@ -241,22 +238,67 @@ function buildLanesSummary(pool, day, timeMins) {
   `;
 }
 
-// ─── Map pins ────────────────────────────────
+// ─── Leaflet Map ─────────────────────────────
+let leafletMap = null;
+
 function renderPins() {
-  const container = document.getElementById('map-pins');
-  if (!container) return;
-  allPools.forEach(pool => {
-    const pin = document.createElement('div');
-    pin.className = 'map-pin';
-    pin.style.left = lngToX(pool.lng) + '%';
-    pin.style.top  = latToY(pool.lat) + '%';
-    pin.innerHTML = `
-      <div class="pin-marker${pool.multisport ? ' multi' : ''}"></div>
-      <div class="pin-label">${pool.name.split(' ').pop()}</div>`;
-    pin.title = pool.name;
-    pin.addEventListener('click', () => openModal(pool));
-    container.appendChild(pin);
+  const container = document.getElementById('map-container');
+  // Remove the static map-pins div, Leaflet takes over the container
+  const pinsEl = document.getElementById('map-pins');
+  if (pinsEl) pinsEl.remove();
+
+  // Init Leaflet
+  leafletMap = L.map('map-container', { zoomControl: true, scrollWheelZoom: false })
+    .setView([50.075, 14.44], 12);
+
+  // Tile layer — CartoDB Positron (clean, light)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(leafletMap);
+
+  // Custom teal marker icon
+  const icon = (multisport) => L.divIcon({
+    className: '',
+    html: `<div style="
+      width:14px;height:14px;
+      background:${multisport ? '#1db954' : '#00b4d8'};
+      border:2.5px solid #0d0d0d;
+      border-radius:50%;
+      box-shadow:2px 2px 0 #0d0d0d;
+    "></div>`,
+    iconSize: [14, 14],
+    iconAnchor: [7, 7],
   });
+
+  allPools.forEach(pool => {
+    const marker = L.marker([pool.lat, pool.lng], { icon: icon(pool.multisport) })
+      .addTo(leafletMap);
+
+    const minPrice = pool.pricing.length ? Math.min(...pool.pricing.map(p => p.price)) : null;
+    marker.bindPopup(`
+      <div style="font-family:'DM Sans',sans-serif;min-width:180px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.04em;margin-bottom:4px;">${pool.name}</div>
+        <div style="font-size:.78rem;color:#666;margin-bottom:8px;">📍 ${pool.address}</div>
+        ${pool.multisport ? '<div style="font-size:.72rem;font-weight:700;background:#c8ffd4;border:1.5px solid #0d0d0d;padding:2px 8px;display:inline-block;margin-bottom:8px;">💳 MULTISPORT</div>' : ''}
+        ${minPrice ? `<div style="font-size:.8rem;font-weight:700;">od ${minPrice} Kč / hod</div>` : ''}
+        <button onclick="window.__openPoolModal('${pool.id}')" style="
+          margin-top:10px;width:100%;padding:7px;
+          background:#00b4d8;border:2px solid #0d0d0d;
+          font-family:'DM Sans',sans-serif;font-size:.78rem;
+          font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+          cursor:pointer;
+        ">Detail</button>
+      </div>
+    `, { maxWidth: 220 });
+  });
+
+  // Expose modal opener for popup button
+  window.__openPoolModal = (id) => {
+    const pool = allPools.find(p => p.id === id);
+    if (pool) openModal(pool);
+  };
 }
 
 // ─── Modal ───────────────────────────────────

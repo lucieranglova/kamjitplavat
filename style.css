@@ -21,6 +21,18 @@
   --border-thin: 1.5px solid #0d0d0d;
 }
 
+/* HARD RESET — no rounding anywhere */
+button, input, select, a.btn,
+.toggle, .btn, .day-tab, .modal-close,
+#search-input, #sort-select, #time-select,
+.pool-card, .modal, .about-card,
+.lane-count, .pool-chip, .amenity-tag,
+.badge-multi, .modal-pool-row, .schedule-row,
+.sch-type, .sch-lane, .map-placeholder,
+.pin-label, .modal-multi-banner {
+  border-radius: 0 !important;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
@@ -172,9 +184,7 @@ a:hover { text-decoration: underline; }
 .filters-bar {
   background: var(--white);
   border-bottom: var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  /* NOT sticky — static */
 }
 
 .filters-row {
@@ -272,14 +282,12 @@ a:hover { text-decoration: underline; }
   padding: 36px 32px 56px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 0;           /* gap via borders */
+  gap: 20px;
 }
 
 /* Shared border trick — adjacent cards share borders */
 .pool-card {
   border: var(--border);
-  margin-right: -2.5px;
-  margin-bottom: -2.5px;
   background: var(--white);
   display: flex;
   flex-direction: column;
@@ -475,13 +483,6 @@ a:hover { text-decoration: underline; }
    MAP
    ============================================= */
 
-.map-section {
-  background: var(--white);
-  padding: 52px 0;
-  border-top: var(--border);
-  border-bottom: var(--border);
-}
-
 .section-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 3rem;
@@ -491,30 +492,26 @@ a:hover { text-decoration: underline; }
   text-transform: uppercase;
 }
 .section-sub {
-  color: var(--muted);
   font-size: 0.85rem;
   font-weight: 500;
-  margin-bottom: 20px;
+  color: var(--muted);
 }
 
+.map-section {
+  background: var(--teal);
+  padding: 52px 0;
+  border-top: var(--border);
+}
+
+.map-section .section-title { color: var(--black); }
+.map-section .section-sub   { color: rgba(0,0,0,0.55); margin-bottom: 20px; }
+
 .map-placeholder {
-  background: #e8f9fd;
+  background: var(--white);
   border: var(--border);
-  min-height: 300px;
+  height: 420px;
   position: relative;
   overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 20px;
-}
-.map-hint {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  position: relative; z-index: 1;
 }
 .map-pins { position: absolute; inset: 0; }
 .map-pin {
