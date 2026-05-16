@@ -1,24 +1,60 @@
 /* =============================================
-   Bazény Praha — script.js
+   Kam jít plavat? — script.js v2
    ============================================= */
 
-// Prague map bounds for pin positioning (rough bounding box)
-const MAP_BOUNDS = {
-  latMin: 49.98, latMax: 50.18,
-  lngMin: 14.30, lngMax: 14.65
-};
+const DAY_KEYS = ['ne','po','ut','st','ct','pa','so','ne']; // JS: 0=Sun
+const DAY_LABELS = { po:'Pondělí', ut:'Úterý', st:'Středa', ct:'Čtvrtek', pa:'Pátek', so:'Sobota', ne:'Neděle' };
 
-function latToY(lat) {
-  return ((MAP_BOUNDS.latMax - lat) / (MAP_BOUNDS.latMax - MAP_BOUNDS.latMin)) * 88 + 6;
-}
-function lngToX(lng) {
-  return ((lng - MAP_BOUNDS.lngMin) / (MAP_BOUNDS.lngMax - MAP_BOUNDS.lngMin)) * 88 + 6;
-}
+const MAP_BOUNDS = { latMin:49.98, latMax:50.18, lngMin:14.30, lngMax:14.65 };
+function latToY(lat) { return ((MAP_BOUNDS.latMax - lat) / (MAP_BOUNDS.latMax - MAP_BOUNDS.latMin)) * 85 + 7; }
+function lngToX(lng) { return ((lng - MAP_BOUNDS.lngMin) / (MAP_BOUNDS.lngMax - MAP_BOUNDS.lngMin)) * 85 + 7; }
 
 // ─── State ──────────────────────────────────
 let allPools = [];
 let lanesData = {};
-let activeFilters = { search: '', length: 'all', multi: 'all', sort: 'name' };
+let activeFilters = {
+  search: '',
+  length: 'all',
+  multi: 'all',
+  day: 'today',
+  time: 'now',
+  sort: 'name'
+};
+
+// ─── Helpers ─────────────────────────────────
+function todayKey() {
+  return DAY_KEYS[new Date().getDay()];
+}
+function resolvedDay() {
+  return activeFilters.day === 'today' ? todayKey() : activeFilters.day;
+}
+function resolvedTimeMinutes() {
+  if (activeFilters.time === 'now') {
+    const n = new Date();
+    return n.getHours() * 60 + n.getMinutes();
+  }
+  const [h, m] = activeFilters.time.split(':').map(Number);
+  return h * 60 + (m || 0);
+}
+function parseMins(str) {
+  if (!str) return 0;
+  const [h, m] = str.split(':').map(Number);
+  return h * 60 + (m || 0);
+}
+
+function getSlotAtTime(poolLaneData, day, timeMins) {
+  if (!poolLaneData) return null;
+  const poolKey = Object.keys(poolLaneData)[0];
+  if (!poolKey) return null;
+  const poolInfo = poolLaneData[poolKey];
+  const sched = poolInfo.schedule?.[day] || [];
+  for (const slot of sched) {
+    if (timeMins >= parseMins(slot.from) && timeMins < parseMins(slot.to)) {
+      return { ...slot, total_lanes: poolInfo.total_lanes, pool_name: poolInfo.name };
+    }
+  }
+  return null;
+}
 
 // ─── Init ────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
@@ -27,7 +63,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderPins();
   renderCards();
   setupModal();
-  updateTimestamp();
 });
 
 async function loadData() {
@@ -39,40 +74,19 @@ async function loadData() {
     allPools = await poolsRes.json();
     const lanes = await lanesRes.json();
     lanesData = lanes.pools || {};
-    updateUpdatedBadge(lanes.updated_at);
+
+    if (lanes.updated_at) {
+      const d = new Date(lanes.updated_at);
+      const diff = Math.floor((Date.now() - d) / 3600000);
+      const txt = diff < 2 ? 'Právě aktualizováno' :
+                  diff < 24 ? `Aktualizováno před ${diff} h` :
+                  `Aktualizováno ${d.toLocaleDateString('cs-CZ')}`;
+      document.getElementById('updated-text').textContent = txt;
+    }
   } catch (e) {
     console.warn('Chyba při načítání dat:', e);
     document.getElementById('pool-grid').innerHTML =
-      '<p class="no-results">Nepodařilo se načíst data. Zkus to znovu.</p>';
-  }
-}
-
-function updateUpdatedBadge(dateStr) {
-  if (!dateStr) return;
-  const d = new Date(dateStr);
-  const now = new Date();
-  const diff = Math.floor((now - d) / 3600000);
-  const badge = document.getElementById('updated-badge');
-  if (badge) {
-    const txt = diff < 2 ? 'Právě aktualizováno' :
-                diff < 24 ? `Aktualizováno před ${diff} h` :
-                `Aktualizováno ${d.toLocaleDateString('cs-CZ')}`;
-    badge.querySelector('span:last-child')?.remove();
-    const s = document.createElement('span');
-    s.textContent = txt;
-    badge.appendChild(s);
-  }
-}
-
-function updateTimestamp() {
-  const el = document.getElementById('updated-badge');
-  if (el) {
-    const spans = el.querySelectorAll('span');
-    if (spans.length < 2) {
-      const s = document.createElement('span');
-      s.textContent = 'Aktualizováno každou noc';
-      el.appendChild(s);
-    }
+      '<p class="no-results">Nepodařilo se načíst data. Zkus obnovit stránku.</p>';
   }
 }
 
@@ -83,19 +97,19 @@ function setupFilters() {
     renderCards();
   });
 
-  document.getElementById('filter-length').addEventListener('click', e => {
-    if (!e.target.matches('.toggle')) return;
-    document.querySelectorAll('#filter-length .toggle').forEach(b => b.classList.remove('active'));
-    e.target.classList.add('active');
-    activeFilters.length = e.target.dataset.val;
-    renderCards();
+  ['filter-length','filter-multi','filter-day'].forEach(id => {
+    document.getElementById(id).addEventListener('click', e => {
+      if (!e.target.matches('.toggle')) return;
+      document.querySelectorAll(`#${id} .toggle`).forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      const key = id === 'filter-length' ? 'length' : id === 'filter-multi' ? 'multi' : 'day';
+      activeFilters[key] = e.target.dataset.val;
+      renderCards();
+    });
   });
 
-  document.getElementById('filter-multi').addEventListener('click', e => {
-    if (!e.target.matches('.toggle')) return;
-    document.querySelectorAll('#filter-multi .toggle').forEach(b => b.classList.remove('active'));
-    e.target.classList.add('active');
-    activeFilters.multi = e.target.dataset.val;
+  document.getElementById('time-select').addEventListener('change', e => {
+    activeFilters.time = e.target.value;
     renderCards();
   });
 
@@ -106,9 +120,10 @@ function setupFilters() {
 }
 
 function filterAndSort(pools) {
+  const day = resolvedDay();
+  const timeMins = resolvedTimeMinutes();
   let result = [...pools];
 
-  // Search
   if (activeFilters.search) {
     result = result.filter(p =>
       p.name.toLowerCase().includes(activeFilters.search) ||
@@ -116,27 +131,25 @@ function filterAndSort(pools) {
       p.address.toLowerCase().includes(activeFilters.search)
     );
   }
-
-  // Length
   if (activeFilters.length !== 'all') {
     const len = parseInt(activeFilters.length);
     result = result.filter(p => p.pools.some(pool => pool.length === len));
   }
-
-  // Multisport
   if (activeFilters.multi === 'yes') {
     result = result.filter(p => p.multisport);
   }
 
-  // Sort
   result.sort((a, b) => {
-    if (activeFilters.sort === 'name') return a.name.localeCompare(b.name, 'cs');
-    if (activeFilters.sort === 'price') {
-      const pa = a.pricing[0]?.price ?? 999;
-      const pb = b.pricing[0]?.price ?? 999;
-      return pa - pb;
-    }
+    if (activeFilters.sort === 'name')     return a.name.localeCompare(b.name, 'cs');
     if (activeFilters.sort === 'district') return a.district.localeCompare(b.district, 'cs');
+    if (activeFilters.sort === 'price') {
+      return (a.pricing[0]?.price ?? 999) - (b.pricing[0]?.price ?? 999);
+    }
+    if (activeFilters.sort === 'free') {
+      const fa = getSlotAtTime(lanesData[a.id], day, timeMins)?.free_lanes?.length ?? -1;
+      const fb = getSlotAtTime(lanesData[b.id], day, timeMins)?.free_lanes?.length ?? -1;
+      return fb - fa;
+    }
     return 0;
   });
 
@@ -147,44 +160,44 @@ function filterAndSort(pools) {
 function renderCards() {
   const grid = document.getElementById('pool-grid');
   const filtered = filterAndSort(allPools);
+  const day = resolvedDay();
+  const timeMins = resolvedTimeMinutes();
 
+  const cnt = filtered.length;
   document.getElementById('results-count').textContent =
-    `${filtered.length} ${filtered.length === 1 ? 'bazén' : filtered.length < 5 ? 'bazény' : 'bazénů'}`;
+    `${cnt} ${cnt === 1 ? 'bazén' : cnt < 5 ? 'bazény' : 'bazénů'}`;
 
-  if (filtered.length === 0) {
-    grid.innerHTML = '<p class="no-results">Žádný bazén neodpovídá filtru.</p>';
+  if (!filtered.length) {
+    grid.innerHTML = '<p class="no-results">🏊 Žádný bazén neodpovídá filtru.</p>';
     return;
   }
 
-  grid.innerHTML = filtered.map((pool, i) => cardHTML(pool, i)).join('');
+  grid.innerHTML = filtered.map((pool, i) => cardHTML(pool, i, day, timeMins)).join('');
 
-  // Attach click handlers
   grid.querySelectorAll('.pool-card').forEach(card => {
     card.addEventListener('click', e => {
-      if (e.target.matches('a')) return; // Don't open modal for links
-      const id = card.dataset.poolId;
-      const pool = allPools.find(p => p.id === id);
+      if (e.target.tagName === 'A') return;
+      const pool = allPools.find(p => p.id === card.dataset.poolId);
       openModal(pool);
     });
   });
 }
 
-function cardHTML(pool, idx) {
+function cardHTML(pool, idx, day, timeMins) {
   const minPrice = pool.pricing.length ? Math.min(...pool.pricing.map(p => p.price)) : null;
+
   const poolChips = pool.pools.map(p =>
-    `<span class="pool-chip${p.type === 'outdoor' ? ' outdoor' : ''}">
-      ${p.length ? p.length + 'm' : ''} ${p.name}${p.seasonal ? ' ☀' : ''}
-     </span>`
+    `<span class="pool-chip${p.type === 'outdoor' ? ' outdoor' : ''}">` +
+    `${p.length ? p.length + 'm ' : ''}${p.name}${p.seasonal ? ' ☀' : ''}</span>`
   ).join('');
 
   const weekdayHours = pool.opening_hours.weekday || pool.opening_hours.note || '—';
-
-  // Lanes for this pool
-  const lanesHTML = buildLanesStrip(pool);
+  const lanesHTML = buildLanesPanel(pool, day, timeMins);
 
   return `
-    <article class="pool-card" data-pool-id="${pool.id}" style="animation-delay:${idx * 0.05}s" tabindex="0" role="button" aria-label="${pool.name}">
-      <div class="card-stripe${pool.multisport ? '' : ' no-multi'}"></div>
+    <article class="pool-card" data-pool-id="${pool.id}"
+      style="animation-delay:${idx * 0.045}s" tabindex="0" role="button" aria-label="${pool.name}">
+      <div class="card-top${pool.multisport ? '' : ' grey'}"></div>
       <div class="card-body">
         <div class="card-header">
           <h2 class="card-name">${pool.name}</h2>
@@ -192,87 +205,95 @@ function cardHTML(pool, idx) {
         </div>
         <p class="card-address">📍 ${pool.address}</p>
         <div class="card-pools">${poolChips}</div>
-        <p class="card-hours"><span class="icon">🕐</span> ${weekdayHours}</p>
-        ${minPrice ? `<p class="card-price">od <span class="price-value">${minPrice} Kč</span> / 60 min</p>` : ''}
+        <div class="card-meta">
+          <span>🕐 ${weekdayHours}</span>
+          ${minPrice ? `<span>💰 od ${minPrice} Kč</span>` : ''}
+        </div>
       </div>
       ${lanesHTML}
       <div class="card-footer">
         <button class="btn btn-primary">Detail</button>
-        ${pool.website ? `<a class="btn btn-secondary" href="${pool.website}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Web ↗</a>` : ''}
+        ${pool.website
+          ? `<a class="btn btn-secondary" href="${pool.website}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Web ↗</a>`
+          : ''}
       </div>
-    </article>
-  `;
+    </article>`;
 }
 
-function buildLanesStrip(pool) {
-  const data = lanesData[pool.id];
-  if (!data) {
-    return `
-      <div class="lanes-strip">
-        <span class="lanes-label">Dráhy dnes</span>
-        <span style="font-size:0.78rem;color:var(--text-light)">data nejsou k dispozici</span>
-      </div>`;
-  }
+function buildLanesPanel(pool, day, timeMins) {
+  const poolLaneData = lanesData[pool.id];
 
-  // Get first pool's schedule
-  const key = Object.keys(data)[0];
-  const schedule = data[key]?.schedule || [];
-
-  // Find current block
-  const now = new Date();
-  const hm = now.getHours() * 60 + now.getMinutes();
-
-  function parseMins(str) {
-    const [h, m] = str.split(':').map(Number);
-    return h * 60 + (m || 0);
-  }
-
-  let currentBlock = null;
-  for (const block of schedule) {
-    const [start, end] = block.time.split('–');
-    if (hm >= parseMins(start) && hm < parseMins(end)) {
-      currentBlock = block;
-      break;
-    }
-  }
-
-  const typeColors = { volno: '#00c853', klub: '#e53935', kurzy: '#7e57c2' };
-  const typeLabels = { volno: 'Volné plavání', klub: 'Rezervováno klubem', kurzy: 'Plavecké kurzy' };
-
-  if (currentBlock) {
-    const color = typeColors[currentBlock.type] || '#cfd8dc';
-    return `
-      <div class="lanes-strip">
-        <span class="lanes-label">Právě teď</span>
-        <span style="font-size:0.78rem;font-weight:600;color:${color}">● ${typeLabels[currentBlock.type] || currentBlock.type}</span>
-      </div>`;
-  }
-
-  return `
-    <div class="lanes-strip">
-      <span class="lanes-label">Dráhy dnes</span>
-      <span style="font-size:0.78rem;color:var(--text-light)">mimo provoz</span>
+  if (!poolLaneData) {
+    return `<div class="lanes-panel">
+      <div class="lanes-header">
+        <span class="lanes-title">Dráhy</span>
+        <span class="lanes-now-badge zavreno">data nejsou</span>
+      </div>
+      <p class="lanes-no-data">Scraper pro tento bazén zatím není k dispozici.</p>
     </div>`;
+  }
+
+  const slot = getSlotAtTime(poolLaneData, day, timeMins);
+
+  if (!slot) {
+    const timeLabel = activeFilters.time === 'now' ? 'Právě teď' : activeFilters.time;
+    return `<div class="lanes-panel">
+      <div class="lanes-header">
+        <span class="lanes-title">Dráhy — ${timeLabel}</span>
+        <span class="lanes-now-badge zavreno">zavřeno / mimo provoz</span>
+      </div>
+      <p class="lanes-no-data">Bazén je v tuto dobu zavřený.</p>
+    </div>`;
+  }
+
+  const freeCnt = slot.free_lanes?.length ?? 0;
+  const resCnt  = slot.reserved_lanes?.length ?? 0;
+  const timeLabel = activeFilters.time === 'now' ? 'Právě teď' : activeFilters.time;
+
+  const typeLabels = { volno:'Volné plavání', klub:'Klub / trénink', kurzy:'Plavecké kurzy' };
+  const typeBadge = `<span class="lanes-now-badge ${slot.type}">${typeLabels[slot.type] || slot.type}</span>`;
+
+  // Lane bubbles
+  const total = slot.total_lanes || 8;
+  const freeSet = new Set(slot.free_lanes || []);
+  const resSet  = new Set(slot.reserved_lanes || []);
+  const bubbles = Array.from({length: total}, (_,i) => {
+    const n = i + 1;
+    const cls = freeSet.has(n) ? 'free' : resSet.has(n) ? 'reserved' : 'free';
+    return `<span class="lane-bubble ${cls}" title="Dráha ${n}">${n}</span>`;
+  }).join('');
+
+  return `<div class="lanes-panel">
+    <div class="lanes-header">
+      <span class="lanes-title">Dráhy — ${timeLabel}</span>
+      ${typeBadge}
+    </div>
+    <div class="lanes-counts">
+      <div class="count-pill free">
+        <span class="count-num">${freeCnt}</span> volných
+      </div>
+      ${resCnt ? `<div class="count-pill reserved">
+        <span class="count-num">${resCnt}</span> rezerv.
+      </div>` : ''}
+    </div>
+    <div class="lanes-numbers">${bubbles}</div>
+  </div>`;
 }
 
 // ─── Map pins ────────────────────────────────
 function renderPins() {
   const container = document.getElementById('map-pins');
   if (!container) return;
-
   allPools.forEach(pool => {
-    const x = lngToX(pool.lng);
-    const y = latToY(pool.lat);
     const pin = document.createElement('div');
     pin.className = 'map-pin';
-    pin.style.left = x + '%';
-    pin.style.top = y + '%';
+    pin.style.left = lngToX(pool.lng) + '%';
+    pin.style.top  = latToY(pool.lat) + '%';
     pin.innerHTML = `
-      <div class="pin-dot${pool.multisport ? ' multi' : ''}"></div>
-      <div class="pin-label">${pool.name.split(' ').slice(-1)[0]}</div>
-    `;
-    pin.addEventListener('click', () => openModal(pool));
+      <div class="pin-marker${pool.multisport ? ' multi' : ''}"></div>
+      <div class="pin-label">${pool.name.split(' ').pop()}</div>`;
     pin.title = pool.name;
+    pin.addEventListener('click', () => openModal(pool));
     container.appendChild(pin);
   });
 }
@@ -280,17 +301,22 @@ function renderPins() {
 // ─── Modal ───────────────────────────────────
 function setupModal() {
   document.getElementById('modal-overlay').addEventListener('click', e => {
-    if (e.target === document.getElementById('modal-overlay')) closeModal();
+    if (e.target.id === 'modal-overlay') closeModal();
   });
   document.getElementById('modal-close').addEventListener('click', closeModal);
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 }
 
 function openModal(pool) {
-  const content = document.getElementById('modal-content');
-  content.innerHTML = buildModalHTML(pool);
+  document.getElementById('modal-content').innerHTML = buildModalHTML(pool);
+  // Setup day tabs in modal
+  document.querySelectorAll('.day-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderModalSchedule(pool, tab.dataset.day);
+    });
+  });
   const overlay = document.getElementById('modal-overlay');
   overlay.setAttribute('aria-hidden', 'false');
   overlay.classList.add('open');
@@ -305,103 +331,132 @@ function closeModal() {
 }
 
 function buildModalHTML(pool) {
-  const lanesSection = buildModalLanes(pool);
   const pricingRows = pool.pricing.map(p =>
-    `<tr><td>${p.label}</td><td>${p.price} Kč</td></tr>`
-  ).join('');
+    `<tr><td>${p.label}</td><td>${p.price} Kč</td></tr>`).join('');
 
   const poolsRows = pool.pools.map(p => `
     <div class="modal-pool-row">
       <span class="modal-pool-name">${p.name}</span>
       <span class="modal-pool-info">
-        ${p.lanes ? p.lanes + ' drah' : ''}
-        ${p.type === 'outdoor' ? '· venkovní' : '· krytý'}
-        ${p.seasonal ? '· sezónní' : ''}
+        ${p.lanes ? p.lanes + ' drah · ' : ''}${p.type === 'outdoor' ? 'venkovní' : 'krytý'}${p.seasonal ? ' · sezónní ☀' : ''}
       </span>
-    </div>
-  `).join('');
+    </div>`).join('');
 
-  const amenitiesHTML = pool.amenities.map(a =>
-    `<span class="amenity-tag">${a}</span>`
-  ).join('');
+  const amenities = pool.amenities.map(a => `<span class="amenity-tag">${a}</span>`).join('');
+  const hoursHtml = formatHours(pool.opening_hours);
 
-  const hoursDisplay = formatHours(pool.opening_hours);
+  const laneSection = buildModalLaneSection(pool);
 
   return `
-    <div class="modal-header-stripe"></div>
-    <div style="padding:0 32px 32px">
-      <h2 class="modal-title">${pool.name}</h2>
-      <p class="modal-address">📍 ${pool.address} · ${pool.district}</p>
+    <h2 class="modal-title">${pool.name}</h2>
+    <p class="modal-address">📍 ${pool.address} · ${pool.district}</p>
 
-      ${pool.multisport ? `
-        <div class="modal-multi-banner">
-          <span>💳</span>
-          <div><strong>Multisport přijímán</strong><br/>${pool.multisport_note || ''}</div>
-        </div>` : ''}
+    ${pool.multisport ? `
+      <div class="modal-multi-banner">
+        <span>💳</span>
+        <div><strong>Multisport přijímán</strong><br/>${pool.multisport_note || ''}</div>
+      </div>` : ''}
 
-      <div class="modal-section" style="margin-top:20px">
-        <h4>Bazény</h4>
-        <div class="modal-pools-list">${poolsRows}</div>
-      </div>
-
-      ${lanesSection}
-
-      <div class="modal-section">
-        <h4>Otevírací doba</h4>
-        <div style="font-size:0.9rem; line-height:1.8;">${hoursDisplay}</div>
-      </div>
-
-      <div class="modal-section">
-        <h4>Ceník</h4>
-        <table class="modal-pricing-table">
-          ${pricingRows}
-        </table>
-      </div>
-
-      ${amenitiesHTML ? `
-        <div class="modal-section">
-          <h4>Vybavení</h4>
-          <div class="modal-amenities">${amenitiesHTML}</div>
-        </div>` : ''}
-
-      <div class="modal-section">
-        <h4>Kontakt</h4>
-        <p style="font-size:0.88rem;color:var(--text-muted)">
-          ${pool.phone ? '📞 ' + pool.phone : ''}
-        </p>
-      </div>
-
-      ${pool.website ? `<a class="modal-website-btn" href="${pool.website}" target="_blank" rel="noopener">Přejít na web bazénu ↗</a>` : ''}
+    <div class="modal-section">
+      <h4>Bazény</h4>
+      <div class="modal-pools-list">${poolsRows}</div>
     </div>
+
+    ${laneSection}
+
+    <div class="modal-section">
+      <h4>Otevírací doba</h4>
+      <div style="font-size:.9rem;line-height:1.9;">${hoursHtml}</div>
+    </div>
+
+    <div class="modal-section">
+      <h4>Ceník</h4>
+      <table class="modal-pricing-table">${pricingRows}</table>
+    </div>
+
+    ${amenities ? `<div class="modal-section">
+      <h4>Vybavení</h4>
+      <div class="modal-amenities">${amenities}</div>
+    </div>` : ''}
+
+    ${pool.phone ? `<div class="modal-section">
+      <h4>Kontakt</h4>
+      <p style="font-size:.88rem;color:var(--ink-mid)">📞 ${pool.phone}</p>
+    </div>` : ''}
+
+    ${pool.website ? `<a class="modal-website-btn" href="${pool.website}" target="_blank" rel="noopener">Přejít na web bazénu ↗</a>` : ''}
   `;
 }
 
-function buildModalLanes(pool) {
-  const data = lanesData[pool.id];
-  if (!data) return '';
+function buildModalLaneSection(pool) {
+  const poolLaneData = lanesData[pool.id];
+  if (!poolLaneData) return '';
 
-  const blocks = Object.values(data)
-    .flatMap(p => (p.schedule || []).map(s => ({ ...s, pool: p.name })));
+  const today = todayKey();
+  const days = ['po','ut','st','ct','pa','so','ne'];
+  const dayNames = { po:'Po', ut:'Út', st:'St', ct:'Čt', pa:'Pá', so:'So', ne:'Ne' };
 
-  if (!blocks.length) return '';
+  const tabs = days.map(d =>
+    `<button class="day-tab${d === today ? ' active' : ''}" data-day="${d}">${dayNames[d]}</button>`
+  ).join('');
 
-  const rows = blocks.map(b => `
-    <div class="schedule-row">
-      <span class="schedule-time">${b.time}</span>
-      <span class="schedule-type type-${b.type}">${b.type}</span>
-      <span class="schedule-note">${b.note || ''}</span>
-    </div>
-  `).join('');
+  const scheduleHTML = buildScheduleHTML(pool, today);
 
   return `
     <div class="modal-section">
-      <h4>Rozvrh drah — dnes</h4>
-      <div class="modal-schedule">${rows}</div>
-      <p style="font-size:0.75rem;color:var(--text-light);margin-top:8px">
-        Data stahována automaticky každou noc
+      <h4>Rozvrh drah</h4>
+      <div class="day-tabs">${tabs}</div>
+      <div class="modal-schedule" id="modal-schedule-rows">${scheduleHTML}</div>
+      <p style="font-size:.73rem;color:var(--ink-light);margin-top:8px">
+        Data stahována automaticky každou noc · pouze bazény s online rozvržením
       </p>
-    </div>
-  `;
+    </div>`;
+}
+
+function renderModalSchedule(pool, day) {
+  const el = document.getElementById('modal-schedule-rows');
+  if (el) el.innerHTML = buildScheduleHTML(pool, day);
+}
+
+function buildScheduleHTML(pool, day) {
+  const poolLaneData = lanesData[pool.id];
+  if (!poolLaneData) return '<p class="lanes-no-data">Data nejsou k dispozici.</p>';
+
+  const poolKey = Object.keys(poolLaneData)[0];
+  const poolInfo = poolLaneData[poolKey];
+  const slots = poolInfo?.schedule?.[day] || [];
+
+  if (!slots.length) return '<p class="lanes-no-data">Pro tento den není rozvrh k dispozici.</p>';
+
+  const nowMins = new Date().getHours() * 60 + new Date().getMinutes();
+  const isToday = day === todayKey();
+
+  return slots.map(slot => {
+    const isNow = isToday && nowMins >= parseMins(slot.from) && nowMins < parseMins(slot.to);
+    const total = poolInfo.total_lanes || 8;
+    const freeSet = new Set(slot.free_lanes || []);
+    const resSet  = new Set(slot.reserved_lanes || []);
+
+    const laneBubbles = Array.from({length: total}, (_,i) => {
+      const n = i + 1;
+      const cls = freeSet.has(n) ? 'free' : resSet.has(n) ? 'reserved' : 'free';
+      return `<span class="sch-lane ${cls}" title="Dráha ${n}">${n}</span>`;
+    }).join('');
+
+    const freeCnt = slot.free_lanes?.length ?? 0;
+    const resCnt  = slot.reserved_lanes?.length ?? 0;
+    const countsTxt = resCnt
+      ? `<span style="font-size:.75rem;color:var(--ink-light)">${freeCnt} volných · ${resCnt} rezerv.</span>`
+      : `<span style="font-size:.75rem;color:var(--ink-light)">${freeCnt} volných</span>`;
+
+    return `
+      <div class="schedule-row${isNow ? ' highlight' : ''}">
+        <span class="schedule-time">${slot.from}–${slot.to}${isNow ? ' ◀' : ''}</span>
+        <span class="sch-type ${slot.type}">${slot.type}</span>
+        <div class="sch-lanes">${laneBubbles}</div>
+        ${countsTxt}
+      </div>`;
+  }).join('');
 }
 
 function formatHours(oh) {

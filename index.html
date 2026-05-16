@@ -3,11 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Plavecké bazény Praha — přehled, dráhy, Multisport</title>
-  <meta name="description" content="Přehled všech plaveckých bazénů v Praze. Otevírací doba, obsazenost drah, Multisport, ceník." />
+  <title>Kam jít plavat? — Plavecké bazény Praha</title>
+  <meta name="description" content="Přehled pražských plaveckých bazénů. Otevírací doba, volné a rezervované dráhy, Multisport, ceník." />
+
+  <!-- Favicon — inline SVG as data URI -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232196f3'/%3E%3Cpath d='M8 36 Q16 26 24 36 Q32 46 40 36 Q48 26 56 36' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M8 44 Q16 34 24 44 Q32 54 40 44 Q48 34 56 44' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' opacity='0.6'/%3E%3C/svg%3E" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,34 +19,64 @@
   <!-- HEADER -->
   <header class="site-header">
     <div class="header-inner">
-      <div class="logo">
-        <span class="logo-wave">〰</span>
-        <span class="logo-text">Bazény<strong>Praha</strong></span>
-      </div>
+      <a class="logo" href="/">
+        <span class="logo-icon">🏊</span>
+        <span class="logo-text">Kam jít <em>plavat?</em></span>
+      </a>
       <nav class="header-nav">
         <a href="#bazeny">Bazény</a>
         <a href="#mapa">Mapa</a>
         <a href="#o-projektu">O projektu</a>
       </nav>
     </div>
+
     <div class="header-hero">
       <div class="hero-text">
-        <h1>Kam dnes<br/>zaplavat?</h1>
-        <p class="hero-sub">Přehled pražských bazénů — otevírací doba, volné dráhy, Multisport.</p>
-        <div class="hero-updated" id="updated-badge">
-          <span class="dot"></span> Aktualizováno dnes v noci
+        <h1>Kam jít<br/><em>plavat?</em></h1>
+        <p class="hero-sub">Přehled pražských bazénů — otevírací doba, volné dráhy a Multisport na jednom místě.</p>
+        <div class="hero-badge" id="updated-badge">
+          <span class="pulse-dot"></span>
+          <span id="updated-text">Aktualizováno každou noc</span>
         </div>
       </div>
-      <div class="hero-visual">
-        <div class="wave-anim">
-          <svg viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
-            <path class="wave w1" d="M0,60 C50,20 100,100 150,60 C200,20 250,100 300,60 C350,20 400,100 400,60 L400,120 L0,120 Z"/>
-            <path class="wave w2" d="M0,75 C60,35 110,115 160,75 C210,35 260,115 310,75 C360,35 400,95 400,75 L400,120 L0,120 Z"/>
-            <path class="wave w3" d="M0,90 C70,60 120,110 180,90 C240,70 280,110 340,90 C370,75 400,100 400,90 L400,120 L0,120 Z"/>
-          </svg>
-        </div>
+
+      <!-- Illustrated pool SVG -->
+      <div class="hero-illustration">
+        <svg viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <!-- Pool body -->
+          <rect x="20" y="60" width="220" height="100" rx="16" fill="#e3f2fd" stroke="#90caf9" stroke-width="2.5"/>
+          <!-- Lane dividers -->
+          <line x1="20" y1="85"  x2="240" y2="85"  stroke="#90caf9" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <line x1="20" y1="110" x2="240" y2="110" stroke="#90caf9" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <line x1="20" y1="135" x2="240" y2="135" stroke="#90caf9" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <!-- Water waves -->
+          <path d="M30 97 Q55 88 80 97 Q105 106 130 97 Q155 88 180 97 Q205 106 230 97" stroke="#42a5f5" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M30 122 Q55 113 80 122 Q105 131 130 122 Q155 113 180 122 Q205 131 230 122" stroke="#42a5f5" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+          <!-- Ladder left -->
+          <rect x="15" y="68" width="10" height="28" rx="5" fill="#90caf9"/>
+          <!-- Swimmer -->
+          <ellipse cx="100" cy="73" rx="10" ry="8" fill="#bbdefb" stroke="#42a5f5" stroke-width="2"/>
+          <circle cx="100" cy="62" r="7" fill="#ffcc80" stroke="#ffa726" stroke-width="1.5"/>
+          <path d="M90 73 Q80 68 72 73" stroke="#42a5f5" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M110 73 Q120 68 130 73" stroke="#42a5f5" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Lane numbers -->
+          <text x="32" y="78" font-family="Nunito,sans-serif" font-size="10" font-weight="800" fill="#1565c0">1</text>
+          <text x="32" y="103" font-family="Nunito,sans-serif" font-size="10" font-weight="800" fill="#1565c0">2</text>
+          <text x="32" y="128" font-family="Nunito,sans-serif" font-size="10" font-weight="800" fill="#1565c0">3</text>
+          <text x="32" y="153" font-family="Nunito,sans-serif" font-size="10" font-weight="800" fill="#1565c0">4</text>
+          <!-- Free / reserved chips -->
+          <rect x="150" y="50" width="72" height="22" rx="11" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.5"/>
+          <text x="186" y="65" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#2e7d32" text-anchor="middle">✓ 5 volných</text>
+          <rect x="150" y="22" width="80" height="22" rx="11" fill="#fff3e0" stroke="#ffcc80" stroke-width="1.5"/>
+          <text x="190" y="37" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#e65100" text-anchor="middle">3 rezervované</text>
+        </svg>
       </div>
     </div>
+
+    <!-- Wave -->
+    <svg class="header-wave" viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,20 C240,40 480,0 720,20 C960,40 1200,0 1440,20 L1440,40 L0,40 Z" fill="#e8f4fd"/>
+    </svg>
   </header>
 
   <!-- FILTERS -->
@@ -65,14 +99,50 @@
           <label>Multisport</label>
           <div class="toggle-group" id="filter-multi">
             <button class="toggle active" data-val="all">Vše</button>
-            <button class="toggle" data-val="yes">✓ Multisport</button>
+            <button class="toggle" data-val="yes">💳 Multisport</button>
           </div>
+        </div>
+        <div class="filter-group">
+          <label>Den</label>
+          <div class="toggle-group" id="filter-day">
+            <button class="toggle active" data-val="today">Dnes</button>
+            <button class="toggle" data-val="po">Po</button>
+            <button class="toggle" data-val="ut">Út</button>
+            <button class="toggle" data-val="st">St</button>
+            <button class="toggle" data-val="ct">Čt</button>
+            <button class="toggle" data-val="pa">Pá</button>
+            <button class="toggle" data-val="so">So</button>
+            <button class="toggle" data-val="ne">Ne</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Čas</label>
+          <select id="time-select">
+            <option value="now">Právě teď</option>
+            <option value="06:00">6:00</option>
+            <option value="07:00">7:00</option>
+            <option value="08:00">8:00</option>
+            <option value="09:00">9:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+            <option value="18:00">18:00</option>
+            <option value="19:00">19:00</option>
+            <option value="20:00">20:00</option>
+            <option value="21:00">21:00</option>
+          </select>
         </div>
         <div class="filter-group">
           <label>Seřadit</label>
           <select id="sort-select">
             <option value="name">Název A–Z</option>
             <option value="price">Cena ↑</option>
+            <option value="free">Nejvíce volných drah</option>
             <option value="district">Městská část</option>
           </select>
         </div>
@@ -81,7 +151,7 @@
     </div>
   </section>
 
-  <!-- POOL CARDS -->
+  <!-- POOL GRID -->
   <main class="container" id="pool-grid">
     <div class="loading-state">
       <div class="loader"></div>
@@ -89,13 +159,14 @@
     </div>
   </main>
 
-  <!-- MAP PLACEHOLDER -->
+  <!-- MAP -->
   <section class="map-section" id="mapa">
     <div class="container">
       <h2 class="section-title">Mapa bazénů</h2>
+      <p class="section-sub">Klikni na bazén pro detail</p>
       <div class="map-placeholder" id="map-container">
         <div class="map-pins" id="map-pins"></div>
-        <p class="map-hint">Interaktivní mapa — klikni na čip pro detail</p>
+        <p class="map-hint">🗺 Přehledová mapa — interaktivní piny</p>
       </div>
     </div>
   </section>
@@ -103,21 +174,22 @@
   <!-- ABOUT -->
   <section class="about-section" id="o-projektu">
     <div class="container">
+      <h2 class="section-title">O projektu</h2>
       <div class="about-grid">
         <div class="about-card">
           <span class="about-icon">🔄</span>
           <h3>Aktuální data každý večer</h3>
-          <p>Scrapers běžící přes GitHub Actions stahují obsazenost drah z webů jednotlivých bazénů každou noc.</p>
+          <p>Scrapers běžící přes GitHub Actions stahují obsazenost drah z webů bazénů každou noc a commitují výsledky do repozitáře.</p>
         </div>
         <div class="about-card">
           <span class="about-icon">💳</span>
           <h3>Multisport info</h3>
-          <p>Ověřené info, které bazény akceptují kartu Multisport — včetně podmínek využití.</p>
+          <p>Ověřené info, které bazény akceptují kartu Multisport — včetně podmínek a časových omezení.</p>
         </div>
         <div class="about-card">
           <span class="about-icon">💧</span>
           <h3>Otevřený projekt</h3>
-          <p>Kód je open-source na GitHubu. Našel jsi chybu nebo chybí bazén? Pošli pull request!</p>
+          <p>Kód je open-source na GitHubu. Chybí bazén nebo jsou špatná data? Pošli pull request!</p>
         </div>
       </div>
     </div>
@@ -126,8 +198,8 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container">
-      <p>Projekt bazénů Praha • Neoficiální přehled • Data stahována automaticky</p>
-      <p><a href="https://github.com" target="_blank">GitHub</a> · Nahlásit chybu</p>
+      <p>Kam jít plavat? • Neoficiální přehled pražských bazénů • Data aktualizována každou noc</p>
+      <p><a href="https://github.com/lucieranglova/kamjitplavat" target="_blank">GitHub</a> · Nahlásit chybu</p>
     </div>
   </footer>
 
@@ -135,6 +207,7 @@
   <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" id="modal">
       <button class="modal-close" id="modal-close" aria-label="Zavřít">✕</button>
+      <div class="modal-top-bar"></div>
       <div class="modal-content" id="modal-content"></div>
     </div>
   </div>
