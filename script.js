@@ -188,11 +188,12 @@ function cardHTML(pool, idx, day, timeMins) {
 
   const poolChips = pool.pools.map(p =>
     `<span class="pool-chip${p.type === 'outdoor' ? ' outdoor' : ''}">` +
-    `${p.length ? p.length + 'm ' : ''}${p.name}${p.seasonal ? ' ☀' : ''}</span>`
+    `${p.length ? p.length + 'm' : ''}${p.seasonal ? ' ☀' : ''}</span>`
   ).join('');
 
   const weekdayHours = pool.opening_hours.weekday || pool.opening_hours.note || '—';
-  const lanesHTML = buildLanesPanel(pool, day, timeMins);
+  const lanesSummary = buildLanesSummary(pool, day, timeMins);
+  const timeLabel = activeFilters.time === 'now' ? 'Právě teď' : activeFilters.time;
 
   return `
     <article class="pool-card" data-pool-id="${pool.id}"
@@ -207,12 +208,15 @@ function cardHTML(pool, idx, day, timeMins) {
         <div class="card-pools">${poolChips}</div>
         <div class="card-meta">
           <span>🕐 ${weekdayHours}</span>
-          ${minPrice ? `<span>💰 od ${minPrice} Kč</span>` : ''}
+          ${minPrice ? `<span>💰 od ${minPrice} Kč / hod</span>` : ''}
         </div>
       </div>
-      ${lanesHTML}
+      <div class="lanes-summary">
+        <span class="lanes-time-label">${timeLabel}:</span>
+        ${lanesSummary}
+      </div>
       <div class="card-footer">
-        <button class="btn btn-primary">Detail</button>
+        <button class="btn btn-primary">Detail a rozvrh drah</button>
         ${pool.website
           ? `<a class="btn btn-secondary" href="${pool.website}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Web ↗</a>`
           : ''}
@@ -220,64 +224,21 @@ function cardHTML(pool, idx, day, timeMins) {
     </article>`;
 }
 
-function buildLanesPanel(pool, day, timeMins) {
+function buildLanesSummary(pool, day, timeMins) {
   const poolLaneData = lanesData[pool.id];
-
   if (!poolLaneData) {
-    return `<div class="lanes-panel">
-      <div class="lanes-header">
-        <span class="lanes-title">Dráhy</span>
-        <span class="lanes-now-badge zavreno">data nejsou</span>
-      </div>
-      <p class="lanes-no-data">Scraper pro tento bazén zatím není k dispozici.</p>
-    </div>`;
+    return `<span class="lane-count no-data">data nejsou k dispozici</span>`;
   }
-
   const slot = getSlotAtTime(poolLaneData, day, timeMins);
-
   if (!slot) {
-    const timeLabel = activeFilters.time === 'now' ? 'Právě teď' : activeFilters.time;
-    return `<div class="lanes-panel">
-      <div class="lanes-header">
-        <span class="lanes-title">Dráhy — ${timeLabel}</span>
-        <span class="lanes-now-badge zavreno">zavřeno / mimo provoz</span>
-      </div>
-      <p class="lanes-no-data">Bazén je v tuto dobu zavřený.</p>
-    </div>`;
+    return `<span class="lane-count closed">zavřeno</span>`;
   }
-
   const freeCnt = slot.free_lanes?.length ?? 0;
   const resCnt  = slot.reserved_lanes?.length ?? 0;
-  const timeLabel = activeFilters.time === 'now' ? 'Právě teď' : activeFilters.time;
-
-  const typeLabels = { volno:'Volné plavání', klub:'Klub / trénink', kurzy:'Plavecké kurzy' };
-  const typeBadge = `<span class="lanes-now-badge ${slot.type}">${typeLabels[slot.type] || slot.type}</span>`;
-
-  // Lane bubbles
-  const total = slot.total_lanes || 8;
-  const freeSet = new Set(slot.free_lanes || []);
-  const resSet  = new Set(slot.reserved_lanes || []);
-  const bubbles = Array.from({length: total}, (_,i) => {
-    const n = i + 1;
-    const cls = freeSet.has(n) ? 'free' : resSet.has(n) ? 'reserved' : 'free';
-    return `<span class="lane-bubble ${cls}" title="Dráha ${n}">${n}</span>`;
-  }).join('');
-
-  return `<div class="lanes-panel">
-    <div class="lanes-header">
-      <span class="lanes-title">Dráhy — ${timeLabel}</span>
-      ${typeBadge}
-    </div>
-    <div class="lanes-counts">
-      <div class="count-pill free">
-        <span class="count-num">${freeCnt}</span> volných
-      </div>
-      ${resCnt ? `<div class="count-pill reserved">
-        <span class="count-num">${resCnt}</span> rezerv.
-      </div>` : ''}
-    </div>
-    <div class="lanes-numbers">${bubbles}</div>
-  </div>`;
+  return `
+    <span class="lane-count free"><span class="num">${freeCnt}</span> volných drah</span>
+    ${resCnt ? `<span class="lane-count reserved"><span class="num">${resCnt}</span> rezerv.</span>` : ''}
+  `;
 }
 
 // ─── Map pins ────────────────────────────────
