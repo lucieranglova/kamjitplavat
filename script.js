@@ -97,25 +97,66 @@ function setupFilters() {
     renderCards();
   });
 
-  ['filter-length','filter-multi','filter-day'].forEach(id => {
+  // Length + multi → full rerender
+  ['filter-length','filter-multi'].forEach(id => {
     document.getElementById(id).addEventListener('click', e => {
       if (!e.target.matches('.toggle')) return;
       document.querySelectorAll(`#${id} .toggle`).forEach(b => b.classList.remove('active'));
       e.target.classList.add('active');
-      const key = id === 'filter-length' ? 'length' : id === 'filter-multi' ? 'multi' : 'day';
-      activeFilters[key] = e.target.dataset.val;
+      activeFilters[id === 'filter-length' ? 'length' : 'multi'] = e.target.dataset.val;
       renderCards();
     });
   });
 
+  // Day + time → only refresh lanes in-place (no full DOM rerender)
+  document.getElementById('filter-day').addEventListener('click', e => {
+    if (!e.target.matches('.toggle')) return;
+    document.querySelectorAll('#filter-day .toggle').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    activeFilters.day = e.target.dataset.val;
+    refreshLanesOnly();
+    // Also re-sort if sorting by free lanes
+    if (activeFilters.sort === 'free') renderCards();
+  });
+
   document.getElementById('time-select').addEventListener('change', e => {
     activeFilters.time = e.target.value;
-    renderCards();
+    refreshLanesOnly();
+    if (activeFilters.sort === 'free') renderCards();
   });
 
   document.getElementById('sort-select').addEventListener('change', e => {
     activeFilters.sort = e.target.value;
     renderCards();
+  });
+}
+
+// Update only the lanes-summary strip on each card without full rerender
+function refreshLanesOnly() {
+  const day = resolvedDay();
+  const timeMins = resolvedTimeMinutes();
+  const timeLabel = activeFilters.time === 'now' ? 'Právě teď' : activeFilters.time;
+
+  document.querySelectorAll('.pool-card').forEach(card => {
+    const pool = allPools.find(p => p.id === card.dataset.poolId);
+    if (!pool) return;
+
+    const summaryEl = card.querySelector('.lanes-summary');
+    if (!summaryEl) return;
+
+    // Animate the swap
+    summaryEl.style.opacity = '0';
+    summaryEl.style.transform = 'translateY(4px)';
+
+    setTimeout(() => {
+      summaryEl.innerHTML = `
+        <span class="lanes-time-label">${timeLabel}:</span>
+        ${buildLanesSummary(pool, day, timeMins)}
+      `;
+      summaryEl.style.transition = 'opacity 0.22s ease, transform 0.22s ease';
+      summaryEl.style.opacity = '1';
+      summaryEl.style.transform = 'translateY(0)';
+    }, 80);
   });
 }
 
