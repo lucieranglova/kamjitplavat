@@ -389,9 +389,8 @@ a:hover { text-decoration: underline; }
   border-top: var(--border-thin);
   padding: 10px 20px;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 5px;
   background: var(--grey);
 }
 
@@ -401,6 +400,27 @@ a:hover { text-decoration: underline; }
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
+  margin-bottom: 2px;
+}
+
+/* Single-pool: row of pills */
+.lanes-summary > .lane-count { display: inline-flex; }
+
+/* Multi-pool: one row per pool */
+.lane-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lane-row-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--black);
+  min-width: 100px;
+  flex-shrink: 0;
 }
 
 .lane-count {

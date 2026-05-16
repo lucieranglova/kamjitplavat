@@ -50,6 +50,70 @@
             { "from": "06:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání – celý den" }
           ]
         }
+      },
+      "outdoor_50m": {
+        "name": "Venkovní 50m",
+        "total_lanes": 8,
+        "seasonal": true,
+        "schedule": {
+          "po": [
+            { "from": "08:00", "to": "10:00", "type": "klub",  "free_lanes": [1,2,3,4], "reserved_lanes": [5,6,7,8], "note": "Plavecký klub" },
+            { "from": "10:00", "to": "18:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" },
+            { "from": "18:00", "to": "20:00", "type": "klub",  "free_lanes": [1,2,3], "reserved_lanes": [4,5,6,7,8], "note": "SC Praha" },
+            { "from": "20:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "ut": [
+            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "st": [
+            { "from": "08:00", "to": "10:00", "type": "klub",  "free_lanes": [1,2], "reserved_lanes": [3,4,5,6,7,8], "note": "Závody" },
+            { "from": "10:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "ct": [
+            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "pa": [
+            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "so": [
+            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "ne": [
+            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
+          ]
+        }
+      },
+      "outdoor_33m": {
+        "name": "Venkovní 33m",
+        "total_lanes": 6,
+        "seasonal": true,
+        "schedule": {
+          "po": [
+            { "from": "08:00", "to": "12:00", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" },
+            { "from": "12:00", "to": "14:00", "type": "klub",  "free_lanes": [1,2,3], "reserved_lanes": [4,5,6], "note": "Vodní pólo" },
+            { "from": "14:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "ut": [
+            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "st": [
+            { "from": "08:00", "to": "13:00", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" },
+            { "from": "13:00", "to": "16:00", "type": "klub",  "free_lanes": [1,2,3], "reserved_lanes": [4,5,6], "note": "Vodní pólo" },
+            { "from": "16:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "ct": [
+            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "pa": [
+            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "so": [
+            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+          ],
+          "ne": [
+            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+          ]
+        }
       }
     },
     "sutka": {

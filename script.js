@@ -42,11 +42,11 @@ function parseMins(str) {
   return h * 60 + (m || 0);
 }
 
-function getSlotAtTime(poolLaneData, day, timeMins) {
+function getSlotAtTime(poolLaneData, day, timeMins, poolKey) {
   if (!poolLaneData) return null;
-  const poolKey = Object.keys(poolLaneData)[0];
-  if (!poolKey) return null;
-  const poolInfo = poolLaneData[poolKey];
+  const key = poolKey || Object.keys(poolLaneData)[0];
+  if (!key) return null;
+  const poolInfo = poolLaneData[key];
   const sched = poolInfo.schedule?.[day] || [];
   for (const slot of sched) {
     if (timeMins >= parseMins(slot.from) && timeMins < parseMins(slot.to)) {
@@ -267,16 +267,43 @@ function buildLanesSummary(pool, day, timeMins) {
   if (!poolLaneData) {
     return `<span class="lane-count no-data">data nejsou k dispozici</span>`;
   }
-  const slot = getSlotAtTime(poolLaneData, day, timeMins);
-  if (!slot) {
-    return `<span class="lane-count closed">zavřeno</span>`;
+
+  const poolKeys = Object.keys(poolLaneData);
+
+  // Single pool — original simple display
+  if (poolKeys.length === 1) {
+    const slot = getSlotAtTime(poolLaneData, day, timeMins);
+    if (!slot) return `<span class="lane-count closed">zavřeno</span>`;
+    const freeCnt = slot.free_lanes?.length ?? 0;
+    const resCnt  = slot.reserved_lanes?.length ?? 0;
+    return `
+      <span class="lane-count free"><span class="num">${freeCnt}</span> volných</span>
+      ${resCnt ? `<span class="lane-count reserved"><span class="num">${resCnt}</span> rezerv.</span>` : ''}
+    `;
   }
-  const freeCnt = slot.free_lanes?.length ?? 0;
-  const resCnt  = slot.reserved_lanes?.length ?? 0;
-  return `
-    <span class="lane-count free"><span class="num">${freeCnt}</span> volných drah</span>
-    ${resCnt ? `<span class="lane-count reserved"><span class="num">${resCnt}</span> rezerv.</span>` : ''}
-  `;
+
+  // Multiple pools — one row per pool
+  return poolKeys.map(key => {
+    const poolInfo = poolLaneData[key];
+    const slot = getSlotAtTime(poolLaneData, day, timeMins, key);
+    const name = poolInfo.name;
+    const seasonal = poolInfo.seasonal ? ' ☀' : '';
+
+    if (!slot) {
+      return `<div class="lane-row">
+        <span class="lane-row-name">${name}${seasonal}</span>
+        <span class="lane-count closed">zavřeno</span>
+      </div>`;
+    }
+
+    const freeCnt = slot.free_lanes?.length ?? 0;
+    const resCnt  = slot.reserved_lanes?.length ?? 0;
+    return `<div class="lane-row">
+      <span class="lane-row-name">${name}${seasonal}</span>
+      <span class="lane-count free"><span class="num">${freeCnt}</span> vol.</span>
+      ${resCnt ? `<span class="lane-count reserved"><span class="num">${resCnt}</span> rez.</span>` : ''}
+    </div>`;
+  }).join('');
 }
 
 // ─── Leaflet Map ─────────────────────────────
