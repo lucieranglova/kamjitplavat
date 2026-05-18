@@ -403,8 +403,8 @@ a:hover { text-decoration: underline; }
   margin-bottom: 2px;
 }
 
-/* Single-pool: row of pills */
-.lanes-summary > .lane-count { display: inline-flex; }
+/* Single-pool: row of pills — don't stretch */
+.lanes-summary > .lane-count { align-self: flex-start; }
 
 /* Multi-pool: one row per pool */
 .lane-row {
@@ -846,12 +846,98 @@ a:hover { text-decoration: underline; }
   .header-topbar { padding: 16px 24px; }
   .hero-title { font-size: 4.5rem; }
 }
+
 @media (max-width: 600px) {
+  /* Global */
   .container { padding: 0 16px; }
-  #pool-grid { padding: 16px; }
-  .filters-row { gap: 10px; }
+
+  /* Header */
+  .hero-title { font-size: 3rem; line-height: 0.9; }
+  .hero-kicker { font-size: 0.68rem; }
+  .hero-sub { font-size: 0.9rem; }
+  .header-topbar { padding: 14px 16px; }
+  .header-nav a { padding: 4px 8px; font-size: 0.78rem; }
+
+  /* Filters — stack vertically, full width groups */
+  .filters-bar .container { padding: 0 16px; }
+  .filters-row { flex-direction: column; gap: 12px; padding: 14px 0 10px; }
+  .filter-group { width: 100%; }
   #search-input { width: 100%; }
-  .modal-content { padding: 16px 18px 22px; }
-  .hero-title { font-size: 3.5rem; }
-  .toggle { padding: 6px 10px; font-size: 0.72rem; }
+  .toggle-group { flex-wrap: wrap; }
+  .toggle { padding: 7px 12px; font-size: 0.78rem; flex: 1; text-align: center; }
+  /* Day toggles — 4 per row */
+  #filter-day .toggle { flex: 0 0 calc(25% - 3px); }
+  #sort-select, #time-select { width: 100%; }
+
+  /* Pool grid */
+  #pool-grid {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  /* Cards */
+  .card-name { font-size: 1.2rem; }
+
+  /* Lanes summary — keep pills inline, don't stretch */
+  .lanes-summary { flex-direction: column; align-items: flex-start; }
+  .lane-count { width: auto; }  /* don't stretch to full width */
+  .lane-row { flex-wrap: wrap; }
+
+  /* Modal */
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal {
+    max-height: 92vh;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+  }
+  .modal-content { padding: 16px 16px 32px; }
+  .modal-title { font-size: 1.5rem; }
+
+  /* Pool tabs — scroll horizontally instead of wrapping */
+  .pool-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+  .pool-tab {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Day tabs — all 7 on one line, smaller */
+  .day-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+  .day-tab {
+    flex-shrink: 0;
+    padding: 6px 10px;
+    font-size: 0.72rem;
+  }
+
+  /* Schedule rows — stack time+type on top, lanes below */
+  .schedule-row {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 6px 8px;
+    padding: 10px 10px;
+    align-items: center;
+  }
+  .schedule-time { grid-column: 1; grid-row: 1; min-width: auto; font-size: 0.75rem; }
+  .sch-type      { grid-column: 2; grid-row: 1; }
+  .sch-counts    { grid-column: 3; grid-row: 1; text-align: right; font-size: 0.68rem; }
+  .sch-lanes     { grid-column: 1 / -1; grid-row: 2; flex-wrap: wrap; }
+  .sch-lane      { width: 24px; height: 24px; font-size: 0.68rem; }
+
+  /* Map section */
+  .map-section { padding: 32px 0; }
+  .map-placeholder { height: 300px; }
+  .section-title { font-size: 2rem; }
 }
