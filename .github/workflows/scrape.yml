@@ -33,7 +33,7 @@ jobs:
       - name: Run scrapers
         run: |
           # Najdi run_all.py kdekoliv v repozitáři
-          SCRIPT=$(find . -name "run_all.py" | head -1)
+          SCRIPT=$(find . -name "runall.py" | head -1)
           if [ -z "$SCRIPT" ]; then
             echo "ERROR: run_all.py not found"
             find . -name "*.py" | head -20
