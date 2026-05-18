@@ -31,16 +31,26 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Run scrapers
-        run: python scrapers/run_all.py
-        # Pokračuje i při částečné chybě — lepší stará data než nic
+        run: |
+          # Najdi run_all.py kdekoliv v repozitáři
+          SCRIPT=$(find . -name "run_all.py" | head -1)
+          if [ -z "$SCRIPT" ]; then
+            echo "ERROR: run_all.py not found"
+            find . -name "*.py" | head -20
+            exit 2
+          fi
+          echo "Found: $SCRIPT"
+          python "$SCRIPT"
         continue-on-error: true
 
       - name: Commit updated lanes.json
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/lanes.json
-          # Commit jen pokud jsou změny
+          LANES=$(find . -name "lanes.json" | head -1)
+          if [ -n "$LANES" ]; then
+            git add "$LANES"
+          fi
           git diff --cached --quiet || git commit -m "chore: update lanes data $(date +'%Y-%m-%d')"
           git push
 
