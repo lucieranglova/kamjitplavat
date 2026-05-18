@@ -1,85 +1,879 @@
 {
-  "updated_at": "2026-05-16T22:00:00+02:00",
+  "updated_at": "2026-05-18T16:22:36.105133+02:00",
   "pools": {
     "podoli": {
       "indoor_50m": {
         "name": "Vnitřní 50m",
         "total_lanes": 8,
+        "seasonal": false,
         "schedule": {
           "po": [
-            { "from": "06:00", "to": "07:30", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Ranní plavání" },
-            { "from": "07:30", "to": "09:00", "type": "klub",  "free_lanes": [1,2,3,4], "reserved_lanes": [5,6,7,8], "note": "PSK Olymp" },
-            { "from": "09:00", "to": "12:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "12:00", "to": "14:00", "type": "kurzy", "free_lanes": [5,6,7,8], "reserved_lanes": [1,2,3,4], "note": "Plavecké kurzy" },
-            { "from": "14:00", "to": "17:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "17:00", "to": "19:30", "type": "klub",  "free_lanes": [1,2,3], "reserved_lanes": [4,5,6,7,8], "note": "Slavia Praha" },
-            { "from": "19:30", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Večerní plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "ut": [
-            { "from": "06:00", "to": "07:30", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Ranní plavání" },
-            { "from": "07:30", "to": "09:00", "type": "klub",  "free_lanes": [1,2,3,4], "reserved_lanes": [5,6,7,8], "note": "PSK Olymp" },
-            { "from": "09:00", "to": "14:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "14:00", "to": "16:00", "type": "kurzy", "free_lanes": [5,6,7,8], "reserved_lanes": [1,2,3,4], "note": "Plavecké kurzy" },
-            { "from": "16:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Večerní plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "st": [
-            { "from": "06:00", "to": "08:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Ranní plavání" },
-            { "from": "08:00", "to": "10:00", "type": "klub",  "free_lanes": [1,2], "reserved_lanes": [3,4,5,6,7,8], "note": "SC Praha" },
-            { "from": "10:00", "to": "15:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "15:00", "to": "18:00", "type": "klub",  "free_lanes": [1,2,3,4], "reserved_lanes": [5,6,7,8], "note": "Vodní pólo" },
-            { "from": "18:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Večerní plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "ct": [
-            { "from": "06:00", "to": "07:30", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Ranní plavání" },
-            { "from": "07:30", "to": "09:00", "type": "klub",  "free_lanes": [1,2,3,4], "reserved_lanes": [5,6,7,8], "note": "PSK Olymp" },
-            { "from": "09:00", "to": "12:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "12:00", "to": "14:00", "type": "kurzy", "free_lanes": [5,6,7,8], "reserved_lanes": [1,2,3,4], "note": "Plavecké kurzy" },
-            { "from": "14:00", "to": "17:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "17:00", "to": "19:30", "type": "klub",  "free_lanes": [1,2,3], "reserved_lanes": [4,5,6,7,8], "note": "Slavia Praha" },
-            { "from": "19:30", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Večerní plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "pa": [
-            { "from": "06:00", "to": "07:30", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Ranní plavání" },
-            { "from": "07:30", "to": "09:00", "type": "klub",  "free_lanes": [1,2,3,4,5], "reserved_lanes": [6,7,8], "note": "PSK Olymp" },
-            { "from": "09:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "so": [
-            { "from": "06:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání – celý den" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "ne": [
-            { "from": "06:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání – celý den" }
-          ]
-        }
-      },
-      "outdoor_50m": {
-        "name": "Venkovní 50m",
-        "total_lanes": 8,
-        "seasonal": true,
-        "schedule": {
-          "po": [
-            { "from": "08:00", "to": "10:00", "type": "klub",  "free_lanes": [1,2,3,4], "reserved_lanes": [5,6,7,8], "note": "Plavecký klub" },
-            { "from": "10:00", "to": "18:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "18:00", "to": "20:00", "type": "klub",  "free_lanes": [1,2,3], "reserved_lanes": [4,5,6,7,8], "note": "SC Praha" },
-            { "from": "20:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "ut": [
-            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "st": [
-            { "from": "08:00", "to": "10:00", "type": "klub",  "free_lanes": [1,2], "reserved_lanes": [3,4,5,6,7,8], "note": "Závody" },
-            { "from": "10:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "ct": [
-            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "pa": [
-            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "so": [
-            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "ne": [
-            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ]
         }
       },
@@ -89,29 +883,1747 @@
         "seasonal": true,
         "schedule": {
           "po": [
-            { "from": "08:00", "to": "12:00", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "12:00", "to": "14:00", "type": "klub",  "free_lanes": [1,2,3], "reserved_lanes": [4,5,6], "note": "Vodní pólo" },
-            { "from": "14:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "ut": [
-            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "st": [
-            { "from": "08:00", "to": "13:00", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "13:00", "to": "16:00", "type": "klub",  "free_lanes": [1,2,3], "reserved_lanes": [4,5,6], "note": "Vodní pólo" },
-            { "from": "16:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "ct": [
-            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "pa": [
-            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "so": [
-            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ],
           "ne": [
-            { "from": "08:00", "to": "21:45", "type": "volno", "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [], "note": "Volné plavání" }
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
+          ]
+        }
+      },
+      "outdoor_50m": {
+        "name": "Venkovní 50m",
+        "total_lanes": 8,
+        "seasonal": true,
+        "schedule": {
+          "po": [
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
+          ],
+          "ut": [
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
+          ],
+          "st": [
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
+          ],
+          "ct": [
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
+          ],
+          "pa": [
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
+          ],
+          "so": [
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
+          ],
+          "ne": [
+            {
+              "from": "06:00",
+              "to": "07:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Ranní plavání"
+            },
+            {
+              "from": "07:30",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "reserved_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "09:00",
+              "to": "12:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "12:00",
+              "to": "14:00",
+              "type": "kurzy",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Plavecké kurzy"
+            },
+            {
+              "from": "14:00",
+              "to": "17:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Volné plavání"
+            },
+            {
+              "from": "17:00",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3
+              ],
+              "reserved_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "note": "Plavecký klub"
+            },
+            {
+              "from": "19:30",
+              "to": "21:45",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": "Večerní plavání"
+            }
           ]
         }
       }
@@ -121,41 +2633,13 @@
         "name": "50m bazén",
         "total_lanes": 8,
         "schedule": {
-          "po": [
-            { "from": "06:00", "to": "08:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Ranní plavání" },
-            { "from": "08:00", "to": "10:00", "type": "klub",  "free_lanes": [1,2,3,4], "reserved_lanes": [5,6,7,8], "note": "SC Šutka" },
-            { "from": "10:00", "to": "15:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "15:00", "to": "17:00", "type": "klub",  "free_lanes": [1,2,3], "reserved_lanes": [4,5,6,7,8], "note": "Plavecký klub" },
-            { "from": "17:00", "to": "22:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "ut": [
-            { "from": "06:00", "to": "08:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Ranní plavání" },
-            { "from": "08:00", "to": "10:00", "type": "klub",  "free_lanes": [1,2,3,4], "reserved_lanes": [5,6,7,8], "note": "SC Šutka" },
-            { "from": "10:00", "to": "22:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "st": [
-            { "from": "06:00", "to": "08:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Ranní plavání" },
-            { "from": "08:00", "to": "11:00", "type": "klub",  "free_lanes": [1,2], "reserved_lanes": [3,4,5,6,7,8], "note": "SC Šutka + závody" },
-            { "from": "11:00", "to": "22:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "ct": [
-            { "from": "06:00", "to": "08:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Ranní plavání" },
-            { "from": "08:00", "to": "10:00", "type": "klub",  "free_lanes": [1,2,3,4], "reserved_lanes": [5,6,7,8], "note": "SC Šutka" },
-            { "from": "10:00", "to": "15:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" },
-            { "from": "15:00", "to": "17:30", "type": "klub",  "free_lanes": [1,2,3], "reserved_lanes": [4,5,6,7,8], "note": "Plavecký klub" },
-            { "from": "17:30", "to": "22:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "pa": [
-            { "from": "06:00", "to": "08:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Ranní plavání" },
-            { "from": "08:00", "to": "09:30", "type": "klub",  "free_lanes": [1,2,3,4,5,6], "reserved_lanes": [7,8], "note": "SC Šutka" },
-            { "from": "09:30", "to": "22:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "so": [
-            { "from": "10:00", "to": "22:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ],
-          "ne": [
-            { "from": "10:00", "to": "22:00", "type": "volno", "free_lanes": [1,2,3,4,5,6,7,8], "reserved_lanes": [], "note": "Volné plavání" }
-          ]
+          "po": [],
+          "ut": [],
+          "st": [],
+          "ct": [],
+          "pa": [],
+          "so": [],
+          "ne": []
         }
       }
     }
