@@ -17,7 +17,7 @@ except ImportError:
     sys.exit(1)
 
 PRAGUE_TZ   = timezone(timedelta(hours=2))
-URL         = "https://www.sutka.eu/obsazenost-bazenu"
+URL         = "https://www.sutka.eu/course/"
 TOTAL_LANES = 8
 SLOT_MIN    = 15
 START_HOUR  = 6
@@ -54,11 +54,22 @@ def fetch():
 def parse(html: str) -> dict:
     """Parse the schedule table → {day_key: [slot_dict, ...]}"""
     soup = BeautifulSoup(html, "html.parser")
+    print(f"[Šutka] HTML length: {len(html)}, tables found: {len(soup.find_all('table'))}")
+    # Try both <table> and divs with schedule data
     table = soup.find("table")
     if not table:
-        print("[Šutka] No table found", file=sys.stderr)
-        return {}
-
+        # Sometimes wrapped in a div — try finding tr elements directly
+        trs = soup.find_all("tr")
+        if trs:
+            print(f"[Šutka] No <table> but found {len(trs)} <tr> elements")
+        else:
+            print("[Šutka] No table found", file=sys.stderr)
+            return {}
+        # Build fake table from trs
+        from bs4 import Tag
+        table = soup.new_tag("table")
+        for tr in trs:
+            table.append(tr)
     rows = table.find_all("tr")
     if len(rows) < 2:
         return {}
