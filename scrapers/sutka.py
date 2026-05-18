@@ -1,13 +1,11 @@
 """
-scrapers/sutka.py
-Scrapes lane schedule from sutka.eu/50m-plavecky-bazen
-Structure: HTML table, rows = lanes 1-8, columns = 15-min slots from 6:00
-Empty cell = volno, cell with /kurz/... link = rezervováno
+scrapers/sutka.py  
+URL: sutka.eu/obsazenost-bazenu  (vždy aktuální týden, 200 OK)
+Tabulka: řádky = dny×dráhy, sloupce = 15min sloty od 6:00
+Buňka s <a href="/kurz/..."> = rezervováno, prázdná = volno.
 """
 
-import json
-import re
-import sys
+import json, re, sys
 from datetime import datetime, timezone, timedelta, date
 from pathlib import Path
 
@@ -18,190 +16,163 @@ except ImportError:
     print("pip install requests beautifulsoup4", file=sys.stderr)
     sys.exit(1)
 
-PRAGUE_TZ  = timezone(timedelta(hours=2))
-BASE_URL   = "https://www.sutka.eu"
-LANES_URL  = f"{BASE_URL}/50m-plavecky-bazen"
+PRAGUE_TZ   = timezone(timedelta(hours=2))
+URL         = "https://www.sutka.eu/obsazenost-bazenu"
 TOTAL_LANES = 8
-SLOT_MINUTES = 15          # each column = 15 min
-START_HOUR   = 6           # table starts at 06:00
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; KamJitPlavatBot/1.0)"}
+SLOT_MIN    = 15
+START_HOUR  = 6
+DAY_KEYS    = ["po","ut","st","ct","pa","so","ne"]
+CZ_DAYS     = {
+    "po":"po","pon":"po","pondělí":"po",
+    "út":"ut","ute":"ut","úterý":"ut",
+    "st":"st","stř":"st","středa":"st",
+    "čt":"ct","čtv":"ct","čtvrtek":"ct",
+    "pá":"pa","pát":"pa","pátek":"pa",
+    "so":"so","sob":"so","sobota":"so",
+    "ne":"ne","ned":"ne","neděle":"ne",
+}
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept-Language": "cs-CZ,cs;q=0.9",
+}
 
-# Map JS day index (Mon=0) to our keys
-DAY_KEYS = ["po", "ut", "st", "ct", "pa", "so", "ne"]
 
-
-def fetch_table_for_date(target_date: date) -> list[dict] | None:
-    """Fetch page and parse the schedule table for target_date.
-    Returns list of slot dicts or None on error."""
+def fetch():
     try:
-        # Šutka accepts ?od=DD.MM.YYYY&do=DD.MM.YYYY to filter by week
-        ds = target_date.strftime("%d.%m.%Y")
-        resp = requests.get(
-            LANES_URL,
-            params={"od": ds, "do": ds},
-            headers=HEADERS,
-            timeout=12,
-        )
-        resp.raise_for_status()
+        r = requests.get(URL, headers=HEADERS, timeout=15)
+        r.raise_for_status()
+        return r.text
     except requests.RequestException as e:
         print(f"[Šutka] HTTP error: {e}", file=sys.stderr)
         return None
 
-    soup = BeautifulSoup(resp.text, "html.parser")
 
-    # Find the schedule table — it's the first big table with lane rows
+def parse(html: str) -> dict:
+    """Parse the schedule table → {day_key: [slot_dict, ...]}"""
+    soup = BeautifulSoup(html, "html.parser")
     table = soup.find("table")
     if not table:
         print("[Šutka] No table found", file=sys.stderr)
-        return None
+        return {}
 
     rows = table.find_all("tr")
     if len(rows) < 2:
-        return None
+        return {}
 
-    # Header row: first <td> or <th> cells contain hour labels (6:00, 7:00 …)
-    # We count how many columns there are to derive time slots
-    header_row = rows[0]
-    header_cells = header_row.find_all(["td", "th"])
+    total_slots = (22 - START_HOUR) * (60 // SLOT_MIN)  # 64
 
-    # Build time axis: skip first 2 cells (label + lane#), rest = slots
-    # Each hour appears once as label, represents 4×15min slots
-    # Simpler: total data columns = (22-6)*4 = 64 slots
-    total_slots = (22 - START_HOUR) * (60 // SLOT_MINUTES)  # 64
+    # Each data row: cells[0] = "PO 18.5." (day label, merged across 8 lane rows)
+    #                cells[1] = lane number 1-8
+    #                cells[2..] = slot cells
+    # Day label only appears in first of 8 lane rows (rowspan=8), rest skip it.
 
-    # Parse lane rows (rows 1..8, skip header)
-    # Each data row: cells[0]=day label (merged), cells[1]=lane number,
-    #   cells[2..] = slot cells
-    lane_reservations: dict[int, list[bool]] = {}  # lane -> [reserved per slot]
+    schedule: dict[str, dict[int, list[bool]]] = {}  # day -> lane -> [reserved]
+    current_day = None
 
-    data_rows = [r for r in rows[1:] if r.find_all("td")]
-    for row in data_rows:
+    for row in rows[1:]:
         cells = row.find_all("td")
         if not cells:
             continue
 
-        # Detect lane number — first cell that is just a digit 1-8
-        lane_num = None
-        slot_start_idx = None
-        for i, c in enumerate(cells):
-            txt = c.get_text(strip=True)
-            if txt.isdigit() and 1 <= int(txt) <= TOTAL_LANES:
-                lane_num = int(txt)
-                slot_start_idx = i + 1
-                break
+        texts = [c.get_text(" ", strip=True) for c in cells]
 
-        if lane_num is None or slot_start_idx is None:
+        # Detect if first cell is a day label (contains day abbreviation)
+        first = texts[0].lower().split()[0] if texts[0] else ""
+        if first in CZ_DAYS:
+            current_day = CZ_DAYS[first]
+            if current_day not in schedule:
+                schedule[current_day] = {}
+            lane_cell_idx = 1
+        else:
+            lane_cell_idx = 0
+
+        if current_day is None:
             continue
 
-        slot_cells = cells[slot_start_idx:]
-        reserved = []
-        for cell in slot_cells:
-            # Reserved = has a link to /kurz/...
-            has_club = bool(cell.find("a", href=re.compile(r"/kurz/")))
-            reserved.append(has_club)
+        # Find lane number
+        lane_num = None
+        slot_start = None
+        for i in range(lane_cell_idx, min(lane_cell_idx + 2, len(cells))):
+            t = texts[i].strip()
+            if t.isdigit() and 1 <= int(t) <= TOTAL_LANES:
+                lane_num = int(t)
+                slot_start = i + 1
+                break
 
-        lane_reservations[lane_num] = reserved
+        if lane_num is None:
+            continue
 
-    if not lane_reservations:
-        print("[Šutka] Could not parse lane rows", file=sys.stderr)
-        return None
+        slot_cells = cells[slot_start:]
+        reserved = [bool(c.find("a", href=re.compile(r"/kurz/")))
+                    for c in slot_cells]
+        schedule[current_day][lane_num] = reserved
 
-    # Collapse 15-min slots into continuous blocks
-    return build_schedule(lane_reservations, total_slots)
+    # Convert to slot dicts
+    result = {}
+    for day, lanes in schedule.items():
+        if not lanes:
+            continue
+        slots = []
+        for s in range(total_slots):
+            free, res = [], []
+            for lane in range(1, TOTAL_LANES + 1):
+                is_res = lanes.get(lane, [False] * total_slots)
+                is_res = is_res[s] if s < len(is_res) else False
+                (res if is_res else free).append(lane)
+            slots.append({"free": free, "reserved": res})
 
+        # Merge consecutive identical slots
+        blocks = []
+        i = 0
+        while i < len(slots):
+            cur = slots[i]
+            j = i + 1
+            while j < len(slots) and slots[j] == cur:
+                j += 1
+            fm = START_HOUR * 60 + i * SLOT_MIN
+            tm = START_HOUR * 60 + j * SLOT_MIN
+            blocks.append({
+                "from": f"{fm//60:02d}:{fm%60:02d}",
+                "to":   f"{tm//60:02d}:{tm%60:02d}",
+                "type": "volno" if not cur["reserved"] else "klub",
+                "free_lanes": cur["free"],
+                "reserved_lanes": cur["reserved"],
+                "note": "Rezervováno klubem" if cur["reserved"] else "",
+            })
+            i = j
+        result[day] = blocks
+        print(f"[Šutka]   {day}: {len(blocks)} bloků")
 
-def build_schedule(lane_res: dict[int, list[bool]], total_slots: int) -> list[dict]:
-    """Turn per-lane slot reservations into time-block schedule dicts."""
-    # For each slot, determine which lanes are free/reserved
-    slots_data = []
-    for s in range(total_slots):
-        free = []
-        reserved = []
-        for lane in range(1, TOTAL_LANES + 1):
-            res_list = lane_res.get(lane, [])
-            is_res = res_list[s] if s < len(res_list) else False
-            if is_res:
-                reserved.append(lane)
-            else:
-                free.append(lane)
-        slots_data.append({"free": free, "reserved": reserved})
-
-    # Merge consecutive slots with same free/reserved pattern into blocks
-    blocks = []
-    i = 0
-    while i < len(slots_data):
-        current = slots_data[i]
-        j = i + 1
-        while j < len(slots_data) and slots_data[j] == current:
-            j += 1
-        # slots i..j-1 are the same
-        from_mins = START_HOUR * 60 + i * SLOT_MINUTES
-        to_mins   = START_HOUR * 60 + j * SLOT_MINUTES
-        from_str  = f"{from_mins//60:02d}:{from_mins%60:02d}"
-        to_str    = f"{to_mins//60:02d}:{to_mins%60:02d}"
-
-        res = current["reserved"]
-        free = current["free"]
-        block_type = "volno" if not res else "klub"
-
-        blocks.append({
-            "from": from_str,
-            "to": to_str,
-            "type": block_type,
-            "free_lanes": free,
-            "reserved_lanes": res,
-            "note": "" if not res else "Rezervováno klubem"
-        })
-        i = j
-
-    return blocks
-
-
-def scrape_week() -> dict:
-    """Scrape all 7 days of the current week and return schedule dict."""
-    today = datetime.now(PRAGUE_TZ).date()
-    # Monday of current week
-    monday = today - timedelta(days=today.weekday())
-
-    schedule = {}
-    for offset, key in enumerate(DAY_KEYS):
-        target = monday + timedelta(days=offset)
-        print(f"[Šutka] Fetching {key} ({target})…")
-        blocks = fetch_table_for_date(target)
-        if blocks:
-            schedule[key] = blocks
-            print(f"[Šutka]   → {len(blocks)} blocks")
-        else:
-            schedule[key] = []
-            print(f"[Šutka]   → failed, empty")
-
-    return schedule
+    return result
 
 
 def main():
     lanes_path = Path(__file__).parent.parent / "data" / "lanes.json"
-    if lanes_path.exists():
-        with open(lanes_path, "r", encoding="utf-8") as f:
-            existing = json.load(f)
+    existing = json.loads(lanes_path.read_text("utf-8")) if lanes_path.exists() \
+               else {"updated_at": "", "pools": {}}
+
+    print("[Šutka] Fetching…")
+    html = fetch()
+    schedule = parse(html) if html else {}
+
+    if not any(schedule.values()):
+        print("[Šutka] No data parsed — keeping existing", file=sys.stderr)
     else:
-        existing = {"updated_at": "", "pools": {}}
-
-    schedule = scrape_week()
-
-    existing.setdefault("pools", {})
-    existing["pools"]["sutka"] = {
-        "50m": {
-            "name": "50m bazén",
-            "total_lanes": TOTAL_LANES,
-            "schedule": schedule
+        print(f"[Šutka] Parsed {sum(len(v) for v in schedule.values())} total blocks")
+        existing.setdefault("pools", {})["sutka"] = {
+            "50m": {
+                "name": "50m bazén",
+                "total_lanes": TOTAL_LANES,
+                "schedule": schedule,
+            }
         }
-    }
-    existing["updated_at"] = datetime.now(PRAGUE_TZ).isoformat()
-
-    with open(lanes_path, "w", encoding="utf-8") as f:
-        json.dump(existing, f, ensure_ascii=False, indent=2)
-
-    print("[Šutka] Done — lanes.json updated")
+        existing["updated_at"] = datetime.now(PRAGUE_TZ).isoformat()
+        lanes_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2), "utf-8")
+        print("[Šutka] Done.")
 
 
 if __name__ == "__main__":
