@@ -472,6 +472,28 @@ a:hover { text-decoration: underline; }
 .btn-primary:hover { background: var(--teal-d); }
 .btn-secondary:hover { background: var(--grey); text-decoration: none; }
 
+.section-divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 0 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1.5px;
+  background: var(--teal);
+  opacity: 0.4;
+}
+
 .no-results {
   grid-column: 1/-1;
   text-align: center;

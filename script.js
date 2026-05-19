@@ -200,7 +200,8 @@ function filterAndSort(pools) {
       const fb = getSlotAtTime(lanesData[b.id], day, timeMins)?.free_lanes?.length ?? -1;
       return fb - fa;
     }
-    return 0;
+    // Default: custom order
+    return (a.order ?? 99) - (b.order ?? 99);
   });
 
   return result;
@@ -213,16 +214,28 @@ function renderCards() {
   const day = resolvedDay();
   const timeMins = resolvedTimeMinutes();
 
-  const cnt = filtered.length;
-  document.getElementById('results-count').textContent =
-    `${cnt} ${cnt === 1 ? 'bazén' : cnt < 5 ? 'bazény' : 'bazénů'}`;
+  const indoor   = filtered.filter(p => !p.seasonal);
+  const seasonal = filtered.filter(p => p.seasonal);
 
-  if (!filtered.length) {
+  const total = filtered.length;
+  document.getElementById('results-count').textContent =
+    `${total} ${total === 1 ? 'bazén' : total < 5 ? 'bazény' : 'bazénů'}`;
+
+  if (!total) {
     grid.innerHTML = '<p class="no-results">🏊 Žádný bazén neodpovídá filtru.</p>';
     return;
   }
 
-  grid.innerHTML = filtered.map((pool, i) => cardHTML(pool, i, day, timeMins)).join('');
+  let html = indoor.map((pool, i) => cardHTML(pool, i, day, timeMins)).join('');
+
+  if (seasonal.length) {
+    html += `<div class="section-divider">
+      <span>☀ Sezónní koupaliště</span>
+    </div>`;
+    html += seasonal.map((pool, i) => cardHTML(pool, indoor.length + i, day, timeMins)).join('');
+  }
+
+  grid.innerHTML = html;
 
   grid.querySelectorAll('.pool-card').forEach(card => {
     card.addEventListener('click', e => {
