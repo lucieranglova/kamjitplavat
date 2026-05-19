@@ -263,9 +263,21 @@ def main():
         print(f"[Podolí] {cfg['name']}…")
         rows = fetch_gviz(cfg["key"])
         if not rows:
-            # Fallback to CSV
             print("  gviz failed, skipping")
             continue
+        # Debug: show first 10 data rows
+        print(f"  First rows sample:")
+        for i, row in enumerate(rows[:12]):
+            cells = row.get("c", [])
+            vals = []
+            for c in cells[:8]:
+                if c is None:
+                    vals.append("NULL")
+                else:
+                    v = c.get("v","")
+                    f = c.get("f","")
+                    vals.append(f"'{f or v}'")
+            print(f"    row{i}: {vals}")
         schedule = parse_gviz(rows, cfg["total_lanes"])
         if not schedule:
             print(f"  → no data", file=sys.stderr)
