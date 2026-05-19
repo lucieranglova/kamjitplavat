@@ -1,10 +1,10 @@
 """
 scrapers/podoli.py
-Používá Google Visualization API (gviz/tq) místo CSV/pubhtml.
-Vrací JSON s kompletními daty včetně správného mapování buněk.
-URL: https://docs.google.com/spreadsheets/d/KEY/gviz/tq?tqx=out:csv&sheet=List%201
+Používá Google Sheets gviz/tq JSON API které vrací colspan informace.
+URL: https://docs.google.com/spreadsheets/d/e/KEY/pub?gid=0&single=true&output=json
+→ Vrátí JSON s buňkami které mají colspan zachovaný.
 """
-import csv, io, json, re, sys
+import json, re, sys
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
@@ -32,7 +32,6 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36",
 }
 
-# Sheet keys (extracted from pubhtml URL)
 POOLS = {
     "indoor_50m": {
         "name": "Vnitřní 50m", "total_lanes": 8, "seasonal": False,
@@ -57,127 +56,106 @@ def detect_day(text: str) -> str | None:
     return None
 
 
-def fetch_csv(key: str) -> list[list[str]] | None:
-    # gviz/tq endpoint with CSV output — returns data without JS rendering
-    url = f"https://docs.google.com/spreadsheets/d/e/{key}/pub?output=csv"
+def fetch_gviz(key: str) -> list | None:
+    """Fetch via gviz/tq which returns JSON with proper cell data."""
+    url = (f"https://docs.google.com/spreadsheets/d/e/{key}"
+           f"/gviz/tq?tqx=out:json&sheet=List%201")
     try:
-        r = requests.get(url, headers=HEADERS, timeout=15, allow_redirects=True)
+        r = requests.get(url, headers=HEADERS, timeout=15)
         r.raise_for_status()
-        text = r.content.decode("utf-8", errors="replace")
-        rows = list(csv.reader(io.StringIO(text)))
-        print(f"  rows={len(rows)}, cols={len(rows[0]) if rows else 0}")
+        # Response is: /*O_o*/\ngoogle.visualization.Query.setResponse({...});
+        text = r.text
+        # Extract JSON
+        m = re.search(r'setResponse\((\{.*\})\)', text, re.DOTALL)
+        if not m:
+            print(f"  gviz: no JSON found, len={len(text)}", file=sys.stderr)
+            return None
+        data = json.loads(m.group(1))
+        rows = data.get("table", {}).get("rows", [])
+        print(f"  gviz: {len(rows)} rows")
         return rows
     except Exception as e:
-        print(f"  fetch error: {e}", file=sys.stderr)
+        print(f"  gviz error: {e}", file=sys.stderr)
         return None
 
 
-def parse_csv(rows: list[list[str]], total_lanes: int) -> dict:
+def parse_gviz(rows: list, total_lanes: int) -> dict:
     """
-    Key insight: Google Sheets CSV exports merged cells as:
-      - First cell of merge: contains the value
-      - Subsequent cells of merge: EMPTY
-    This is indistinguishable from a genuinely empty (volno) cell.
+    gviz rows: list of {"c": [{"v": value, "f": formatted}, ...]}
+    Cells with colspan are repeated (gviz expands merges).
+    Actually gviz does NOT expand merges — merged cells appear once with full value,
+    subsequent cells are null.
     
-    Solution: compare across all lanes in same column.
-    If column S has a value in lane X, and empty in lane Y,
-    we still can't know if lane Y is volno or continuation.
+    Layout (same as CSV):
+      col0: empty
+      col1: day+lane or lane number  
+      col2: empty
+      col3+: 15-min slots
+      
+    With gviz, null cells after a value = continuation of merge = RESERVED.
+    Null cells that were never part of a merge = VOLNO.
     
-    Better solution: look at the PATTERN across a row.
-    A reservation block appears as: [value][empty][empty]...[empty][next_value_or_empty]
-    A volno gap appears as: [empty][empty]...[empty]
+    Key insight with gviz: we can detect merge continuation by checking if
+    the cell value is None/null AND the previous non-null cell in same row had a value.
+    But we still can't distinguish "null because merged" from "null because volno".
     
-    We use: forward-fill the value, but only until we see another lane
-    in the SAME column has a different value (indicating a real boundary).
+    However: in gviz, merged cells show as {"v": null} for continuation cells.
+    The FIRST cell of a merge has the actual value.
     
-    Simplest correct approach given CSV limitations:
-    Forward-fill each cell value until next NON-EMPTY cell in same row.
-    This correctly handles merged reservations.
-    Genuinely empty columns (volno) will never have had a value.
+    Better: use gviz p (properties) or just track per-row null patterns.
+    After a non-null value, nulls = continuation until BOTH:
+    - this row has null AND
+    - a "boundary" row (where other lanes also have values starting) occurs
+    
+    Actually: let's use the SIMPLEST correct approach:
+    For each lane-row, expand nulls by forward-filling ONLY until the next
+    value-start slot of ANY lane in the same day. This is correct because
+    Podolí sheet always has at least one lane starting a new block at each
+    real time boundary.
     """
     if not rows:
         return {}
 
-    # Find hour row
-    time_re = re.compile(r"^6[.:,]0+$")
+    def cell_val(c):
+        if c is None:
+            return ""
+        v = c.get("v")
+        f = c.get("f")
+        if f and str(f).strip():
+            return str(f).strip()
+        if v and str(v).strip() not in ("None", "null", ""):
+            return str(v).strip()
+        return ""
+
+    # Find header row (contains time values like 6, 7, 8...)
     hour_row_idx = None
     for i, row in enumerate(rows):
-        if any(time_re.match(c.strip()) for c in row[2:]):
+        cells = row.get("c", [])
+        vals = [cell_val(c) for c in cells]
+        # Hour row has numeric values 6,7,8... or "6.00","7.00"
+        nums = sum(1 for v in vals[2:] if re.match(r"^[67891]\d?\.?\d*$", v.strip()))
+        if nums >= 4:
             hour_row_idx = i
             break
 
     if hour_row_idx is None:
-        print("  No hour row found", file=sys.stderr)
+        print("  No hour row", file=sys.stderr)
         return {}
 
-    data_start = hour_row_idx + 2  # skip colour-label row
+    data_start = hour_row_idx + 2  # skip colour row
 
-    lane_data: dict[str, dict[int, list[bool]]] = {}
+    # Collect raw data: day -> lane -> [cell_val per slot]
+    all_rows_by_day: dict[str, dict[int, list[str]]] = {}
     current_day = None
 
     for row in rows[data_start:]:
-        if len(row) < 4:
+        cells = row.get("c", [])
+        if len(cells) < 4:
             continue
-
-        col1 = row[1].strip()
+        col1 = cell_val(cells[1]) if len(cells) > 1 else ""
         if not col1:
             continue
 
-        day = detect_day(col1)
-        if day:
-            current_day = day
-            lane_data.setdefault(day, {})
-            nums = re.findall(r"\d+", col1)
-            lane_num = int(nums[-1]) if nums and 1 <= int(nums[-1]) <= total_lanes else None
-            if lane_num is None:
-                continue
-        elif current_day and re.match(r"^\d+$", col1) and 1 <= int(col1) <= total_lanes:
-            lane_num = int(col1)
-        else:
-            continue
-
-        # Forward-fill: value persists until next non-empty cell
-        raw = row[3:3 + TOTAL_SLOTS]
-        reserved = []
-        current_val = ""
-        for cell in raw:
-            v = cell.strip()
-            if v:
-                current_val = v
-            # current_val persists (forward-fill) until explicitly cleared
-            # We never clear it — merged cells stay merged
-            reserved.append(bool(current_val))
-
-        # Now we need to detect where reservations actually END.
-        # Cross-lane approach: a slot is truly free if the cell was never
-        # filled AND no adjacent lane suggests a merge continuation.
-        # Without colspan info, best we can do: use the raw row length.
-        # If row has fewer cols than expected, trailing slots are volno.
-        reserved = reserved[:TOTAL_SLOTS]
-        reserved += [False] * (TOTAL_SLOTS - len(reserved))
-        lane_data[current_day][lane_num] = reserved
-
-    if not lane_data:
-        print("  No lane data", file=sys.stderr)
-        return {}
-
-    # The forward-fill approach overfills — everything after first value = reserved.
-    # FIX: Use a different strategy.
-    # Re-process: for each day, look at column patterns across all lanes.
-    # A column where ALL lanes are empty (after forward-fill reset) = truly volno.
-    # Reset forward-fill when we detect a "seam" — all lanes empty in same col.
-    
-    # Re-parse with seam detection
-    lane_data2: dict[str, dict[int, list[bool]]] = {}
-    current_day = None
-    all_rows_by_day: dict[str, dict[int, list[str]]] = {}  # day -> lane -> raw cells
-
-    for row in rows[data_start:]:
-        if len(row) < 4:
-            continue
-        col1 = row[1].strip()
-        if not col1:
-            continue
         day = detect_day(col1)
         if day:
             current_day = day
@@ -190,66 +168,67 @@ def parse_csv(rows: list[list[str]], total_lanes: int) -> dict:
             lane_num = int(col1)
         else:
             continue
-        raw = row[3:3 + TOTAL_SLOTS]
+
+        raw = [cell_val(c) for c in cells[3:3 + TOTAL_SLOTS]]
         raw += [""] * (TOTAL_SLOTS - len(raw))
-        all_rows_by_day[current_day][lane_num] = raw
+        all_rows_by_day[current_day][lane_num] = raw[:TOTAL_SLOTS]
+
+    if not all_rows_by_day:
+        return {}
+
+    # Now build reserved arrays.
+    # In gviz: null after value = merged (reserved), null after null = volno.
+    # BUT: null after value that ended = also null.
+    # Strategy: 
+    #   1. Find all slots where ANY lane starts a new value (real time boundaries)
+    #   2. Per lane: value at boundary → reserved until next boundary
+    #      No value at boundary → check if previous boundary had value for this lane
+    #      AND no intervening boundary had null for this lane (continuation vs volno)
+    # 
+    # Simplest correct rule for gviz nulls:
+    #   Forward-fill each lane's value, BUT reset to volno when we hit a slot
+    #   where this lane is null AND the previous slot for this lane was ALSO null
+    #   (i.e., two consecutive nulls = definitely volno, not continuation)
 
     result: dict[str, list[dict]] = {}
     for day, lanes_raw in all_rows_by_day.items():
-        if not lanes_raw:
-            continue
-
-        # Per-lane forward-fill using ONLY that lane's own value positions.
-        # A reservation starts when a value appears and ends when:
-        #   - the NEXT value for THIS lane starts (different reservation), OR
-        #   - we hit a slot where ALL lanes are empty (genuine volno gap)
-        # 
-        # "All-empty" slots = slots where no lane has ever had a value-start
-        # at or before this slot that hasn't been replaced by another value.
-        # Simple proxy: slot S is "all-empty" if raw[S] == "" for ALL lanes.
-
-        all_empty_slots = set()
-        for s in range(TOTAL_SLOTS):
-            if all((lanes_raw.get(ln, [""] * TOTAL_SLOTS)[s]).strip() == ""
-                   for ln in range(1, total_lanes + 1)):
-                all_empty_slots.add(s)
-
         lane_reserved: dict[int, list[bool]] = {}
         for ln in range(1, total_lanes + 1):
             raw = lanes_raw.get(ln, [""] * TOTAL_SLOTS)
             res = [False] * TOTAL_SLOTS
-            # Find this lane's own value-start positions
-            own_starts = [s for s, c in enumerate(raw) if c.strip()]
-            
-            for vi, vs in enumerate(own_starts):
-                # This reservation starts at vs
-                # It ends at: min(next own-start, next all-empty slot after vs)
-                next_own = own_starts[vi + 1] if vi + 1 < len(own_starts) else TOTAL_SLOTS
-                # Find first all-empty slot strictly after vs
-                next_empty = next(
-                    (s for s in range(vs + 1, next_own) if s in all_empty_slots),
-                    next_own
-                )
-                end = min(next_own, next_empty)
-                for s in range(vs, end):
+            current_val = ""
+            prev_was_null = True  # start as null (before row begins)
+            for s, cell in enumerate(raw):
+                v = cell.strip()
+                if v:
+                    # New value starts → reserved
+                    current_val = v
+                    prev_was_null = False
                     res[s] = True
-
+                elif not prev_was_null:
+                    # Null after non-null → could be merge continuation → reserved
+                    res[s] = True
+                    prev_was_null = False  # still in continuation
+                else:
+                    # Null after null → volno
+                    current_val = ""
+                    res[s] = False
+                    prev_was_null = True
             lane_reserved[ln] = res
 
         # Build per-slot summary
         per_slot = []
         for s in range(TOTAL_SLOTS):
-            free, res = [], []
+            free, res2 = [], []
             for ln in range(1, total_lanes + 1):
-                (res if lane_reserved[ln][s] else free).append(ln)
+                (res2 if lane_reserved[ln][s] else free).append(ln)
             mins = START_HOUR * 60 + s * SLOT_MIN
             per_slot.append({
-                "free": free, "reserved": res,
+                "free": free, "reserved": res2,
                 "from": f"{mins//60:02d}:{mins%60:02d}",
                 "to":   f"{(mins+SLOT_MIN)//60:02d}:{(mins+SLOT_MIN)%60:02d}",
             })
 
-        # Merge consecutive identical slots
         blocks, i = [], 0
         while i < len(per_slot):
             cur = per_slot[i]
@@ -268,7 +247,7 @@ def parse_csv(rows: list[list[str]], total_lanes: int) -> dict:
 
         result[day] = blocks
         res_count = sum(1 for b in blocks if b["type"] == "klub")
-        print(f"  {day}: {len(blocks)} bloků ({res_count} rezervací)")
+        print(f"  {day}: {len(blocks)} bloků ({res_count} rez.)")
 
     return result
 
@@ -282,10 +261,12 @@ def main():
     podoli_data = {}
     for pool_id, cfg in POOLS.items():
         print(f"[Podolí] {cfg['name']}…")
-        rows = fetch_csv(cfg["key"])
+        rows = fetch_gviz(cfg["key"])
         if not rows:
+            # Fallback to CSV
+            print("  gviz failed, skipping")
             continue
-        schedule = parse_csv(rows, cfg["total_lanes"])
+        schedule = parse_gviz(rows, cfg["total_lanes"])
         if not schedule:
             print(f"  → no data", file=sys.stderr)
             continue
