@@ -1,12 +1,17 @@
 """
-scrapers/sutka.py  
-URL: sutka.eu/obsazenost-bazenu  (vždy aktuální týden, 200 OK)
-Tabulka: řádky = dny×dráhy, sloupce = 15min sloty od 6:00
-Buňka s <a href="/kurz/..."> = rezervováno, prázdná = volno.
+scrapers/sutka.py
+URL: sutka.eu/course/
+Tabulka struktura (z raw HTML):
+  Řádek 0: hodiny (6:00 .. 21:00), každá hodina = 4 sloupce (15min)
+  Řádky 1+: data
+    - první <td> buňka: "ÚT 19.5." nebo prázdná (rowspan pro den)
+    - druhá <td> buňka: číslo dráhy "1".."8"
+    - zbývající <td>: každá = 1 slot (15min)
+                      prázdná td = volno
+                      td s <a href="/kurz/..."> = rezervováno
 """
-
 import json, re, sys
-from datetime import datetime, timezone, timedelta, date
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 try:
@@ -21,15 +26,16 @@ URL         = "https://www.sutka.eu/course/"
 TOTAL_LANES = 8
 SLOT_MIN    = 15
 START_HOUR  = 6
+END_HOUR    = 22
 DAY_KEYS    = ["po","ut","st","ct","pa","so","ne"]
 CZ_DAYS     = {
-    "po":"po","pon":"po","pondělí":"po",
-    "út":"ut","ute":"ut","úterý":"ut",
-    "st":"st","stř":"st","středa":"st",
-    "čt":"ct","čtv":"ct","čtvrtek":"ct",
-    "pá":"pa","pát":"pa","pátek":"pa",
+    "po":"po","pon":"po","pond":"po","pondělí":"po","pondeli":"po",
+    "út":"ut","ute":"ut","úterý":"ut","utery":"ut","út":"ut",
+    "st":"st","stř":"st","středa":"st","streda":"st",
+    "čt":"ct","čtv":"ct","čtvrtek":"ct","ctvrtek":"ct",
+    "pá":"pa","pát":"pa","pátek":"pa","patek":"pa",
     "so":"so","sob":"so","sobota":"so",
-    "ne":"ne","ned":"ne","neděle":"ne",
+    "ne":"ne","ned":"ne","neděle":"ne","nedele":"ne",
 }
 HEADERS = {
     "User-Agent": (
@@ -37,131 +43,138 @@ HEADERS = {
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/124.0.0.0 Safari/537.36"
     ),
+    "Accept": "text/html,application/xhtml+xml",
     "Accept-Language": "cs-CZ,cs;q=0.9",
 }
 
+TOTAL_SLOTS = (END_HOUR - START_HOUR) * (60 // SLOT_MIN)  # 64
 
-def fetch():
+
+def fetch() -> str | None:
     try:
         r = requests.get(URL, headers=HEADERS, timeout=15)
         r.raise_for_status()
         return r.text
-    except requests.RequestException as e:
+    except Exception as e:
         print(f"[Šutka] HTTP error: {e}", file=sys.stderr)
         return None
 
 
+def cell_is_reserved(td) -> bool:
+    """True if td contains any <a> tag (= reserved by club)."""
+    return bool(td.find("a"))
+
+
+def detect_day(text: str) -> str | None:
+    """Extract day key from cell text like 'ÚT 19.5.' or 'PO'."""
+    for word in re.split(r"[\s\xa0]+", text.lower()):
+        word = re.sub(r"[^\w]", "", word)
+        if word in CZ_DAYS:
+            return CZ_DAYS[word]
+    return None
+
+
 def parse(html: str) -> dict:
-    """Parse the schedule table → {day_key: [slot_dict, ...]}"""
     soup = BeautifulSoup(html, "html.parser")
-    print(f"[Šutka] HTML length: {len(html)}, tables found: {len(soup.find_all('table'))}")
-    # Try both <table> and divs with schedule data
     table = soup.find("table")
     if not table:
-        # Sometimes wrapped in a div — try finding tr elements directly
-        trs = soup.find_all("tr")
-        if trs:
-            print(f"[Šutka] No <table> but found {len(trs)} <tr> elements")
-        else:
-            print("[Šutka] No table found", file=sys.stderr)
-            return {}
-        # Build fake table from trs
-        from bs4 import Tag
-        table = soup.new_tag("table")
-        for tr in trs:
-            table.append(tr)
-    rows = table.find_all("tr")
-    if len(rows) < 2:
+        print("[Šutka] No table found", file=sys.stderr)
         return {}
 
-    total_slots = (22 - START_HOUR) * (60 // SLOT_MIN)  # 64
+    rows = table.find_all("tr")
+    print(f"[Šutka] Rows: {len(rows)}")
 
-    # Each data row: cells[0] = "PO 18.5." (day label, merged across 8 lane rows)
-    #                cells[1] = lane number 1-8
-    #                cells[2..] = slot cells
-    # Day label only appears in first of 8 lane rows (rowspan=8), rest skip it.
-
-    schedule: dict[str, dict[int, list[bool]]] = {}  # day -> lane -> [reserved]
+    # lane_data[day][lane] = list of booleans (reserved per slot)
+    lane_data: dict[str, dict[int, list[bool]]] = {}
     current_day = None
-    debug_shown = 0
 
-    for row in rows[1:]:
-        cells = row.find_all("td")
-        if not cells:
+    for row in rows[1:]:  # skip header
+        tds = row.find_all("td")
+        if len(tds) < 3:
             continue
 
-        texts = [c.get_text(" ", strip=True) for c in cells]
-
-        # Debug: show first 10 rows
-        if debug_shown < 10:
-            print(f"[Šutka debug] row texts[:3]: {texts[:3]}")
-            debug_shown += 1
-
-        # Detect if first cell is a day label
-        first = texts[0].lower().split()[0] if texts[0] else ""
-        if first in CZ_DAYS:
-            current_day = CZ_DAYS[first]
-            if current_day not in schedule:
-                schedule[current_day] = {}
-            lane_cell_idx = 1
+        # Try to read day from first td (may be empty due to rowspan)
+        first_text = tds[0].get_text(separator=" ", strip=True)
+        day = detect_day(first_text)
+        if day:
+            current_day = day
+            if current_day not in lane_data:
+                lane_data[current_day] = {}
+            # lane number is in second td
+            lane_text = tds[1].get_text(strip=True)
+            slot_tds = tds[2:]
+        elif current_day:
+            # first td empty (rowspan) — lane in first td or second
+            lane_text = tds[0].get_text(strip=True)
+            if lane_text.isdigit() and 1 <= int(lane_text) <= TOTAL_LANES:
+                slot_tds = tds[1:]
+            else:
+                lane_text = tds[1].get_text(strip=True)
+                slot_tds = tds[2:]
         else:
-            lane_cell_idx = 0
-
-        if current_day is None:
             continue
 
-        # Find lane number
-        lane_num = None
-        slot_start = None
-        for i in range(lane_cell_idx, min(lane_cell_idx + 2, len(cells))):
-            t = texts[i].strip()
-            if t.isdigit() and 1 <= int(t) <= TOTAL_LANES:
-                lane_num = int(t)
-                slot_start = i + 1
-                break
-
-        if lane_num is None:
+        if not lane_text.isdigit():
+            continue
+        lane_num = int(lane_text)
+        if not (1 <= lane_num <= TOTAL_LANES):
             continue
 
-        slot_cells = cells[slot_start:]
-        reserved = [bool(c.find("a", href=re.compile(r"/kurz/")))
-                    for c in slot_cells]
-        schedule[current_day][lane_num] = reserved
+        reserved = [cell_is_reserved(td) for td in slot_tds[:TOTAL_SLOTS]]
+        # Pad to TOTAL_SLOTS if short
+        reserved += [False] * (TOTAL_SLOTS - len(reserved))
+        lane_data[current_day][lane_num] = reserved
 
-    # Convert to slot dicts
-    result = {}
-    for day, lanes in schedule.items():
+    if not lane_data:
+        print("[Šutka] No lane data found", file=sys.stderr)
+        return {}
+
+    # Convert to slot blocks
+    result: dict[str, list[dict]] = {}
+    for day in DAY_KEYS:
+        lanes = lane_data.get(day)
         if not lanes:
             continue
-        slots = []
-        for s in range(total_slots):
-            free, res = [], []
-            for lane in range(1, TOTAL_LANES + 1):
-                is_res = lanes.get(lane, [False] * total_slots)
-                is_res = is_res[s] if s < len(is_res) else False
-                (res if is_res else free).append(lane)
-            slots.append({"free": free, "reserved": res})
 
-        # Merge consecutive identical slots
+        per_slot = []
+        for s in range(TOTAL_SLOTS):
+            free, res = [], []
+            for ln in range(1, TOTAL_LANES + 1):
+                lr = lanes.get(ln, [False] * TOTAL_SLOTS)
+                (res if (s < len(lr) and lr[s]) else free).append(ln)
+            mins_from = START_HOUR * 60 + s * SLOT_MIN
+            mins_to   = mins_from + SLOT_MIN
+            per_slot.append({
+                "free": free, "reserved": res,
+                "from": f"{mins_from//60:02d}:{mins_from%60:02d}",
+                "to":   f"{mins_to//60:02d}:{mins_to%60:02d}",
+            })
+
+        # Merge identical consecutive slots
         blocks = []
         i = 0
-        while i < len(slots):
-            cur = slots[i]
+        while i < len(per_slot):
+            cur = per_slot[i]
             j = i + 1
-            while j < len(slots) and slots[j] == cur:
+            while j < len(per_slot) and \
+                  per_slot[j]["free"] == cur["free"] and \
+                  per_slot[j]["reserved"] == cur["reserved"]:
                 j += 1
-            fm = START_HOUR * 60 + i * SLOT_MIN
-            tm = START_HOUR * 60 + j * SLOT_MIN
             blocks.append({
-                "from": f"{fm//60:02d}:{fm%60:02d}",
-                "to":   f"{tm//60:02d}:{tm%60:02d}",
+                "from": cur["from"],
+                "to":   per_slot[j-1]["to"],
                 "type": "volno" if not cur["reserved"] else "klub",
                 "free_lanes": cur["free"],
                 "reserved_lanes": cur["reserved"],
                 "note": "Rezervováno klubem" if cur["reserved"] else "",
             })
             i = j
+
         result[day] = blocks
+        free_total = sum(len(b["free_lanes"]) * (
+            (int(b["to"][:2])*60+int(b["to"][3:])) -
+            (int(b["from"][:2])*60+int(b["from"][3:]))
+        ) // SLOT_MIN for b in blocks)
         print(f"[Šutka]   {day}: {len(blocks)} bloků")
 
     return result
@@ -174,22 +187,27 @@ def main():
 
     print("[Šutka] Fetching…")
     html = fetch()
-    schedule = parse(html) if html else {}
+    if not html:
+        print("[Šutka] Failed to fetch", file=sys.stderr)
+        return
 
-    if not any(schedule.values()):
-        print("[Šutka] No data parsed — keeping existing", file=sys.stderr)
-    else:
-        print(f"[Šutka] Parsed {sum(len(v) for v in schedule.values())} total blocks")
-        existing.setdefault("pools", {})["sutka"] = {
-            "50m": {
-                "name": "50m bazén",
-                "total_lanes": TOTAL_LANES,
-                "schedule": schedule,
-            }
+    schedule = parse(html)
+    if not schedule:
+        print("[Šutka] No data — keeping existing", file=sys.stderr)
+        return
+
+    existing.setdefault("pools", {})["sutka"] = {
+        "50m": {
+            "name": "50m bazén",
+            "total_lanes": TOTAL_LANES,
+            "schedule": schedule,
         }
-        existing["updated_at"] = datetime.now(PRAGUE_TZ).isoformat()
-        lanes_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2), "utf-8")
-        print("[Šutka] Done.")
+    }
+    existing["updated_at"] = datetime.now(PRAGUE_TZ).isoformat()
+    lanes_path.write_text(
+        json.dumps(existing, ensure_ascii=False, indent=2), "utf-8"
+    )
+    print("[Šutka] Done.")
 
 
 if __name__ == "__main__":
