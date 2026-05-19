@@ -88,10 +88,15 @@ def parse(html: str) -> dict:
     lane_data: dict[str, dict[int, list[bool]]] = {}
     current_day = None
 
-    for row in rows[1:]:  # skip header
+    for row_idx, row in enumerate(rows[1:]):  # skip header
         tds = row.find_all("td")
         if len(tds) < 3:
             continue
+
+        # Debug first 5 data rows — show raw HTML of first 3 tds
+        if row_idx < 5:
+            for i, td in enumerate(tds[:3]):
+                print(f"[Šutka debug] row{row_idx} td{i}: repr={repr(td)[:120]}")
 
         # Try to read day from first td (may be empty due to rowspan)
         first_text = tds[0].get_text(separator=" ", strip=True)
