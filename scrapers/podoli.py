@@ -213,6 +213,7 @@ def main():
             html, cfg["total_lanes"], cfg["slot_min"],
             cfg["start_hour"], cfg["end_hour"]
         )
+        print(f"  HTML len={len(html)}, tables={html.count('<table')}, rows hint={'<tr' in html}")
         if not schedule:
             print(f"  → no data parsed", file=sys.stderr)
             continue
