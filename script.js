@@ -274,11 +274,13 @@ function cardHTML(pool, idx, day, timeMins) {
 function getOpenHoursForDay(pool, day) {
   const oh = pool.open_hours;
   if (oh && oh[day]) return oh[day].join('–');
-  // fallback to text
   const ohText = pool.opening_hours;
   const isWeekend = day === 'so' || day === 'ne';
   return (isWeekend ? ohText.weekend : ohText.weekday) || ohText.note || '—';
 }
+
+function buildLanesSummary(pool, day, timeMins) {
+  if (!isPoolOpen(pool, day, timeMins)) {
     return `<span class="lane-count closed">zavřeno</span>`;
   }
 
