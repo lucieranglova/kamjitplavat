@@ -1,5 +1,78 @@
 [
   {
+    "id": "sutka",
+    "name": "Aquacentrum Šutka",
+    "address": "Čimická 848/41, Praha 8",
+    "district": "Praha 8",
+    "website": "https://www.sutka.eu",
+    "phone": "+420 283 851 111",
+    "lat": 50.1371,
+    "lng": 14.4418,
+    "multisport": true,
+    "multisport_note": "Platí pro vstup do bazénu",
+    "pools": [
+      {
+        "name": "50m bazén",
+        "length": 50,
+        "lanes": 8,
+        "type": "indoor"
+      }
+    ],
+    "opening_hours": {
+      "weekday": "6:00–22:00",
+      "weekend": "10:00–22:00"
+    },
+    "open_hours": {
+      "po": [
+        "06:00",
+        "22:00"
+      ],
+      "ut": [
+        "06:00",
+        "22:00"
+      ],
+      "st": [
+        "06:00",
+        "22:00"
+      ],
+      "ct": [
+        "06:00",
+        "22:00"
+      ],
+      "pa": [
+        "06:00",
+        "22:00"
+      ],
+      "so": [
+        "10:00",
+        "22:00"
+      ],
+      "ne": [
+        "10:00",
+        "22:00"
+      ]
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 60 min",
+        "price": 125
+      },
+      {
+        "label": "Děti / studenti / senioři",
+        "price": 95
+      }
+    ],
+    "amenities": [
+      "aquapark",
+      "tobogán",
+      "vířivka",
+      "divoká řeka",
+      "sauna",
+      "bar"
+    ],
+    "scraper_id": "sutka"
+  },
+  {
     "id": "podoli",
     "name": "Plavecký stadion Podolí",
     "address": "Podolská 74, Praha 4",
@@ -33,9 +106,39 @@
       }
     ],
     "opening_hours": {
-      "note": "Otevřeno celoročně, zavřeno jen 2 dny na Vánoce a Nový rok",
       "weekday": "6:00–21:45",
-      "weekend": "6:00–21:45"
+      "weekend": "6:00–21:45",
+      "note": "Celoročně, zavřeno jen Vánoce a Nový rok"
+    },
+    "open_hours": {
+      "po": [
+        "06:00",
+        "21:45"
+      ],
+      "ut": [
+        "06:00",
+        "21:45"
+      ],
+      "st": [
+        "06:00",
+        "21:45"
+      ],
+      "ct": [
+        "06:00",
+        "21:45"
+      ],
+      "pa": [
+        "06:00",
+        "21:45"
+      ],
+      "so": [
+        "06:00",
+        "21:45"
+      ],
+      "ne": [
+        "06:00",
+        "21:45"
+      ]
     },
     "pricing": [
       {
@@ -47,10 +150,6 @@
         "price": 120
       },
       {
-        "label": "Dospělý 120 min",
-        "price": 130
-      },
-      {
         "label": "Děti / senioři 60 min",
         "price": 80
       }
@@ -60,95 +159,107 @@
       "fitness",
       "tobogán",
       "restaurace",
-      "rehabilitace",
-      "solarium"
+      "rehabilitace"
     ],
-    "lanes_url": "https://pspodoli.cz/cs/obsazenost-bazenu/",
-    "scraper_id": "podoli",
-    "open_hours": {
-      "po": [
-        "06:00",
-        "21:45"
-      ],
-      "ut": [
-        "06:00",
-        "21:45"
-      ],
-      "st": [
-        "06:00",
-        "21:45"
-      ],
-      "ct": [
-        "06:00",
-        "21:45"
-      ],
-      "pa": [
-        "06:00",
-        "21:45"
-      ],
-      "so": [
-        "06:00",
-        "21:45"
-      ],
-      "ne": [
-        "06:00",
-        "21:45"
-      ]
-    }
+    "scraper_id": "podoli"
   },
   {
-    "id": "sutka",
-    "name": "Aquacentrum Šutka",
-    "address": "Čimická 848/41, Praha 8",
-    "district": "Praha 8",
-    "website": "https://www.sutka.eu",
-    "phone": "+420 283 851 111",
-    "lat": 50.1371,
-    "lng": 14.4418,
+    "id": "letnany",
+    "name": "Letňany Lagoon",
+    "address": "Tupolevova 665, Praha 9",
+    "district": "Praha 9",
+    "website": "https://www.letnanylagoon.cz",
+    "phone": "+420 283 921 799",
+    "lat": 50.1258,
+    "lng": 14.5197,
+    "multisport": false,
+    "multisport_note": null,
+    "pools": [
+      {
+        "name": "25m bazén",
+        "length": 25,
+        "lanes": 6,
+        "type": "indoor"
+      }
+    ],
+    "opening_hours": {
+      "weekday": "různé",
+      "weekend": "9:00–21:00",
+      "note": "Každý den jiná otevírací doba — viz web"
+    },
+    "open_hours": {
+      "po": [
+        "13:10",
+        "21:00"
+      ],
+      "ut": [
+        "18:00",
+        "21:00"
+      ],
+      "st": [
+        "13:10",
+        "21:00"
+      ],
+      "ct": [
+        "18:00",
+        "21:00"
+      ],
+      "pa": [
+        "12:10",
+        "21:00"
+      ],
+      "so": [
+        "09:00",
+        "21:00"
+      ],
+      "ne": [
+        "09:00",
+        "21:00"
+      ]
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 90 min",
+        "price": 160
+      },
+      {
+        "label": "Děti 90 min",
+        "price": 120
+      }
+    ],
+    "amenities": [
+      "tobogán",
+      "masážní bazén",
+      "brouzdaliště",
+      "sauna",
+      "fitness",
+      "solárium"
+    ],
+    "scraper_id": null
+  },
+  {
+    "id": "hloubetín",
+    "name": "Plavecký areál Hloubětín",
+    "address": "Hloubětínská 10, Praha 9",
+    "district": "Praha 9",
+    "website": "https://www.hloubetinskybazen.cz",
+    "phone": "+420 281 861 961",
+    "lat": 50.1035,
+    "lng": 14.5104,
     "multisport": true,
     "multisport_note": "Platí pro vstup do bazénu",
     "pools": [
       {
-        "name": "50m bazén",
-        "length": 50,
-        "lanes": 8,
-        "type": "indoor"
-      },
-      {
-        "name": "Relaxační bazén",
-        "length": null,
-        "lanes": null,
+        "name": "Krytý 25m (slaná voda)",
+        "length": 25,
+        "lanes": 6,
         "type": "indoor"
       }
     ],
     "opening_hours": {
       "weekday": "6:00–22:00",
-      "weekend": "10:00–22:00"
+      "weekend": "8:00–22:00"
     },
-    "pricing": [
-      {
-        "label": "Dospělý 60 min",
-        "price": 125
-      },
-      {
-        "label": "Děti (do 15 let) 60 min",
-        "price": 80
-      },
-      {
-        "label": "Studenti / senioři / ZTP 60 min",
-        "price": 95
-      }
-    ],
-    "amenities": [
-      "aquapark",
-      "tobogán",
-      "vířivka",
-      "divoká řeka",
-      "vodopád",
-      "bar"
-    ],
-    "lanes_url": "https://www.sutka.eu/rezervace",
-    "scraper_id": "sutka",
     "open_hours": {
       "po": [
         "06:00",
@@ -171,24 +282,40 @@
         "22:00"
       ],
       "so": [
-        "10:00",
+        "08:00",
         "22:00"
       ],
       "ne": [
-        "10:00",
+        "08:00",
         "22:00"
       ]
-    }
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 60 min",
+        "price": 120
+      },
+      {
+        "label": "Studenti / senioři 60 min",
+        "price": 100
+      }
+    ],
+    "amenities": [
+      "slaná voda",
+      "sauna",
+      "venkovní bazén"
+    ],
+    "scraper_id": null
   },
   {
-    "id": "hostivar",
-    "name": "Plavecký areál Hostivař (UK)",
-    "address": "Weilova 1145/2, Praha 10",
-    "district": "Praha 10",
-    "website": "https://www.cuni.cz/UK-9175.html",
-    "phone": "+420 267 182 541",
-    "lat": 50.0607,
-    "lng": 14.5317,
+    "id": "radlice",
+    "name": "Sport Park Radlice",
+    "address": "Radlická 298/105, Praha 5",
+    "district": "Praha 5",
+    "website": "https://sportparkradlice.cz",
+    "phone": "+420 607 091 156",
+    "lat": 50.0706,
+    "lng": 14.3873,
     "multisport": false,
     "multisport_note": null,
     "pools": [
@@ -200,140 +327,40 @@
       }
     ],
     "opening_hours": {
-      "note": "Omezený provoz, primárně pro UK. Zavřeno léto.",
       "weekday": "dle rozvrhu",
-      "weekend": "dle rozvrhu"
+      "weekend": "dle rozvrhu",
+      "note": "Rozvrh pro veřejnost na webu"
     },
+    "open_hours": null,
     "pricing": [
       {
-        "label": "Dospělý 60 min",
-        "price": 90
+        "label": "Dospělý 75 min",
+        "price": 180
+      },
+      {
+        "label": "Děti 75 min",
+        "price": 150
       }
     ],
     "amenities": [
-      "skokanská věž"
+      "sauna",
+      "whirlpool",
+      "fitness",
+      "sportovní hala"
     ],
-    "lanes_url": null,
-    "scraper_id": null,
-    "open_hours": {
-      "po": [
-        "06:00",
-        "22:00"
-      ],
-      "ut": [
-        "06:00",
-        "22:00"
-      ],
-      "st": [
-        "06:00",
-        "22:00"
-      ],
-      "ct": [
-        "06:00",
-        "22:00"
-      ],
-      "pa": [
-        "06:00",
-        "22:00"
-      ],
-      "so": [
-        "08:00",
-        "22:00"
-      ],
-      "ne": [
-        "08:00",
-        "22:00"
-      ]
-    }
+    "scraper_id": null
   },
   {
-    "id": "prazacka",
-    "name": "Sportovní areál Pražačka",
-    "address": "Za Žižkovskou vozovnou 19, Praha 3",
-    "district": "Praha 3",
-    "website": "https://www.prazacka.cz",
-    "phone": "+420 222 782 481",
-    "lat": 50.0862,
-    "lng": 14.4712,
-    "multisport": false,
-    "multisport_note": null,
-    "pools": [
-      {
-        "name": "Krytý bazén 16,7m",
-        "length": 16.7,
-        "lanes": 3,
-        "type": "indoor"
-      },
-      {
-        "name": "Venkovní bazén 26m",
-        "length": 26,
-        "lanes": null,
-        "type": "outdoor",
-        "seasonal": true
-      }
-    ],
-    "opening_hours": {
-      "weekday": "6:00–8:00, 19:30–21:30",
-      "weekend": "10:00–18:30"
-    },
-    "pricing": [
-      {
-        "label": "Dospělý 60 min",
-        "price": 65
-      },
-      {
-        "label": "Dospělý 90 min",
-        "price": 90
-      }
-    ],
-    "amenities": [
-      "nejtepleší voda v Praze",
-      "výhled na město"
-    ],
-    "lanes_url": null,
-    "scraper_id": null,
-    "open_hours": {
-      "po": [
-        "06:00",
-        "08:00"
-      ],
-      "ut": [
-        "06:00",
-        "08:00"
-      ],
-      "st": [
-        "06:00",
-        "08:00"
-      ],
-      "ct": [
-        "06:00",
-        "08:00"
-      ],
-      "pa": [
-        "06:00",
-        "08:00"
-      ],
-      "so": [
-        "10:00",
-        "18:30"
-      ],
-      "ne": [
-        "10:00",
-        "18:30"
-      ]
-    }
-  },
-  {
-    "id": "vystaviste",
+    "id": "holesovice",
     "name": "Bazén Výstaviště Holešovice",
     "address": "Areál Výstaviště 67, Praha 7",
     "district": "Praha 7",
-    "website": "https://www.bazenvystaviste.cz",
-    "phone": "+420 220 103 271",
+    "website": "https://navystavisti.cz/sport/plavecky-bazen/",
+    "phone": null,
     "lat": 50.1058,
     "lng": 14.4316,
-    "multisport": false,
-    "multisport_note": null,
+    "multisport": true,
+    "multisport_note": "60 min zdarma, přečas 2 Kč/min",
     "pools": [
       {
         "name": "Krytý 25m",
@@ -346,22 +373,6 @@
       "weekday": "7:00–21:30",
       "weekend": "10:00–20:00"
     },
-    "pricing": [
-      {
-        "label": "Dospělý 60 min",
-        "price": 100
-      },
-      {
-        "label": "Dospělý 90 min",
-        "price": 130
-      }
-    ],
-    "amenities": [
-      "parní sauna",
-      "bezbariérový přístup"
-    ],
-    "lanes_url": null,
-    "scraper_id": null,
     "open_hours": {
       "po": [
         "07:00",
@@ -391,7 +402,23 @@
         "10:00",
         "20:00"
       ]
-    }
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 60 min",
+        "price": 155
+      },
+      {
+        "label": "Děti / senioři 60 min",
+        "price": 105
+      }
+    ],
+    "amenities": [
+      "sauna",
+      "bezbariérový přístup",
+      "výhled na pyramidu"
+    ],
+    "scraper_id": null
   },
   {
     "id": "slavia",
@@ -420,32 +447,10 @@
       }
     ],
     "opening_hours": {
-      "mon": "6:00–9:00",
-      "tue": "6:00–14:15",
-      "wed_thu": "6:00–14:00",
-      "fri": "6:00–20:00",
-      "weekend": "9:00–19:00"
+      "weekday": "6:00–14:00",
+      "weekend": "9:00–19:00",
+      "note": "Pá do 20:00, různé dle dne"
     },
-    "pricing": [
-      {
-        "label": "Dospělý 60 min",
-        "price": 100
-      },
-      {
-        "label": "Dospělý 90 min",
-        "price": 100
-      },
-      {
-        "label": "Dospělý 120 min",
-        "price": 110
-      }
-    ],
-    "amenities": [
-      "venkovní bazén (léto)",
-      "výukový dětský bazén"
-    ],
-    "lanes_url": null,
-    "scraper_id": null,
     "open_hours": {
       "po": [
         "06:00",
@@ -475,88 +480,240 @@
         "09:00",
         "19:00"
       ]
-    }
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 60 min",
+        "price": 100
+      },
+      {
+        "label": "Dospělý 90 min",
+        "price": 100
+      }
+    ],
+    "amenities": [
+      "venkovní bazén (léto)",
+      "dětský výukový bazén"
+    ],
+    "scraper_id": null
   },
   {
-    "id": "hloubetín",
-    "name": "Plavecký areál Hloubětín",
-    "address": "Hloubětínská 10, Praha 9",
-    "district": "Praha 9",
-    "website": "https://www.hloubetinskybazen.cz",
-    "phone": "+420 281 861 961",
-    "lat": 50.1035,
-    "lng": 14.5104,
-    "multisport": true,
-    "multisport_note": "Platí pro vstup do bazénu",
+    "id": "prazacka",
+    "name": "Sportovní areál Pražačka",
+    "address": "Za Žižkovskou vozovnou 19, Praha 3",
+    "district": "Praha 3",
+    "website": "https://www.prazacka.cz",
+    "phone": "+420 222 782 481",
+    "lat": 50.0862,
+    "lng": 14.4712,
+    "multisport": false,
+    "multisport_note": null,
     "pools": [
       {
-        "name": "Krytý 25m (slaná voda)",
-        "length": 25,
-        "lanes": 6,
+        "name": "Krytý 16,7m",
+        "length": 17,
+        "lanes": 3,
         "type": "indoor"
       },
       {
-        "name": "Krytý 25m (slaná voda) #2",
+        "name": "Venkovní 26m",
+        "length": 26,
+        "lanes": null,
+        "type": "outdoor",
+        "seasonal": true
+      }
+    ],
+    "opening_hours": {
+      "weekday": "6:00–8:00 a 19:30–21:30",
+      "weekend": "10:00–18:30"
+    },
+    "open_hours": {
+      "po": [
+        "06:00",
+        "08:00"
+      ],
+      "ut": [
+        "06:00",
+        "08:00"
+      ],
+      "st": [
+        "06:00",
+        "08:00"
+      ],
+      "ct": [
+        "06:00",
+        "08:00"
+      ],
+      "pa": [
+        "06:00",
+        "08:00"
+      ],
+      "so": [
+        "10:00",
+        "18:30"
+      ],
+      "ne": [
+        "10:00",
+        "18:30"
+      ]
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 60 min",
+        "price": 65
+      },
+      {
+        "label": "Dospělý 90 min",
+        "price": 90
+      }
+    ],
+    "amenities": [
+      "nejteplejší voda v Praze",
+      "výhled na město"
+    ],
+    "scraper_id": null
+  },
+  {
+    "id": "jedenactka",
+    "name": "Jedenáctka — vodní svět",
+    "address": "Mírového hnutí 2385/3, Praha 11",
+    "district": "Praha 11",
+    "website": "https://jedenactka-vodni-svet.cz",
+    "phone": "+420 226 801 290",
+    "lat": 50.0394,
+    "lng": 14.5019,
+    "multisport": true,
+    "multisport_note": "80 min bazén, při překročení doplatek dle ceníku",
+    "pools": [
+      {
+        "name": "25m bazén",
+        "length": 25,
+        "lanes": 5,
+        "type": "indoor"
+      }
+    ],
+    "opening_hours": {
+      "weekday": "6:30–21:00",
+      "weekend": "8:00–21:00"
+    },
+    "open_hours": {
+      "po": [
+        "06:30",
+        "21:00"
+      ],
+      "ut": [
+        "06:30",
+        "21:00"
+      ],
+      "st": [
+        "06:30",
+        "21:00"
+      ],
+      "ct": [
+        "06:30",
+        "21:00"
+      ],
+      "pa": [
+        "06:30",
+        "21:00"
+      ],
+      "so": [
+        "08:00",
+        "21:00"
+      ],
+      "ne": [
+        "08:00",
+        "21:00"
+      ]
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 80 min",
+        "price": 155
+      },
+      {
+        "label": "Dospělý 110 min",
+        "price": 195
+      }
+    ],
+    "amenities": [
+      "tobogán",
+      "divoká řeka",
+      "vířivka",
+      "brouzdaliště",
+      "sauna",
+      "restaurace"
+    ],
+    "scraper_id": null
+  },
+  {
+    "id": "axa",
+    "name": "Lázně AXA",
+    "address": "Na Poříčí 40, Praha 1",
+    "district": "Praha 1",
+    "website": "https://www.bazenaxa.cz",
+    "phone": "+420 222 323 967",
+    "lat": 50.0908,
+    "lng": 14.4368,
+    "multisport": true,
+    "multisport_note": "Stříbrná — bazén 60 min, sauna 60 min s doplatkem 50 Kč",
+    "pools": [
+      {
+        "name": "Krytý 25m",
         "length": 25,
         "lanes": 6,
         "type": "indoor"
       }
     ],
     "opening_hours": {
-      "weekday": "6:00–22:00",
-      "weekend": "8:00–22:00"
+      "weekday": "7:00–9:00, 12:00–14:00, 17:00–22:00",
+      "weekend": "9:00–21:00"
+    },
+    "open_hours": {
+      "po": [
+        "07:00",
+        "22:00"
+      ],
+      "ut": [
+        "07:00",
+        "22:00"
+      ],
+      "st": [
+        "07:00",
+        "22:00"
+      ],
+      "ct": [
+        "07:00",
+        "22:00"
+      ],
+      "pa": [
+        "07:00",
+        "22:00"
+      ],
+      "so": [
+        "09:00",
+        "21:00"
+      ],
+      "ne": [
+        "09:00",
+        "21:00"
+      ]
     },
     "pricing": [
       {
         "label": "Dospělý 60 min",
         "price": 120
-      },
-      {
-        "label": "Studenti 60 min",
-        "price": 110
-      },
-      {
-        "label": "Důchodci 60 min",
-        "price": 100
       }
     ],
     "amenities": [
-      "slaná voda",
-      "venkovní bazén",
-      "parní lázně"
+      "sauna",
+      "infrasauna",
+      "parní lázeň",
+      "solárium",
+      "masáže",
+      "centrum Prahy"
     ],
-    "lanes_url": null,
-    "scraper_id": null,
-    "open_hours": {
-      "po": [
-        "06:00",
-        "22:00"
-      ],
-      "ut": [
-        "06:00",
-        "22:00"
-      ],
-      "st": [
-        "06:00",
-        "22:00"
-      ],
-      "ct": [
-        "06:00",
-        "22:00"
-      ],
-      "pa": [
-        "06:00",
-        "22:00"
-      ],
-      "so": [
-        "08:00",
-        "22:00"
-      ],
-      "ne": [
-        "08:00",
-        "22:00"
-      ]
-    }
+    "scraper_id": null
   },
   {
     "id": "ymca",
@@ -573,28 +730,14 @@
       {
         "name": "Podzemní 25m",
         "length": 25,
-        "lanes": 4,
+        "lanes": 3,
         "type": "indoor"
       }
     ],
     "opening_hours": {
       "weekday": "6:30–22:00",
-      "fri": "6:30–21:00",
-      "sat": "9:00–17:00",
-      "sun": "13:00–21:00"
+      "weekend": "9:00–21:00"
     },
-    "pricing": [
-      {
-        "label": "Dospělý 60 min",
-        "price": 110
-      }
-    ],
-    "amenities": [
-      "centrum Prahy",
-      "aqua aerobik"
-    ],
-    "lanes_url": null,
-    "scraper_id": null,
     "open_hours": {
       "po": [
         "06:30",
@@ -614,16 +757,457 @@
       ],
       "pa": [
         "06:30",
+        "21:00"
+      ],
+      "so": [
+        "09:00",
+        "17:00"
+      ],
+      "ne": [
+        "13:00",
+        "21:00"
+      ]
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 60 min",
+        "price": 110
+      }
+    ],
+    "amenities": [
+      "centrum Prahy",
+      "aqua aerobik",
+      "fitness"
+    ],
+    "scraper_id": null
+  },
+  {
+    "id": "olsanka",
+    "name": "Sportovní centrum Olšanka",
+    "address": "Táboritská 23, Praha 3",
+    "district": "Praha 3",
+    "website": "https://www.sportolsanka.cz",
+    "phone": "+420 267 092 202",
+    "lat": 50.0852,
+    "lng": 14.4598,
+    "multisport": true,
+    "multisport_note": "Platí pro vstup do bazénu",
+    "pools": [
+      {
+        "name": "Krytý 25m",
+        "length": 25,
+        "lanes": 6,
+        "type": "indoor"
+      }
+    ],
+    "opening_hours": {
+      "weekday": "6:00–21:00",
+      "weekend": "8:00–20:00"
+    },
+    "open_hours": {
+      "po": [
+        "06:00",
+        "21:00"
+      ],
+      "ut": [
+        "06:00",
+        "21:00"
+      ],
+      "st": [
+        "06:00",
+        "21:00"
+      ],
+      "ct": [
+        "06:00",
+        "21:00"
+      ],
+      "pa": [
+        "06:00",
+        "21:00"
+      ],
+      "so": [
+        "08:00",
+        "20:00"
+      ],
+      "ne": [
+        "08:00",
+        "20:00"
+      ]
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 60 min",
+        "price": 130
+      },
+      {
+        "label": "Děti / senioři 60 min",
+        "price": 90
+      }
+    ],
+    "amenities": [
+      "sauna",
+      "fitness",
+      "badminton",
+      "masáže",
+      "aqua aerobik"
+    ],
+    "scraper_id": null
+  },
+  {
+    "id": "strahov",
+    "name": "Bazén Strahov",
+    "address": "Vaníčkova 6, Praha 6",
+    "district": "Praha 6",
+    "website": "https://bazenstrahov.cz",
+    "phone": "+420 725 595 000",
+    "lat": 50.0796,
+    "lng": 14.3897,
+    "multisport": true,
+    "multisport_note": "Bazén 90 min",
+    "pools": [
+      {
+        "name": "Krytý 25m",
+        "length": 25,
+        "lanes": 6,
+        "type": "indoor"
+      }
+    ],
+    "opening_hours": {
+      "weekday": "6:00–22:00",
+      "weekend": "10:00–17:00",
+      "note": "Neděle zavřeno, rozvrh na webu"
+    },
+    "open_hours": {
+      "po": [
+        "06:00",
+        "22:00"
+      ],
+      "ut": [
+        "06:00",
+        "22:00"
+      ],
+      "st": [
+        "06:00",
+        "22:00"
+      ],
+      "ct": [
+        "06:00",
+        "22:00"
+      ],
+      "pa": [
+        "06:00",
+        "21:00"
+      ],
+      "so": [
+        "10:15",
+        "17:00"
+      ],
+      "ne": null
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 60 min",
+        "price": 90
+      }
+    ],
+    "amenities": [
+      "Strahovský stadion",
+      "bezbariérový přístup"
+    ],
+    "scraper_id": null
+  },
+  {
+    "id": "barrandov",
+    "name": "AquaDream Barrandov",
+    "address": "K Barrandovu 8, Praha 5",
+    "district": "Praha 5",
+    "website": "https://www.aquadream.cz",
+    "phone": null,
+    "lat": 50.0238,
+    "lng": 14.3891,
+    "multisport": false,
+    "multisport_note": null,
+    "pools": [
+      {
+        "name": "Plavecký bazén 25m",
+        "length": 25,
+        "lanes": 4,
+        "type": "indoor"
+      }
+    ],
+    "opening_hours": {
+      "weekday": "9:00–22:00",
+      "weekend": "8:00–22:00"
+    },
+    "open_hours": {
+      "po": [
+        "09:00",
+        "22:00"
+      ],
+      "ut": [
+        "09:00",
+        "22:00"
+      ],
+      "st": [
+        "09:00",
+        "22:00"
+      ],
+      "ct": [
+        "09:00",
+        "22:00"
+      ],
+      "pa": [
+        "09:00",
         "22:00"
       ],
       "so": [
-        "06:30",
+        "08:00",
         "22:00"
       ],
       "ne": [
-        "06:30",
+        "08:00",
         "22:00"
       ]
-    }
+    },
+    "pricing": [
+      {
+        "label": "Dospělý 120 min",
+        "price": 220
+      },
+      {
+        "label": "Děti 120 min",
+        "price": 180
+      }
+    ],
+    "amenities": [
+      "tobogán 115m",
+      "divoká řeka",
+      "vířivka",
+      "brouzdaliště",
+      "sauna",
+      "venkovní bazén"
+    ],
+    "scraper_id": null
+  },
+  {
+    "id": "petynka",
+    "name": "Koupaliště Petynka",
+    "address": "Na Petynce 160, Praha 6",
+    "district": "Praha 6",
+    "website": "https://koupalistepetynka.cz",
+    "phone": null,
+    "lat": 50.0904,
+    "lng": 14.3597,
+    "multisport": true,
+    "multisport_note": "Celodenní vstup",
+    "pools": [
+      {
+        "name": "Venkovní 50m",
+        "length": 50,
+        "lanes": 8,
+        "type": "outdoor",
+        "seasonal": true
+      }
+    ],
+    "opening_hours": {
+      "weekday": "7:00–21:00",
+      "weekend": "7:00–21:00",
+      "note": "Sezónní — cca 15. 5. – 15. 9."
+    },
+    "open_hours": {
+      "po": [
+        "07:00",
+        "21:00"
+      ],
+      "ut": [
+        "07:00",
+        "21:00"
+      ],
+      "st": [
+        "07:00",
+        "21:00"
+      ],
+      "ct": [
+        "07:00",
+        "21:00"
+      ],
+      "pa": [
+        "07:00",
+        "21:00"
+      ],
+      "so": [
+        "07:00",
+        "21:00"
+      ],
+      "ne": [
+        "07:00",
+        "21:00"
+      ]
+    },
+    "pricing": [
+      {
+        "label": "Dospělý celodenní",
+        "price": 150
+      },
+      {
+        "label": "Děti celodenní",
+        "price": 100
+      }
+    ],
+    "amenities": [
+      "tobogán",
+      "plážový volejbal",
+      "travnaté plochy",
+      "občerstvení"
+    ],
+    "seasonal": true,
+    "scraper_id": null
+  },
+  {
+    "id": "ladvi",
+    "name": "Koupaliště Ládví",
+    "address": "Ládví, Praha 8",
+    "district": "Praha 8",
+    "website": "https://www.ladvi.cz",
+    "phone": null,
+    "lat": 50.1302,
+    "lng": 14.4691,
+    "multisport": false,
+    "multisport_note": null,
+    "pools": [
+      {
+        "name": "Venkovní bazén 50m",
+        "length": 50,
+        "lanes": 8,
+        "type": "outdoor",
+        "seasonal": true
+      }
+    ],
+    "opening_hours": {
+      "weekday": "9:00–20:00",
+      "weekend": "9:00–20:00",
+      "note": "Sezónní — cca červen – srpen"
+    },
+    "open_hours": {
+      "po": [
+        "09:00",
+        "20:00"
+      ],
+      "ut": [
+        "09:00",
+        "20:00"
+      ],
+      "st": [
+        "09:00",
+        "20:00"
+      ],
+      "ct": [
+        "09:00",
+        "20:00"
+      ],
+      "pa": [
+        "09:00",
+        "20:00"
+      ],
+      "so": [
+        "09:00",
+        "20:00"
+      ],
+      "ne": [
+        "09:00",
+        "20:00"
+      ]
+    },
+    "pricing": [
+      {
+        "label": "Dospělý celodenní",
+        "price": 130
+      },
+      {
+        "label": "Děti celodenní",
+        "price": 80
+      }
+    ],
+    "amenities": [
+      "travnaté plochy",
+      "volejbal",
+      "občerstvení"
+    ],
+    "seasonal": true,
+    "scraper_id": null
+  },
+  {
+    "id": "stirka",
+    "name": "Koupaliště Štírek",
+    "address": "Průmyslová, Praha 10",
+    "district": "Praha 10",
+    "website": "https://www.stirek.cz",
+    "phone": null,
+    "lat": 50.0299,
+    "lng": 14.5614,
+    "multisport": false,
+    "multisport_note": null,
+    "pools": [
+      {
+        "name": "Přírodní koupání + bazén",
+        "length": null,
+        "lanes": null,
+        "type": "outdoor",
+        "seasonal": true
+      }
+    ],
+    "opening_hours": {
+      "weekday": "9:00–20:00",
+      "weekend": "9:00–20:00",
+      "note": "Sezónní — červen – srpen"
+    },
+    "open_hours": {
+      "po": [
+        "09:00",
+        "20:00"
+      ],
+      "ut": [
+        "09:00",
+        "20:00"
+      ],
+      "st": [
+        "09:00",
+        "20:00"
+      ],
+      "ct": [
+        "09:00",
+        "20:00"
+      ],
+      "pa": [
+        "09:00",
+        "20:00"
+      ],
+      "so": [
+        "09:00",
+        "20:00"
+      ],
+      "ne": [
+        "09:00",
+        "20:00"
+      ]
+    },
+    "pricing": [
+      {
+        "label": "Dospělý celodenní",
+        "price": 120
+      },
+      {
+        "label": "Děti celodenní",
+        "price": 70
+      }
+    ],
+    "amenities": [
+      "přírodní koupání",
+      "písečná pláž",
+      "volejbal",
+      "občerstvení"
+    ],
+    "seasonal": true,
+    "scraper_id": null
   }
 ]
