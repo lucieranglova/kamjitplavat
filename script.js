@@ -556,9 +556,28 @@ function buildScheduleHTML(pool, day, poolKey) {
 
   const key = poolKey || Object.keys(poolLaneData)[0];
   const poolInfo = poolLaneData[key];
-  const slots = poolInfo?.schedule?.[day] || [];
+  let slots = poolInfo?.schedule?.[day] || [];
 
   if (!slots.length) return '<p class="lanes-no-data">Pro tento den není rozvrh k dispozici.</p>';
+
+  // Filter slots to opening hours
+  const oh = pool.open_hours?.[day];
+  if (oh) {
+    const openMins  = parseMins(oh[0]);
+    const closeMins = parseMins(oh[1]);
+    slots = slots.filter(s => parseMins(s.to) > openMins && parseMins(s.from) < closeMins);
+    // Clip first/last slot to exact open/close time
+    if (slots.length) {
+      slots = slots.map((s, i) => {
+        let from = s.from, to = s.to;
+        if (i === 0 && parseMins(from) < openMins)  from = oh[0];
+        if (i === slots.length - 1 && parseMins(to) > closeMins) to = oh[1];
+        return { ...s, from, to };
+      });
+    }
+  }
+
+  if (!slots.length) return '<p class="lanes-no-data">V tento den zavřeno.</p>';
 
   const nowMins = new Date().getHours() * 60 + new Date().getMinutes();
   const isToday = day === todayKey();
