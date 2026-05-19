@@ -194,32 +194,81 @@ def parse_csv(rows: list[list[str]], total_lanes: int) -> dict:
         raw += [""] * (TOTAL_SLOTS - len(raw))
         all_rows_by_day[current_day][lane_num] = raw
 
-    # For each day: find "seam" columns where ALL lanes are empty → these are volno boundaries
+    # For each day: find where NEW values start in each lane (these are real boundaries)
+    # A slot is reserved if: it had a value start here OR is between a value start and next value start/end
     result: dict[str, list[dict]] = {}
     for day, lanes_raw in all_rows_by_day.items():
         if not lanes_raw:
             continue
 
-        # Find seam slots: all lanes empty in that slot
-        seams = set()
-        for s in range(TOTAL_SLOTS):
-            if all(lanes_raw.get(ln, [""] * TOTAL_SLOTS)[s].strip() == ""
-                   for ln in range(1, total_lanes + 1)):
-                seams.add(s)
+        # For each lane: find positions where a NEW non-empty value starts
+        # These are real reservation boundaries. Between two starts = reserved.
+        # After last start: reserved until next empty-in-ALL-lanes that hasn't had value before.
+        
+        # Step 1: find value-start positions per lane
+        value_starts: dict[int, list[int]] = {}  # lane -> [slot indices where new value starts]
+        for ln, raw in lanes_raw.items():
+            starts = []
+            for s, cell in enumerate(raw):
+                if cell.strip():
+                    starts.append(s)
+            value_starts[ln] = starts
 
-        # Forward-fill per lane, reset at seam slots
+        # Step 2: for each lane, build reserved array using value extents
+        # A reservation at slot S extends until:
+        #   - the next value-start in the SAME lane (that's a different reservation)
+        #   - OR a slot where this lane is empty AND at least one other lane
+        #     that was ALSO empty here has been empty for N+ consecutive slots
+        # Simpler: use the MINIMUM next-value-start across all lanes as block boundary
+        
+        # Collect all value-start positions across all lanes
+        all_starts = sorted(set(
+            s for starts in value_starts.values() for s in starts
+        ))
+        # Add sentinel at end
+        all_starts.append(TOTAL_SLOTS)
+
+        # For each lane, a reservation block [start, next_boundary) where next_boundary
+        # is the next value-start in ANY lane (or end)
         lane_reserved: dict[int, list[bool]] = {}
         for ln in range(1, total_lanes + 1):
             raw = lanes_raw.get(ln, [""] * TOTAL_SLOTS)
-            res = []
-            current_val = ""
-            for s, cell in enumerate(raw):
-                v = cell.strip()
-                if s in seams:
-                    current_val = ""  # reset at seam
-                if v:
-                    current_val = v
-                res.append(bool(current_val))
+            res = [False] * TOTAL_SLOTS
+            i = 0
+            while i < len(all_starts) - 1:
+                s = all_starts[i]
+                e = all_starts[i + 1]
+                # Is this lane reserved in this block?
+                # Check: does this lane have a value at slot s, OR did it have
+                # a value that started before s and hasn't ended?
+                # Find the last value-start at or before s for this lane
+                lane_val_at_s = raw[s].strip() if s < len(raw) else ""
+                # Check backwards for active reservation
+                active = bool(lane_val_at_s)
+                if not active:
+                    # Look back to find if there's a reservation that started before s
+                    # and no gap (all-lanes-empty) between that start and s
+                    for prev_s in reversed(all_starts[:i]):
+                        prev_val = raw[prev_s].strip() if prev_s < len(raw) else ""
+                        if prev_val:
+                            # Found a previous reservation start — check if it reaches s
+                            # It reaches s if there's no "natural end" between prev_s and s
+                            # Natural end = slot where this lane is empty AND was never
+                            # the start of a value
+                            # Simple check: if no other value started for THIS lane between prev_s and s
+                            lane_starts_between = [x for x in value_starts[ln] 
+                                                   if prev_s < x <= s]
+                            if not lane_starts_between:
+                                active = True
+                            break
+                        # If prev slot had no value in this lane, stop looking back
+                        if not prev_val and prev_s in value_starts.get(ln, []):
+                            break
+                
+                if active:
+                    for slot in range(s, min(e, TOTAL_SLOTS)):
+                        res[slot] = True
+                i += 1
             lane_reserved[ln] = res
 
         # Build per-slot summary
