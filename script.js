@@ -18,7 +18,7 @@ let activeFilters = {
   multi: 'all',
   day: 'today',
   time: 'now',
-  sort: 'name'
+  sort: 'order'
 };
 
 // ─── Helpers ─────────────────────────────────
