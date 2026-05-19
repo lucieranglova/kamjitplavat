@@ -192,7 +192,7 @@ def parse_csv(rows: list[list[str]], total_lanes: int) -> dict:
             continue
         raw = row[3:3 + TOTAL_SLOTS]
         raw += [""] * (TOTAL_SLOTS - len(raw))
-        all_rows_by_day[current_day][lane_num] = raw[:TOTAL_SLOTS]
+        all_rows_by_day[current_day][lane_num] = raw
 
     # For each day: find "seam" columns where ALL lanes are empty → these are volno boundaries
     result: dict[str, list[dict]] = {}
@@ -203,7 +203,7 @@ def parse_csv(rows: list[list[str]], total_lanes: int) -> dict:
         # Find seam slots: all lanes empty in that slot
         seams = set()
         for s in range(TOTAL_SLOTS):
-            if all(lanes_raw.get(ln, [""])[s].strip() == "" 
+            if all(lanes_raw.get(ln, [""] * TOTAL_SLOTS)[s].strip() == ""
                    for ln in range(1, total_lanes + 1)):
                 seams.add(s)
 
