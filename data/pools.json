@@ -11,9 +11,26 @@
     "multisport": true,
     "multisport_note": "60+10 min zdarma, přečas 30 Kč/10 min",
     "pools": [
-      { "name": "Vnitřní 50m", "length": 50, "lanes": 8, "type": "indoor" },
-      { "name": "Venkovní 50m", "length": 50, "lanes": 8, "type": "outdoor", "seasonal": true },
-      { "name": "Venkovní 33m", "length": 33, "lanes": 6, "type": "outdoor", "seasonal": true }
+      {
+        "name": "Vnitřní 50m",
+        "length": 50,
+        "lanes": 8,
+        "type": "indoor"
+      },
+      {
+        "name": "Venkovní 50m",
+        "length": 50,
+        "lanes": 8,
+        "type": "outdoor",
+        "seasonal": true
+      },
+      {
+        "name": "Venkovní 33m",
+        "length": 33,
+        "lanes": 6,
+        "type": "outdoor",
+        "seasonal": true
+      }
     ],
     "opening_hours": {
       "note": "Otevřeno celoročně, zavřeno jen 2 dny na Vánoce a Nový rok",
@@ -21,14 +38,63 @@
       "weekend": "6:00–21:45"
     },
     "pricing": [
-      { "label": "Dospělý 60 min", "price": 110 },
-      { "label": "Dospělý 90 min", "price": 120 },
-      { "label": "Dospělý 120 min", "price": 130 },
-      { "label": "Děti / senioři 60 min", "price": 80 }
+      {
+        "label": "Dospělý 60 min",
+        "price": 110
+      },
+      {
+        "label": "Dospělý 90 min",
+        "price": 120
+      },
+      {
+        "label": "Dospělý 120 min",
+        "price": 130
+      },
+      {
+        "label": "Děti / senioři 60 min",
+        "price": 80
+      }
     ],
-    "amenities": ["sauna", "fitness", "tobogán", "restaurace", "rehabilitace", "solarium"],
+    "amenities": [
+      "sauna",
+      "fitness",
+      "tobogán",
+      "restaurace",
+      "rehabilitace",
+      "solarium"
+    ],
     "lanes_url": "https://pspodoli.cz/cs/obsazenost-bazenu/",
-    "scraper_id": "podoli"
+    "scraper_id": "podoli",
+    "open_hours": {
+      "po": [
+        "06:00",
+        "21:45"
+      ],
+      "ut": [
+        "06:00",
+        "21:45"
+      ],
+      "st": [
+        "06:00",
+        "21:45"
+      ],
+      "ct": [
+        "06:00",
+        "21:45"
+      ],
+      "pa": [
+        "06:00",
+        "21:45"
+      ],
+      "so": [
+        "06:00",
+        "21:45"
+      ],
+      "ne": [
+        "06:00",
+        "21:45"
+      ]
+    }
   },
   {
     "id": "sutka",
@@ -42,21 +108,77 @@
     "multisport": true,
     "multisport_note": "Platí pro vstup do bazénu",
     "pools": [
-      { "name": "50m bazén", "length": 50, "lanes": 8, "type": "indoor" },
-      { "name": "Relaxační bazén", "length": null, "lanes": null, "type": "indoor" }
+      {
+        "name": "50m bazén",
+        "length": 50,
+        "lanes": 8,
+        "type": "indoor"
+      },
+      {
+        "name": "Relaxační bazén",
+        "length": null,
+        "lanes": null,
+        "type": "indoor"
+      }
     ],
     "opening_hours": {
       "weekday": "6:00–22:00",
       "weekend": "10:00–22:00"
     },
     "pricing": [
-      { "label": "Dospělý 60 min", "price": 125 },
-      { "label": "Děti (do 15 let) 60 min", "price": 80 },
-      { "label": "Studenti / senioři / ZTP 60 min", "price": 95 }
+      {
+        "label": "Dospělý 60 min",
+        "price": 125
+      },
+      {
+        "label": "Děti (do 15 let) 60 min",
+        "price": 80
+      },
+      {
+        "label": "Studenti / senioři / ZTP 60 min",
+        "price": 95
+      }
     ],
-    "amenities": ["aquapark", "tobogán", "vířivka", "divoká řeka", "vodopád", "bar"],
+    "amenities": [
+      "aquapark",
+      "tobogán",
+      "vířivka",
+      "divoká řeka",
+      "vodopád",
+      "bar"
+    ],
     "lanes_url": "https://www.sutka.eu/rezervace",
-    "scraper_id": "sutka"
+    "scraper_id": "sutka",
+    "open_hours": {
+      "po": [
+        "06:00",
+        "22:00"
+      ],
+      "ut": [
+        "06:00",
+        "22:00"
+      ],
+      "st": [
+        "06:00",
+        "22:00"
+      ],
+      "ct": [
+        "06:00",
+        "22:00"
+      ],
+      "pa": [
+        "06:00",
+        "22:00"
+      ],
+      "so": [
+        "10:00",
+        "22:00"
+      ],
+      "ne": [
+        "10:00",
+        "22:00"
+      ]
+    }
   },
   {
     "id": "hostivar",
@@ -70,7 +192,12 @@
     "multisport": false,
     "multisport_note": null,
     "pools": [
-      { "name": "Krytý 25m", "length": 25, "lanes": 6, "type": "indoor" }
+      {
+        "name": "Krytý 25m",
+        "length": 25,
+        "lanes": 6,
+        "type": "indoor"
+      }
     ],
     "opening_hours": {
       "note": "Omezený provoz, primárně pro UK. Zavřeno léto.",
@@ -78,11 +205,46 @@
       "weekend": "dle rozvrhu"
     },
     "pricing": [
-      { "label": "Dospělý 60 min", "price": 90 }
+      {
+        "label": "Dospělý 60 min",
+        "price": 90
+      }
     ],
-    "amenities": ["skokanská věž"],
+    "amenities": [
+      "skokanská věž"
+    ],
     "lanes_url": null,
-    "scraper_id": null
+    "scraper_id": null,
+    "open_hours": {
+      "po": [
+        "06:00",
+        "22:00"
+      ],
+      "ut": [
+        "06:00",
+        "22:00"
+      ],
+      "st": [
+        "06:00",
+        "22:00"
+      ],
+      "ct": [
+        "06:00",
+        "22:00"
+      ],
+      "pa": [
+        "06:00",
+        "22:00"
+      ],
+      "so": [
+        "08:00",
+        "22:00"
+      ],
+      "ne": [
+        "08:00",
+        "22:00"
+      ]
+    }
   },
   {
     "id": "prazacka",
@@ -96,20 +258,70 @@
     "multisport": false,
     "multisport_note": null,
     "pools": [
-      { "name": "Krytý bazén 16,7m", "length": 16.7, "lanes": 3, "type": "indoor" },
-      { "name": "Venkovní bazén 26m", "length": 26, "lanes": null, "type": "outdoor", "seasonal": true }
+      {
+        "name": "Krytý bazén 16,7m",
+        "length": 16.7,
+        "lanes": 3,
+        "type": "indoor"
+      },
+      {
+        "name": "Venkovní bazén 26m",
+        "length": 26,
+        "lanes": null,
+        "type": "outdoor",
+        "seasonal": true
+      }
     ],
     "opening_hours": {
       "weekday": "6:00–8:00, 19:30–21:30",
       "weekend": "10:00–18:30"
     },
     "pricing": [
-      { "label": "Dospělý 60 min", "price": 65 },
-      { "label": "Dospělý 90 min", "price": 90 }
+      {
+        "label": "Dospělý 60 min",
+        "price": 65
+      },
+      {
+        "label": "Dospělý 90 min",
+        "price": 90
+      }
     ],
-    "amenities": ["nejtepleší voda v Praze", "výhled na město"],
+    "amenities": [
+      "nejtepleší voda v Praze",
+      "výhled na město"
+    ],
     "lanes_url": null,
-    "scraper_id": null
+    "scraper_id": null,
+    "open_hours": {
+      "po": [
+        "06:00",
+        "08:00"
+      ],
+      "ut": [
+        "06:00",
+        "08:00"
+      ],
+      "st": [
+        "06:00",
+        "08:00"
+      ],
+      "ct": [
+        "06:00",
+        "08:00"
+      ],
+      "pa": [
+        "06:00",
+        "08:00"
+      ],
+      "so": [
+        "10:00",
+        "18:30"
+      ],
+      "ne": [
+        "10:00",
+        "18:30"
+      ]
+    }
   },
   {
     "id": "vystaviste",
@@ -123,19 +335,63 @@
     "multisport": false,
     "multisport_note": null,
     "pools": [
-      { "name": "Krytý 25m", "length": 25, "lanes": 6, "type": "indoor" }
+      {
+        "name": "Krytý 25m",
+        "length": 25,
+        "lanes": 6,
+        "type": "indoor"
+      }
     ],
     "opening_hours": {
       "weekday": "7:00–21:30",
       "weekend": "10:00–20:00"
     },
     "pricing": [
-      { "label": "Dospělý 60 min", "price": 100 },
-      { "label": "Dospělý 90 min", "price": 130 }
+      {
+        "label": "Dospělý 60 min",
+        "price": 100
+      },
+      {
+        "label": "Dospělý 90 min",
+        "price": 130
+      }
     ],
-    "amenities": ["parní sauna", "bezbariérový přístup"],
+    "amenities": [
+      "parní sauna",
+      "bezbariérový přístup"
+    ],
     "lanes_url": null,
-    "scraper_id": null
+    "scraper_id": null,
+    "open_hours": {
+      "po": [
+        "07:00",
+        "21:30"
+      ],
+      "ut": [
+        "07:00",
+        "21:30"
+      ],
+      "st": [
+        "07:00",
+        "21:30"
+      ],
+      "ct": [
+        "07:00",
+        "21:30"
+      ],
+      "pa": [
+        "07:00",
+        "21:30"
+      ],
+      "so": [
+        "10:00",
+        "20:00"
+      ],
+      "ne": [
+        "10:00",
+        "20:00"
+      ]
+    }
   },
   {
     "id": "slavia",
@@ -149,8 +405,19 @@
     "multisport": false,
     "multisport_note": null,
     "pools": [
-      { "name": "Krytý 25m", "length": 25, "lanes": 5, "type": "indoor" },
-      { "name": "Venkovní 50m", "length": 50, "lanes": 8, "type": "outdoor", "seasonal": true }
+      {
+        "name": "Krytý 25m",
+        "length": 25,
+        "lanes": 5,
+        "type": "indoor"
+      },
+      {
+        "name": "Venkovní 50m",
+        "length": 50,
+        "lanes": 8,
+        "type": "outdoor",
+        "seasonal": true
+      }
     ],
     "opening_hours": {
       "mon": "6:00–9:00",
@@ -160,13 +427,55 @@
       "weekend": "9:00–19:00"
     },
     "pricing": [
-      { "label": "Dospělý 60 min", "price": 100 },
-      { "label": "Dospělý 90 min", "price": 100 },
-      { "label": "Dospělý 120 min", "price": 110 }
+      {
+        "label": "Dospělý 60 min",
+        "price": 100
+      },
+      {
+        "label": "Dospělý 90 min",
+        "price": 100
+      },
+      {
+        "label": "Dospělý 120 min",
+        "price": 110
+      }
     ],
-    "amenities": ["venkovní bazén (léto)", "výukový dětský bazén"],
+    "amenities": [
+      "venkovní bazén (léto)",
+      "výukový dětský bazén"
+    ],
     "lanes_url": null,
-    "scraper_id": null
+    "scraper_id": null,
+    "open_hours": {
+      "po": [
+        "06:00",
+        "09:00"
+      ],
+      "ut": [
+        "06:00",
+        "14:15"
+      ],
+      "st": [
+        "06:00",
+        "14:00"
+      ],
+      "ct": [
+        "06:00",
+        "14:00"
+      ],
+      "pa": [
+        "06:00",
+        "20:00"
+      ],
+      "so": [
+        "09:00",
+        "19:00"
+      ],
+      "ne": [
+        "09:00",
+        "19:00"
+      ]
+    }
   },
   {
     "id": "hloubetín",
@@ -180,21 +489,74 @@
     "multisport": true,
     "multisport_note": "Platí pro vstup do bazénu",
     "pools": [
-      { "name": "Krytý 25m (slaná voda)", "length": 25, "lanes": 6, "type": "indoor" },
-      { "name": "Krytý 25m (slaná voda) #2", "length": 25, "lanes": 6, "type": "indoor" }
+      {
+        "name": "Krytý 25m (slaná voda)",
+        "length": 25,
+        "lanes": 6,
+        "type": "indoor"
+      },
+      {
+        "name": "Krytý 25m (slaná voda) #2",
+        "length": 25,
+        "lanes": 6,
+        "type": "indoor"
+      }
     ],
     "opening_hours": {
       "weekday": "6:00–22:00",
       "weekend": "8:00–22:00"
     },
     "pricing": [
-      { "label": "Dospělý 60 min", "price": 120 },
-      { "label": "Studenti 60 min", "price": 110 },
-      { "label": "Důchodci 60 min", "price": 100 }
+      {
+        "label": "Dospělý 60 min",
+        "price": 120
+      },
+      {
+        "label": "Studenti 60 min",
+        "price": 110
+      },
+      {
+        "label": "Důchodci 60 min",
+        "price": 100
+      }
     ],
-    "amenities": ["slaná voda", "venkovní bazén", "parní lázně"],
+    "amenities": [
+      "slaná voda",
+      "venkovní bazén",
+      "parní lázně"
+    ],
     "lanes_url": null,
-    "scraper_id": null
+    "scraper_id": null,
+    "open_hours": {
+      "po": [
+        "06:00",
+        "22:00"
+      ],
+      "ut": [
+        "06:00",
+        "22:00"
+      ],
+      "st": [
+        "06:00",
+        "22:00"
+      ],
+      "ct": [
+        "06:00",
+        "22:00"
+      ],
+      "pa": [
+        "06:00",
+        "22:00"
+      ],
+      "so": [
+        "08:00",
+        "22:00"
+      ],
+      "ne": [
+        "08:00",
+        "22:00"
+      ]
+    }
   },
   {
     "id": "ymca",
@@ -208,7 +570,12 @@
     "multisport": false,
     "multisport_note": null,
     "pools": [
-      { "name": "Podzemní 25m", "length": 25, "lanes": 4, "type": "indoor" }
+      {
+        "name": "Podzemní 25m",
+        "length": 25,
+        "lanes": 4,
+        "type": "indoor"
+      }
     ],
     "opening_hours": {
       "weekday": "6:30–22:00",
@@ -217,10 +584,46 @@
       "sun": "13:00–21:00"
     },
     "pricing": [
-      { "label": "Dospělý 60 min", "price": 110 }
+      {
+        "label": "Dospělý 60 min",
+        "price": 110
+      }
     ],
-    "amenities": ["centrum Prahy", "aqua aerobik"],
+    "amenities": [
+      "centrum Prahy",
+      "aqua aerobik"
+    ],
     "lanes_url": null,
-    "scraper_id": null
+    "scraper_id": null,
+    "open_hours": {
+      "po": [
+        "06:30",
+        "22:00"
+      ],
+      "ut": [
+        "06:30",
+        "22:00"
+      ],
+      "st": [
+        "06:30",
+        "22:00"
+      ],
+      "ct": [
+        "06:30",
+        "22:00"
+      ],
+      "pa": [
+        "06:30",
+        "22:00"
+      ],
+      "so": [
+        "06:30",
+        "22:00"
+      ],
+      "ne": [
+        "06:30",
+        "22:00"
+      ]
+    }
   }
 ]

@@ -42,6 +42,15 @@ function parseMins(str) {
   return h * 60 + (m || 0);
 }
 
+function isPoolOpen(pool, day, timeMins) {
+  const oh = pool.open_hours;
+  if (!oh) return true; // no data = assume open
+  const dayHours = oh[day];
+  if (!dayHours) return true;
+  const [openStr, closeStr] = dayHours;
+  return timeMins >= parseMins(openStr) && timeMins < parseMins(closeStr);
+}
+
 function getSlotAtTime(poolLaneData, day, timeMins, poolKey) {
   if (!poolLaneData) return null;
   const key = poolKey || Object.keys(poolLaneData)[0];
@@ -232,7 +241,7 @@ function cardHTML(pool, idx, day, timeMins) {
     `${p.length ? p.length + 'm' : ''}${p.seasonal ? ' ☀' : ''}</span>`
   ).join('');
 
-  const weekdayHours = pool.opening_hours.weekday || pool.opening_hours.note || '—';
+  const weekdayHours = getOpenHoursForDay(pool, day);
   const lanesSummary = buildLanesSummary(pool, day, timeMins);
   const timeLabel = activeFilters.time === 'now' ? 'Právě teď' : activeFilters.time;
 
@@ -262,7 +271,17 @@ function cardHTML(pool, idx, day, timeMins) {
     </article>`;
 }
 
-function buildLanesSummary(pool, day, timeMins) {
+function getOpenHoursForDay(pool, day) {
+  const oh = pool.open_hours;
+  if (oh && oh[day]) return oh[day].join('–');
+  // fallback to text
+  const ohText = pool.opening_hours;
+  const isWeekend = day === 'so' || day === 'ne';
+  return (isWeekend ? ohText.weekend : ohText.weekday) || ohText.note || '—';
+}
+    return `<span class="lane-count closed">zavřeno</span>`;
+  }
+
   const poolLaneData = lanesData[pool.id];
   if (!poolLaneData) {
     return `<span class="lane-count no-data">data nejsou k dispozici</span>`;
