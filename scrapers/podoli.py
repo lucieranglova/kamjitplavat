@@ -14,7 +14,6 @@ from pathlib import Path
 
 try:
     import requests
-    from bs4 import BeautifulSoup
 except ImportError:
     sys.exit(1)
 
@@ -41,7 +40,7 @@ POOLS = {
         "slot_min": 15,
         "start_hour": 6,
         "end_hour": 22,
-        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vR854rTLdUeeKfN7voCtEPgsYaRqsTWmsq0IGz3UmJ_F4fzsRIiHNoT9P0hcX_TwiRc0yCZOVBlmPiR/pubhtml",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vR854rTLdUeeKfN7voCtEPgsYaRqsTWmsq0IGz3UmJ_F4fzsRIiHNoT9P0hcX_TwiRc0yCZOVBlmPiR/pub?output=csv&gid=0",
     },
     "outdoor_33m": {
         "name": "Venkovní 33m",
@@ -50,7 +49,7 @@ POOLS = {
         "slot_min": 15,
         "start_hour": 6,
         "end_hour": 22,
-        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQrNP5TxfHgKq4zQkoku-QP7q4_dTuu_O2g_4TMmW-gPoXW1dBaWpJX8-1H_FqglublvpeFdDqmucPH/pubhtml",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQrNP5TxfHgKq4zQkoku-QP7q4_dTuu_O2g_4TMmW-gPoXW1dBaWpJX8-1H_FqglublvpeFdDqmucPH/pub?output=csv&gid=0",
     },
     "outdoor_50m": {
         "name": "Venkovní 50m",
@@ -59,88 +58,129 @@ POOLS = {
         "slot_min": 15,
         "start_hour": 6,
         "end_hour": 22,
-        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRC_joLhOV1adM_gSW9h7mIBdj1g-dMd1AFVd7qSFGaNWodOCQ9KgL4BeY0yyYf7GHk-BNSR96p6i_2/pubhtml",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRC_joLhOV1adM_gSW9h7mIBdj1g-dMd1AFVd7qSFGaNWodOCQ9KgL4BeY0yyYf7GHk-BNSR96p6i_2/pub?output=csv&gid=0",
     },
 }
 
 
-def detect_day(text: str) -> str | None:
-    for word in re.split(r"[\s\xa0\n|]+", text.lower()):
-        word = re.sub(r"[^\w]", "", word)
-        if word in CZ_DAYS:
-            return CZ_DAYS[word]
-    return None
+def fetch_csv(url: str) -> list[list[str]] | None:
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=15, allow_redirects=True)
+        r.raise_for_status()
+        print(f"  CSV len={len(r.text)}, status={r.status_code}")
+        import csv, io
+        reader = csv.reader(io.StringIO(r.text))
+        rows = [row for row in reader]
+        print(f"  CSV rows={len(rows)}, cols={len(rows[0]) if rows else 0}")
+        # Show first 5 rows for debug
+        for i, row in enumerate(rows[:5]):
+            print(f"  row{i}: {row[:6]}")
+        return rows
+    except Exception as e:
+        print(f"  CSV error: {e}", file=sys.stderr)
+        return None
 
 
-def cell_is_reserved(td) -> bool:
-    """Any cell with non-empty text content = reserved."""
-    return bool(td.get_text(strip=True))
-
-
-def is_header_row(tds) -> bool:
-    """Header: first cell has colspan=2 and second cell text looks like a time."""
-    if not tds:
-        return False
-    cs = tds[0].get("colspan","")
-    if cs in ("2","3"):
-        for td in tds[1:4]:
-            t = td.get_text(strip=True)
-            if re.match(r"^\d{1,2}:\d{2}$", t):
-                return True
-    return False
-
-
-def parse_pool(html: str, total_lanes: int, slot_min: int, start_hour: int, end_hour: int) -> dict:
-    soup = BeautifulSoup(html, "html.parser")
-    table = soup.find("table")
-    if not table:
+def parse_csv(rows: list[list[str]], total_lanes: int, slot_min: int, start_hour: int) -> dict:
+    """
+    CSV layout from Podolí sheet (based on screenshot):
+      Row 0: nadpis (skip)
+      Row 1: empty + hodiny (6.00, 7.00...)
+      Row 2: barevné bloky label (skip)
+      Row 3+: data — col0=den+datum or lane num, col1=lane num or slot, col2+=slots
+    Each non-empty cell = reserved, empty = volno.
+    colspan is lost in CSV — each merged cell appears once, rest are empty.
+    We expand by detecting transitions.
+    """
+    if not rows or len(rows) < 3:
         return {}
 
-    rows = table.find_all("tr")
-    total_slots = (end_hour - start_hour) * (60 // slot_min)
+    # Find header row with hours
+    hour_row_idx = None
+    time_re = re.compile(r"^\d{1,2}[.:]\d{2}$")
+    for i, row in enumerate(rows):
+        matches = sum(1 for c in row if time_re.match(c.strip()))
+        if matches >= 4:
+            hour_row_idx = i
+            break
 
+    if hour_row_idx is None:
+        print("  No hour row found", file=sys.stderr)
+        return {}
+
+    print(f"  Hour row at index {hour_row_idx}")
+
+    # Build slot count from hour row
+    hour_row = rows[hour_row_idx]
+    # Count non-empty cells after first two (day/lane cols)
+    n_cols = len(hour_row)
+    # Data cols start after day+lane cols (first 2)
+    data_col_start = 2
+    total_slots = (22 - start_hour) * (60 // slot_min)  # 64
+
+    # Parse data rows
     lane_data: dict[str, dict[int, list[bool]]] = {}
     current_day = None
 
-    for row in rows:
-        tds = row.find_all(["td","th"])
-        if not tds:
-            continue
-        if is_header_row(tds):
+    for row in rows[hour_row_idx + 2:]:  # skip hour row + colour-label row
+        if not row or all(c.strip() == "" for c in row):
             continue
 
-        cell0_text = tds[0].get_text(separator="|", strip=True)
+        col0 = row[0].strip() if row else ""
+        col1 = row[1].strip() if len(row) > 1 else ""
 
-        # Row with day label (rowspan=8): detect day, lane=1, slots from index 2
-        if tds[0].get("rowspan") in ("8","6","7"):
-            day = detect_day(cell0_text)
-            if not day:
-                continue
+        # Detect day in col0
+        day = detect_day(col0)
+        if day:
             current_day = day
             lane_data.setdefault(day, {})
-            lane_text = tds[1].get_text(strip=True) if len(tds) > 1 else ""
-            if not lane_text.isdigit():
+            # Lane number after day text — look for digit in col0 or col1
+            lane_num = None
+            for part in re.split(r"[\s\n]+", col0):
+                if part.isdigit() and 1 <= int(part) <= total_lanes:
+                    lane_num = int(part)
+                    break
+            if lane_num is None and col1.isdigit() and 1 <= int(col1) <= total_lanes:
+                lane_num = int(col1)
+                slot_start = data_col_start
+            elif lane_num is not None:
+                slot_start = data_col_start
+            else:
                 continue
-            lane_num = int(lane_text)
-            slot_tds = tds[2:]
-
-        # Rows for lanes 2-N: lane num in cell 0, slots from index 1
-        elif current_day and cell0_text.isdigit() and 1 <= int(cell0_text) <= total_lanes:
-            lane_num = int(cell0_text)
-            slot_tds = tds[1:]
-
+        elif current_day and col0.isdigit() and 1 <= int(col0) <= total_lanes:
+            lane_num = int(col0)
+            slot_start = 1
+        elif current_day and col1.isdigit() and 1 <= int(col1) <= total_lanes:
+            lane_num = int(col1)
+            slot_start = data_col_start
         else:
             continue
 
-        reserved = []
-        for td in slot_tds:
-            cs = int(td.get("colspan", 1))
-            is_res = cell_is_reserved(td)
-            reserved.extend([is_res] * cs)
+        # Read slot cells — in CSV, colspan means value appears once then empty
+        # We treat non-empty = reserved for that slot, propagate forward until next non-empty or empty
+        raw_slots = row[slot_start:]
 
-        reserved = reserved[:total_slots]
-        reserved += [False] * (total_slots - len(reserved))
-        lane_data[current_day][lane_num] = reserved
+        # Expand: each cell in CSV represents one slot (colspan is flattened)
+        # But merged cells in GSheets export: first cell has value, subsequent are empty
+        # Strategy: non-empty = new reservation starts, empty after non-empty = reservation continues
+        # empty after empty = volno
+        reserved_slots: list[bool] = []
+        last_was_reserved = False
+        for cell in raw_slots:
+            val = cell.strip()
+            if val:
+                reserved_slots.append(True)
+                last_was_reserved = True
+            else:
+                # Empty after reservation could be continuation of colspan OR genuinely free
+                # In GSheets CSV, merged cell: first=value, rest=empty up to next cell
+                # We can't reliably distinguish — treat empty as volno (conservative)
+                reserved_slots.append(False)
+                last_was_reserved = False
+
+        reserved_slots = reserved_slots[:total_slots]
+        reserved_slots += [False] * (total_slots - len(reserved_slots))
+        lane_data[current_day][lane_num] = reserved_slots
 
     if not lane_data:
         return {}
@@ -186,16 +226,6 @@ def parse_pool(html: str, total_lanes: int, slot_min: int, start_hour: int, end_
     return result
 
 
-def fetch(url: str) -> str | None:
-    try:
-        r = requests.get(url, headers=HEADERS, timeout=15)
-        r.raise_for_status()
-        return r.text
-    except Exception as e:
-        print(f"  HTTP error: {e}", file=sys.stderr)
-        return None
-
-
 def main():
     lanes_path = Path(__file__).parent.parent / "data" / "lanes.json"
     existing = json.loads(lanes_path.read_text("utf-8")) if lanes_path.exists() \
@@ -205,15 +235,13 @@ def main():
     podoli_data = {}
     for pool_id, cfg in POOLS.items():
         print(f"[Podolí] {cfg['name']}…")
-        html = fetch(cfg["url"])
-        if not html:
-            print(f"  → skip (HTTP error)")
+        rows = fetch_csv(cfg["url"])
+        if not rows:
+            print(f"  → skip (fetch error)")
             continue
-        schedule = parse_pool(
-            html, cfg["total_lanes"], cfg["slot_min"],
-            cfg["start_hour"], cfg["end_hour"]
+        schedule = parse_csv(
+            rows, cfg["total_lanes"], cfg["slot_min"], cfg["start_hour"]
         )
-        print(f"  HTML len={len(html)}, tables={html.count('<table')}, rows hint={'<tr' in html}")
         if not schedule:
             print(f"  → no data parsed", file=sys.stderr)
             continue
