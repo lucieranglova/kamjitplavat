@@ -83,6 +83,7 @@ def parse(html: str) -> dict:
 
     schedule: dict[str, dict[int, list[bool]]] = {}  # day -> lane -> [reserved]
     current_day = None
+    debug_shown = 0
 
     for row in rows[1:]:
         cells = row.find_all("td")
@@ -91,7 +92,12 @@ def parse(html: str) -> dict:
 
         texts = [c.get_text(" ", strip=True) for c in cells]
 
-        # Detect if first cell is a day label (contains day abbreviation)
+        # Debug: show first 10 rows
+        if debug_shown < 10:
+            print(f"[Šutka debug] row texts[:3]: {texts[:3]}")
+            debug_shown += 1
+
+        # Detect if first cell is a day label
         first = texts[0].lower().split()[0] if texts[0] else ""
         if first in CZ_DAYS:
             current_day = CZ_DAYS[first]
