@@ -221,6 +221,16 @@ def main():
         rows = fetch_csv(cfg["url"])
         if not rows:
             continue
+        hour_col = find_hour_col(rows)
+        print(f"  hour_col={hour_col}")
+        # Show hour row non-empty
+        hr = next((r for r in rows[:5] if any(re.match(r'^6[.,]', c.strip()) for c in r)), [])
+        print(f"  hour row nonempty: {[(j,c.strip()) for j,c in enumerate(hr) if c.strip()][:8]}")
+        # Show first day rows non-empty
+        data_start = next((i for i,r in enumerate(rows) if detect_day(r[1].strip() if len(r)>1 else '')), None)
+        if data_start is not None:
+            for i in range(data_start, min(data_start+3, len(rows))):
+                print(f"  row{i} {rows[i][1].strip()}: {[(j,c.strip()) for j,c in enumerate(rows[i]) if c.strip() and j>1][:6]}")
         schedule = parse_csv(rows, cfg["total_lanes"])
         if not schedule:
             print(f"  → no data", file=sys.stderr)
