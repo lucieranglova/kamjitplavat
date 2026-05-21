@@ -140,10 +140,11 @@ def parse_csv(rows: list, total_lanes: int) -> dict:
             continue
 
         # Collect all non-empty slot columns for this lane
+        # Ignore: col < 2 (label cols), very long text (explanatory notes, not reservations)
         lane_events = []
         for col_idx in range(2, len(row)):
             v = row[col_idx].strip()
-            if v:
+            if v and len(v) < 60:  # skip long explanatory texts
                 lane_events.append((col_idx, v))
 
         events[current_day][lane_num] = lane_events
@@ -163,11 +164,8 @@ def parse_csv(rows: list, total_lanes: int) -> dict:
             # Each event: reserved from its col until next event col (or end)
             for ei, (col, val) in enumerate(lane_evts):
                 next_col = lane_evts[ei + 1][0] if ei + 1 < len(lane_evts) else end_col
-                start_slot = col - hour_col
-                end_slot   = next_col - hour_col
-                # Clamp
-                start_slot = max(0, min(start_slot, n_slots))
-                end_slot   = max(0, min(end_slot, n_slots))
+                start_slot = max(0, col - hour_col)  # clamp: col before 6:00 → slot 0
+                end_slot   = max(0, min(next_col - hour_col, n_slots))
                 for s in range(start_slot, end_slot):
                     res[s] = True
             lane_reserved[ln] = res
