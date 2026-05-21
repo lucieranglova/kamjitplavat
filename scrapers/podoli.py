@@ -19,14 +19,19 @@ def main():
     r.raise_for_status()
     rows = list(csv.reader(io.StringIO(r.content.decode("utf-8", errors="replace"))))
     print(f"[Podolí debug] {len(rows)} rows, {len(rows[0]) if rows else 0} cols")
-    print("=== ALL ROWS, FIRST 10 CELLS ===")
-    for i, row in enumerate(rows):
-        # Show index + value for each of first 10 cells, mark empty vs non-empty
-        cells = []
-        for j, c in enumerate(row[:10]):
-            v = c.strip()
-            cells.append(f"c{j}={'['+v[:8]+']' if v else '_'}")
-        print(f"  ROW {i:02d} ({len(row)} cols): {' '.join(cells)}")
+    
+    # Show hour row completely
+    print("=== HOUR ROW (row 2) — non-empty cells only ===")
+    for j, c in enumerate(rows[2]):
+        if c.strip():
+            print(f"  c{j}='{c.strip()}'")
+    
+    # Show pondělí rows (4-11) — ALL non-empty cells
+    print("=== PONDĚLÍ ROWS (4-11) — non-empty cells only ===")
+    for i in range(4, 12):
+        row = rows[i]
+        nonempty = [(j, c.strip()) for j, c in enumerate(row) if c.strip()]
+        print(f"  ROW {i} ({rows[i][1].strip()}): {nonempty}")
 
 if __name__ == "__main__":
     main()
