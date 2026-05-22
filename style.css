@@ -832,7 +832,7 @@ a:hover { text-decoration: underline; }
   font-family: 'DM Sans', sans-serif;
 }
 
-.modal-amenities { display: flex; flex-wrap: wrap; gap: 0; }
+.modal-amenities { display: flex; flex-wrap: wrap; gap: 0; row-gap: 6px; }
 .amenity-tag {
   background: var(--grey);
   border: var(--border-thin);
@@ -995,19 +995,13 @@ a:hover { text-decoration: underline; }
   .modal-multi-banner { padding: 10px 12px; font-size: 0.82rem; }
   .modal-website-btn { padding: 12px; font-size: 0.82rem; }
 
-  /* Amenity tags — gap místo shared borders při zalamování */
-  .modal-amenities { display: flex; flex-wrap: wrap; gap: 6px; }
-  .amenity-tag {
-    padding: 4px 10px;
-    font-size: 0.72rem;
-    border: var(--border-thin) !important;
-  }
+  /* Amenity tags — gap between rows when wrapping */
+  .modal-amenities { gap: 6px; }
+  .amenity-tag { font-size: 0.72rem; border-right: var(--border-thin); }
 
-  /* Pool rows — gap a plné bordery */
-  .modal-pools-list { display: flex; flex-direction: column; gap: 6px; }
-  .modal-pool-row {
-    border: var(--border-thin) !important;
-  }
+  /* Pool rows — gap between items */
+  .modal-pools-list { gap: 6px; }
+  .modal-pool-row { border: var(--border-thin); }
 
   /* Map */
   .map-section { padding: 32px 0; }
