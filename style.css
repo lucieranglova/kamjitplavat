@@ -871,95 +871,133 @@ a:hover { text-decoration: underline; }
 
 @media (max-width: 600px) {
   /* Global */
-  .container { padding: 0 16px; }
+  .container { padding: 0 12px; }
 
   /* Header */
-  .hero-title { font-size: 3rem; line-height: 0.9; }
-  .hero-kicker { font-size: 0.68rem; }
-  .hero-sub { font-size: 0.9rem; }
-  .header-topbar { padding: 14px 16px; }
-  .header-nav a { padding: 4px 8px; font-size: 0.78rem; }
+  .hero-title { font-size: 2.8rem; line-height: 0.92; margin-bottom: 14px; }
+  .hero-kicker { font-size: 0.65rem; margin-bottom: 8px; }
+  .hero-sub { font-size: 0.88rem; margin-bottom: 18px; }
+  .header-topbar { padding: 12px 16px; }
+  .header-nav { gap: 0; }
+  .header-nav a { padding: 4px 10px; font-size: 0.76rem; }
+  .header-hero { padding: 16px 16px 0; gap: 0; }
 
-  /* Filters — stack vertically, full width groups */
-  .filters-bar .container { padding: 0 16px; }
-  .filters-row { flex-direction: column; gap: 12px; padding: 14px 0 10px; }
+  /* Filters — stack vertically */
+  .filters-bar .container { padding: 0 12px; }
+  .filters-row {
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 0 10px;
+  }
   .filter-group { width: 100%; }
-  #search-input { width: 100%; }
-  .toggle-group { flex-wrap: wrap; }
-  .toggle { padding: 7px 12px; font-size: 0.78rem; flex: 1; text-align: center; }
-  /* Day toggles — 4 per row */
-  #filter-day .toggle { flex: 0 0 calc(25% - 3px); }
-  #sort-select, #time-select { width: 100%; }
+  #search-input { width: 100%; box-sizing: border-box; }
+
+  /* Toggle groups — wrap naturally */
+  .toggle-group { flex-wrap: wrap; gap: 0; }
+  .toggle {
+    padding: 8px 10px;
+    font-size: 0.76rem;
+    flex: 1;
+    text-align: center;
+    min-width: 44px;
+  }
+  /* Day toggles — 4+4 layout */
+  #filter-day { gap: 0; }
+  #filter-day .toggle { flex: 0 0 calc(12.5% - 0px); min-width: 0; padding: 8px 4px; }
+
+  /* Selects full width */
+  #sort-select, #time-select { width: 100%; box-sizing: border-box; }
 
   /* Pool grid */
   #pool-grid {
     grid-template-columns: 1fr;
-    padding: 16px;
-    gap: 16px;
+    padding: 12px;
+    gap: 12px;
   }
 
+  /* Section divider */
+  .section-divider { margin: 4px 0; }
+
   /* Cards */
-  .card-name { font-size: 1.2rem; }
+  .card-name { font-size: 1.15rem; }
+  .card-body { padding: 14px 14px 10px; }
+  .card-footer { padding: 8px 14px 14px; gap: 6px; }
+  .card-pools { gap: 4px; }
+  .lanes-summary { padding: 8px 14px; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .lane-count { width: auto; font-size: 0.76rem; }
+  .lane-row { flex-wrap: wrap; gap: 4px; }
+  .lane-row-name { min-width: 80px; font-size: 0.68rem; }
+  .btn { padding: 10px 10px; font-size: 0.76rem; }
 
-  /* Lanes summary — keep pills inline, don't stretch */
-  .lanes-summary { flex-direction: column; align-items: flex-start; }
-  .lane-count { width: auto; }  /* don't stretch to full width */
-  .lane-row { flex-wrap: wrap; }
-
-  /* Modal */
+  /* Modal — bottom sheet */
   .modal-overlay { padding: 0; align-items: flex-end; }
   .modal {
-    max-height: 92vh;
+    max-height: 94vh;
     border-radius: 0;
     border-left: none;
     border-right: none;
     border-bottom: none;
   }
-  .modal-content { padding: 16px 16px 32px; }
-  .modal-title { font-size: 1.5rem; }
+  .modal-content { padding: 14px 14px 32px; }
+  .modal-title { font-size: 1.35rem; padding-right: 36px; }
+  .modal-address { font-size: 0.82rem; margin-bottom: 14px; }
 
-  /* Pool tabs — scroll horizontally instead of wrapping */
+  /* Pool tabs — horizontal scroll */
   .pool-tabs {
     overflow-x: auto;
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 2px;
+    scrollbar-width: none;
+    padding-bottom: 0;
+    gap: 0;
   }
+  .pool-tabs::-webkit-scrollbar { display: none; }
   .pool-tab {
     white-space: nowrap;
     flex-shrink: 0;
+    padding: 7px 12px;
+    font-size: 0.74rem;
   }
 
-  /* Day tabs — all 7 on one line, smaller */
+  /* Day tabs — horizontal scroll */
   .day-tabs {
     overflow-x: auto;
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 2px;
+    scrollbar-width: none;
+    gap: 0;
   }
+  .day-tabs::-webkit-scrollbar { display: none; }
   .day-tab {
     flex-shrink: 0;
-    padding: 6px 10px;
-    font-size: 0.72rem;
+    padding: 7px 11px;
+    font-size: 0.74rem;
   }
 
-  /* Schedule rows — stack time+type on top, lanes below */
+  /* Schedule rows — 2 line layout */
   .schedule-row {
     display: grid;
     grid-template-columns: auto auto 1fr;
     grid-template-rows: auto auto;
-    gap: 6px 8px;
-    padding: 10px 10px;
-    align-items: center;
+    gap: 5px 8px;
+    padding: 9px 10px;
   }
-  .schedule-time { grid-column: 1; grid-row: 1; min-width: auto; font-size: 0.75rem; }
-  .sch-type      { grid-column: 2; grid-row: 1; }
-  .sch-counts    { grid-column: 3; grid-row: 1; text-align: right; font-size: 0.68rem; }
-  .sch-lanes     { grid-column: 1 / -1; grid-row: 2; flex-wrap: wrap; }
-  .sch-lane      { width: 24px; height: 24px; font-size: 0.68rem; }
+  .schedule-time { grid-column: 1; grid-row: 1; min-width: auto; font-size: 0.74rem; }
+  .sch-type      { grid-column: 2; grid-row: 1; font-size: 0.66rem; padding: 2px 6px; }
+  .sch-counts    { grid-column: 3; grid-row: 1; text-align: right; font-size: 0.66rem; }
+  .sch-lanes     { grid-column: 1 / -1; grid-row: 2; flex-wrap: wrap; gap: 2px; }
+  .sch-lane      { width: 22px; height: 22px; font-size: 0.64rem; }
 
-  /* Map section */
+  /* Modal sections */
+  .modal-section { margin-bottom: 16px; }
+  .modal-pool-row { padding: 8px 10px; font-size: 0.82rem; }
+  .modal-pricing-table td { padding: 7px 4px; font-size: 0.82rem; }
+  .amenity-tag { padding: 3px 8px; font-size: 0.7rem; }
+  .modal-multi-banner { padding: 10px 12px; font-size: 0.82rem; }
+  .modal-website-btn { padding: 12px; font-size: 0.82rem; }
+
+  /* Map */
   .map-section { padding: 32px 0; }
-  .map-placeholder { height: 300px; }
+  .map-placeholder { height: 280px; }
   .section-title { font-size: 2rem; }
 }
