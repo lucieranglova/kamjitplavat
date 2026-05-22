@@ -992,9 +992,22 @@ a:hover { text-decoration: underline; }
   .modal-section { margin-bottom: 16px; }
   .modal-pool-row { padding: 8px 10px; font-size: 0.82rem; }
   .modal-pricing-table td { padding: 7px 4px; font-size: 0.82rem; }
-  .amenity-tag { padding: 3px 8px; font-size: 0.7rem; }
   .modal-multi-banner { padding: 10px 12px; font-size: 0.82rem; }
   .modal-website-btn { padding: 12px; font-size: 0.82rem; }
+
+  /* Amenity tags — gap místo shared borders při zalamování */
+  .modal-amenities { display: flex; flex-wrap: wrap; gap: 6px; }
+  .amenity-tag {
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    border: var(--border-thin) !important;
+  }
+
+  /* Pool rows — gap a plné bordery */
+  .modal-pools-list { display: flex; flex-direction: column; gap: 6px; }
+  .modal-pool-row {
+    border: var(--border-thin) !important;
+  }
 
   /* Map */
   .map-section { padding: 32px 0; }
