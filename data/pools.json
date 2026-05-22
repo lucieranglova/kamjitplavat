@@ -9,7 +9,7 @@
     "lat": 50.0567,
     "lng": 14.4183,
     "multisport": true,
-    "multisport_note": "60+10 min zdarma, přečas 30 Kč/10 min",
+    "multisport_note": "60 min zdarma, přečas 30 Kč/10 min",
     "pools": [
       {
         "name": "Vnitřní 50m",
@@ -29,7 +29,7 @@
         "length": 33,
         "lanes": 6,
         "type": "outdoor",
-        "seasonal": true
+        "seasonal": false
       }
     ],
     "opening_hours": {
@@ -70,15 +70,15 @@
     "pricing": [
       {
         "label": "Dospělý 60 min",
-        "price": 110
+        "price": 185
       },
       {
         "label": "Dospělý 90 min",
-        "price": 120
+        "price": 205
       },
       {
-        "label": "Děti / senioři 60 min",
-        "price": 80
+        "label": "Děti 90 min",
+        "price": 120
       }
     ],
     "amenities": [
@@ -96,12 +96,12 @@
     "name": "Plavecký areál Hloubětín",
     "address": "Hloubětínská 10, Praha 9",
     "district": "Praha 9",
-    "website": "https://www.hloubetinskybazen.cz",
+    "website": "https://www.bazenhloubetin.eu/",
     "phone": "+420 281 861 961",
     "lat": 50.1035,
     "lng": 14.5104,
     "multisport": true,
-    "multisport_note": "Platí pro vstup do bazénu",
+    "multisport_note": "60 min + 15 min na převlečení zdarma, za každých dalších 15 min 15kč",
     "pools": [
       {
         "name": "Krytý 25m (slaná voda)",
@@ -147,11 +147,15 @@
     "pricing": [
       {
         "label": "Dospělý 60 min",
-        "price": 120
+        "price": 155
       },
       {
-        "label": "Studenti / senioři 60 min",
-        "price": 100
+        "label": "Studenti 60 min",
+        "price": 135
+      },
+      {
+        "label": "Děti 60 min",
+        "price": 110
       }
     ],
     "amenities": [
@@ -171,8 +175,8 @@
     "phone": "+420 283 921 799",
     "lat": 50.1258,
     "lng": 14.5197,
-    "multisport": false,
-    "multisport_note": null,
+    "multisport": true,
+    "multisport_note": "2,5h včetně převlečení",
     "pools": [
       {
         "name": "25m bazén",
@@ -188,7 +192,7 @@
     },
     "open_hours": {
       "po": [
-        "13:10",
+        "12:10",
         "21:00"
       ],
       "ut": [
@@ -196,7 +200,7 @@
         "21:00"
       ],
       "st": [
-        "13:10",
+        "17:00",
         "21:00"
       ],
       "ct": [
@@ -218,12 +222,16 @@
     },
     "pricing": [
       {
-        "label": "Dospělý 90 min",
-        "price": 160
+        "label": "Dospělý 2,5 h",
+        "price": 190
       },
       {
-        "label": "Děti 90 min",
-        "price": 120
+        "label": "Děti 2,5 h (do 140cm)",
+        "price": 130
+      },
+      {
+        "label": "Děti 2,5 h (do 100cm)",
+        "price": 0
       }
     ],
     "amenities": [
@@ -232,7 +240,8 @@
       "brouzdaliště",
       "sauna",
       "fitness",
-      "solárium"
+      "solárium",
+      "restaurace"
     ],
     "scraper_id": null,
     "order": 2
