@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-23T23:57:56.988006+02:00",
+  "updated_at": "2026-05-24T23:58:42.583552+02:00",
   "pools": {
     "podoli": {
       "indoor_50m": {
@@ -1358,25 +1358,6 @@
         "name": "50m bazén",
         "total_lanes": 8,
         "schedule": {
-          "so": [
-            {
-              "from": "06:00",
-              "to": "22:00",
-              "type": "volno",
-              "free_lanes": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [],
-              "note": ""
-            }
-          ],
           "ne": [
             {
               "from": "06:00",
@@ -1397,7 +1378,7 @@
             },
             {
               "from": "10:15",
-              "to": "10:30",
+              "to": "13:00",
               "type": "klub",
               "free_lanes": [
                 2,
@@ -1414,43 +1395,7 @@
               "note": "Rezervováno klubem"
             },
             {
-              "from": "10:30",
-              "to": "12:30",
-              "type": "klub",
-              "free_lanes": [
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                2,
-                3
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "12:30",
-              "to": "14:00",
-              "type": "klub",
-              "free_lanes": [
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "14:00",
+              "from": "13:00",
               "to": "16:30",
               "type": "volno",
               "free_lanes": [
@@ -2634,6 +2579,25 @@
             },
             {
               "from": "21:30",
+              "to": "22:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": ""
+            }
+          ],
+          "so": [
+            {
+              "from": "06:00",
               "to": "22:00",
               "type": "volno",
               "free_lanes": [
