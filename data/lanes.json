@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-24T23:58:42.583552+02:00",
+  "updated_at": "2026-05-26T00:10:58.978876+02:00",
   "pools": {
     "podoli": {
       "indoor_50m": {
@@ -10,7 +10,7 @@
           "po": [
             {
               "from": "06:00",
-              "to": "08:15",
+              "to": "08:00",
               "type": "volno",
               "free_lanes": [
                 1,
@@ -26,8 +26,8 @@
               "note": ""
             },
             {
-              "from": "08:15",
-              "to": "17:15",
+              "from": "08:00",
+              "to": "08:45",
               "type": "klub",
               "free_lanes": [
                 2,
@@ -44,8 +44,44 @@
               "note": "Rezervováno"
             },
             {
-              "from": "17:15",
-              "to": "18:00",
+              "from": "08:45",
+              "to": "14:45",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                3
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "14:45",
+              "to": "17:00",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "17:00",
+              "to": "17:45",
               "type": "klub",
               "free_lanes": [
                 2,
@@ -62,8 +98,8 @@
               "note": "Rezervováno"
             },
             {
-              "from": "18:00",
-              "to": "19:00",
+              "from": "17:45",
+              "to": "18:45",
               "type": "klub",
               "free_lanes": [
                 2,
@@ -80,8 +116,8 @@
               "note": "Rezervováno"
             },
             {
-              "from": "19:00",
-              "to": "21:00",
+              "from": "18:45",
+              "to": "20:45",
               "type": "klub",
               "free_lanes": [
                 2,
@@ -98,7 +134,7 @@
               "note": "Rezervováno"
             },
             {
-              "from": "21:00",
+              "from": "20:45",
               "to": "22:00",
               "type": "klub",
               "free_lanes": [
@@ -119,9 +155,10 @@
           "ut": [
             {
               "from": "06:00",
-              "to": "08:15",
+              "to": "07:00",
               "type": "klub",
               "free_lanes": [
+                1,
                 2,
                 3,
                 6,
@@ -129,19 +166,18 @@
                 8
               ],
               "reserved_lanes": [
-                1,
                 4,
                 5
               ],
               "note": "Rezervováno"
             },
             {
-              "from": "08:15",
-              "to": "12:30",
+              "from": "07:00",
+              "to": "08:15",
               "type": "klub",
               "free_lanes": [
+                1,
                 2,
-                3,
                 4,
                 5,
                 6,
@@ -149,7 +185,43 @@
                 8
               ],
               "reserved_lanes": [
-                1
+                3
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "08:15",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                4,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                5
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "09:00",
+              "to": "12:30",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                3
               ],
               "note": "Rezervováno"
             },
@@ -173,7 +245,7 @@
             },
             {
               "from": "13:00",
-              "to": "16:00",
+              "to": "13:30",
               "type": "klub",
               "free_lanes": [
                 2,
@@ -190,25 +262,61 @@
               "note": "Rezervováno"
             },
             {
-              "from": "16:00",
-              "to": "17:00",
+              "from": "13:30",
+              "to": "16:00",
               "type": "klub",
               "free_lanes": [
+                1,
                 2,
-                4,
+                3,
                 5,
                 6,
                 7,
                 8
               ],
               "reserved_lanes": [
+                4
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "16:00",
+              "to": "17:00",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                4,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
                 1,
-                3
+                5
               ],
               "note": "Rezervováno"
             },
             {
               "from": "17:00",
+              "to": "18:15",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                4,
+                5,
+                6
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "18:15",
               "to": "19:30",
               "type": "klub",
               "free_lanes": [
@@ -265,6 +373,78 @@
           "st": [
             {
               "from": "06:00",
+              "to": "07:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                3,
+                4
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "07:00",
+              "to": "07:15",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                4,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                3,
+                5
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "07:15",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "09:00",
+              "to": "12:15",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                3
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "12:15",
               "to": "15:00",
               "type": "klub",
               "free_lanes": [
@@ -287,6 +467,24 @@
               "type": "klub",
               "free_lanes": [
                 2,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                3,
+                4
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "16:00",
+              "to": "17:00",
+              "type": "klub",
+              "free_lanes": [
+                2,
                 4,
                 5,
                 6,
@@ -300,20 +498,20 @@
               "note": "Rezervováno"
             },
             {
-              "from": "16:00",
+              "from": "17:00",
               "to": "18:00",
               "type": "klub",
               "free_lanes": [
                 2,
                 3,
-                4,
                 5,
                 6,
                 7,
                 8
               ],
               "reserved_lanes": [
-                1
+                1,
+                4
               ],
               "note": "Rezervováno"
             },
@@ -340,7 +538,6 @@
               "to": "20:00",
               "type": "klub",
               "free_lanes": [
-                1,
                 2,
                 3,
                 4,
@@ -349,6 +546,7 @@
                 8
               ],
               "reserved_lanes": [
+                1,
                 7
               ],
               "note": "Rezervováno"
@@ -376,9 +574,8 @@
             {
               "from": "06:00",
               "to": "08:15",
-              "type": "volno",
+              "type": "klub",
               "free_lanes": [
-                1,
                 2,
                 3,
                 4,
@@ -387,12 +584,68 @@
                 7,
                 8
               ],
-              "reserved_lanes": [],
-              "note": ""
+              "reserved_lanes": [
+                1
+              ],
+              "note": "Rezervováno"
             },
             {
               "from": "08:15",
               "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                5
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "09:00",
+              "to": "12:15",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                3
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "12:15",
+              "to": "15:45",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "15:45",
+              "to": "16:00",
               "type": "klub",
               "free_lanes": [
                 1,
@@ -409,7 +662,7 @@
               "note": "Rezervováno"
             },
             {
-              "from": "09:00",
+              "from": "16:00",
               "to": "19:00",
               "type": "klub",
               "free_lanes": [
@@ -431,13 +684,13 @@
               "to": "20:00",
               "type": "klub",
               "free_lanes": [
-                1,
                 2,
                 6,
                 7,
                 8
               ],
               "reserved_lanes": [
+                1,
                 3,
                 4,
                 5
@@ -466,7 +719,43 @@
           "pa": [
             {
               "from": "06:00",
-              "to": "18:00",
+              "to": "07:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                5
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "07:00",
+              "to": "08:15",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                4
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "08:15",
+              "to": "09:00",
               "type": "klub",
               "free_lanes": [
                 2,
@@ -479,6 +768,96 @@
               ],
               "reserved_lanes": [
                 1
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "09:00",
+              "to": "11:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                4,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                3,
+                5
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "11:00",
+              "to": "15:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ],
+              "reserved_lanes": [
+                8
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "15:00",
+              "to": "16:00",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                3
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "16:00",
+              "to": "17:15",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1
+              ],
+              "note": "Rezervováno"
+            },
+            {
+              "from": "17:15",
+              "to": "18:00",
+              "type": "klub",
+              "free_lanes": [
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                3
               ],
               "note": "Rezervováno"
             },
@@ -542,52 +921,34 @@
               "to": "08:30",
               "type": "klub",
               "free_lanes": [
+                1,
                 2,
                 3,
                 4,
-                5,
                 6,
                 7,
                 8
               ],
               "reserved_lanes": [
-                1
+                5
               ],
               "note": "Rezervováno"
             },
             {
               "from": "08:30",
-              "to": "08:45",
-              "type": "klub",
-              "free_lanes": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                8
-              ],
-              "reserved_lanes": [
-                7
-              ],
-              "note": "Rezervováno"
-            },
-            {
-              "from": "08:45",
               "to": "22:00",
               "type": "klub",
               "free_lanes": [
                 2,
                 3,
                 4,
-                5,
                 6,
                 7,
                 8
               ],
               "reserved_lanes": [
-                1
+                1,
+                5
               ],
               "note": "Rezervováno"
             }
@@ -595,7 +956,7 @@
           "ne": [
             {
               "from": "06:00",
-              "to": "08:30",
+              "to": "16:30",
               "type": "volno",
               "free_lanes": [
                 1,
@@ -611,7 +972,7 @@
               "note": ""
             },
             {
-              "from": "08:30",
+              "from": "16:30",
               "to": "22:00",
               "type": "klub",
               "free_lanes": [
@@ -765,60 +1126,6 @@
           "po": [
             {
               "from": "06:00",
-              "to": "06:45",
-              "type": "klub",
-              "free_lanes": [
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1
-              ],
-              "note": "Rezervováno"
-            },
-            {
-              "from": "06:45",
-              "to": "07:15",
-              "type": "klub",
-              "free_lanes": [
-                1,
-                2,
-                3,
-                4,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                5
-              ],
-              "note": "Rezervováno"
-            },
-            {
-              "from": "07:15",
-              "to": "13:30",
-              "type": "klub",
-              "free_lanes": [
-                1,
-                2,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                3
-              ],
-              "note": "Rezervováno"
-            },
-            {
-              "from": "13:30",
               "to": "17:00",
               "type": "klub",
               "free_lanes": [
@@ -837,7 +1144,7 @@
             },
             {
               "from": "17:00",
-              "to": "20:00",
+              "to": "19:00",
               "type": "klub",
               "free_lanes": [
                 1,
@@ -854,7 +1161,7 @@
               "note": "Rezervováno"
             },
             {
-              "from": "20:00",
+              "from": "19:00",
               "to": "22:00",
               "type": "klub",
               "free_lanes": [
@@ -875,42 +1182,6 @@
           "ut": [
             {
               "from": "06:00",
-              "to": "06:45",
-              "type": "klub",
-              "free_lanes": [
-                1,
-                2,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                3
-              ],
-              "note": "Rezervováno"
-            },
-            {
-              "from": "06:45",
-              "to": "07:00",
-              "type": "klub",
-              "free_lanes": [
-                2,
-                3,
-                4,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                5
-              ],
-              "note": "Rezervováno"
-            },
-            {
-              "from": "07:00",
               "to": "15:15",
               "type": "klub",
               "free_lanes": [
@@ -1007,6 +1278,7 @@
               "type": "klub",
               "free_lanes": [
                 2,
+                3,
                 4,
                 5,
                 6,
@@ -1014,8 +1286,7 @@
                 8
               ],
               "reserved_lanes": [
-                1,
-                3
+                1
               ],
               "note": "Rezervováno"
             },
@@ -1095,42 +1366,6 @@
           "ct": [
             {
               "from": "06:00",
-              "to": "06:45",
-              "type": "klub",
-              "free_lanes": [
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1
-              ],
-              "note": "Rezervováno"
-            },
-            {
-              "from": "06:45",
-              "to": "07:00",
-              "type": "klub",
-              "free_lanes": [
-                1,
-                2,
-                4,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                3,
-                5
-              ],
-              "note": "Rezervováno"
-            },
-            {
-              "from": "07:00",
               "to": "15:30",
               "type": "klub",
               "free_lanes": [
@@ -1187,7 +1422,7 @@
           "pa": [
             {
               "from": "06:00",
-              "to": "06:45",
+              "to": "07:00",
               "type": "klub",
               "free_lanes": [
                 1,
@@ -1204,26 +1439,8 @@
               "note": "Rezervováno"
             },
             {
-              "from": "06:45",
-              "to": "07:00",
-              "type": "klub",
-              "free_lanes": [
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1
-              ],
-              "note": "Rezervováno"
-            },
-            {
               "from": "07:00",
-              "to": "09:00",
+              "to": "15:00",
               "type": "klub",
               "free_lanes": [
                 1,
@@ -1240,7 +1457,7 @@
               "note": "Rezervováno"
             },
             {
-              "from": "09:00",
+              "from": "15:00",
               "to": "17:00",
               "type": "klub",
               "free_lanes": [
@@ -1296,7 +1513,7 @@
             },
             {
               "from": "07:00",
-              "to": "08:30",
+              "to": "22:00",
               "type": "klub",
               "free_lanes": [
                 2,
@@ -1309,24 +1526,6 @@
               ],
               "reserved_lanes": [
                 1
-              ],
-              "note": "Rezervováno"
-            },
-            {
-              "from": "08:30",
-              "to": "22:00",
-              "type": "klub",
-              "free_lanes": [
-                1,
-                2,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                3
               ],
               "note": "Rezervováno"
             }
@@ -1358,328 +1557,6 @@
         "name": "50m bazén",
         "total_lanes": 8,
         "schedule": {
-          "ne": [
-            {
-              "from": "06:00",
-              "to": "10:15",
-              "type": "volno",
-              "free_lanes": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [],
-              "note": ""
-            },
-            {
-              "from": "10:15",
-              "to": "13:00",
-              "type": "klub",
-              "free_lanes": [
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "13:00",
-              "to": "16:30",
-              "type": "volno",
-              "free_lanes": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [],
-              "note": ""
-            },
-            {
-              "from": "16:30",
-              "to": "19:30",
-              "type": "klub",
-              "free_lanes": [
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "19:30",
-              "to": "22:00",
-              "type": "volno",
-              "free_lanes": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [],
-              "note": ""
-            }
-          ],
-          "po": [
-            {
-              "from": "06:00",
-              "to": "06:15",
-              "type": "volno",
-              "free_lanes": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [],
-              "note": ""
-            },
-            {
-              "from": "06:15",
-              "to": "07:45",
-              "type": "klub",
-              "free_lanes": [
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                2,
-                3
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "07:45",
-              "to": "08:00",
-              "type": "volno",
-              "free_lanes": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [],
-              "note": ""
-            },
-            {
-              "from": "08:00",
-              "to": "08:45",
-              "type": "klub",
-              "free_lanes": [
-                3,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                2,
-                4
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "08:45",
-              "to": "10:30",
-              "type": "klub",
-              "free_lanes": [
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                2
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "10:30",
-              "to": "12:15",
-              "type": "klub",
-              "free_lanes": [
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                2,
-                3
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "12:15",
-              "to": "13:00",
-              "type": "klub",
-              "free_lanes": [
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                2
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "13:00",
-              "to": "14:00",
-              "type": "klub",
-              "free_lanes": [
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "14:00",
-              "to": "14:30",
-              "type": "klub",
-              "free_lanes": [
-                2,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                3
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "14:30",
-              "to": "15:15",
-              "type": "klub",
-              "free_lanes": [
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                2,
-                3
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "15:15",
-              "to": "15:30",
-              "type": "klub",
-              "free_lanes": [
-                2,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                3
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "15:30",
-              "to": "21:00",
-              "type": "klub",
-              "free_lanes": [
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                2,
-                3
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "21:00",
-              "to": "22:00",
-              "type": "volno",
-              "free_lanes": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [],
-              "note": ""
-            }
-          ],
           "ut": [
             {
               "from": "06:00",
@@ -1736,6 +1613,24 @@
             },
             {
               "from": "08:00",
+              "to": "09:00",
+              "type": "klub",
+              "free_lanes": [
+                3,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                4
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "09:00",
               "to": "10:00",
               "type": "klub",
               "free_lanes": [
@@ -1754,24 +1649,6 @@
             },
             {
               "from": "10:00",
-              "to": "11:15",
-              "type": "klub",
-              "free_lanes": [
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
-              ],
-              "reserved_lanes": [
-                1,
-                2
-              ],
-              "note": "Rezervováno klubem"
-            },
-            {
-              "from": "11:15",
               "to": "13:00",
               "type": "klub",
               "free_lanes": [
@@ -1791,26 +1668,26 @@
             {
               "from": "13:00",
               "to": "14:00",
-              "type": "volno",
+              "type": "klub",
               "free_lanes": [
                 1,
                 2,
-                3,
                 4,
                 5,
                 6,
                 7,
                 8
               ],
-              "reserved_lanes": [],
-              "note": ""
+              "reserved_lanes": [
+                3
+              ],
+              "note": "Rezervováno klubem"
             },
             {
               "from": "14:00",
               "to": "15:00",
               "type": "klub",
               "free_lanes": [
-                3,
                 4,
                 5,
                 6,
@@ -1819,7 +1696,8 @@
               ],
               "reserved_lanes": [
                 1,
-                2
+                2,
+                3
               ],
               "note": "Rezervováno klubem"
             },
@@ -2276,9 +2154,10 @@
             {
               "from": "13:00",
               "to": "14:00",
-              "type": "klub",
+              "type": "volno",
               "free_lanes": [
                 1,
+                2,
                 3,
                 4,
                 5,
@@ -2286,10 +2165,8 @@
                 7,
                 8
               ],
-              "reserved_lanes": [
-                2
-              ],
-              "note": "Rezervováno klubem"
+              "reserved_lanes": [],
+              "note": ""
             },
             {
               "from": "14:00",
@@ -2598,6 +2475,381 @@
           "so": [
             {
               "from": "06:00",
+              "to": "10:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": ""
+            },
+            {
+              "from": "10:30",
+              "to": "11:30",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "11:30",
+              "to": "22:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": ""
+            }
+          ],
+          "ne": [
+            {
+              "from": "06:00",
+              "to": "10:15",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": ""
+            },
+            {
+              "from": "10:15",
+              "to": "13:00",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "13:00",
+              "to": "16:30",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": ""
+            },
+            {
+              "from": "16:30",
+              "to": "19:30",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "19:30",
+              "to": "22:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": ""
+            }
+          ],
+          "po": [
+            {
+              "from": "06:00",
+              "to": "06:15",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": ""
+            },
+            {
+              "from": "06:15",
+              "to": "07:45",
+              "type": "klub",
+              "free_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "07:45",
+              "to": "08:00",
+              "type": "volno",
+              "free_lanes": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [],
+              "note": ""
+            },
+            {
+              "from": "08:00",
+              "to": "08:45",
+              "type": "klub",
+              "free_lanes": [
+                3,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                4
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "08:45",
+              "to": "12:15",
+              "type": "klub",
+              "free_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "12:15",
+              "to": "13:00",
+              "type": "klub",
+              "free_lanes": [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "13:00",
+              "to": "14:00",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "14:00",
+              "to": "14:30",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                3
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "14:30",
+              "to": "15:15",
+              "type": "klub",
+              "free_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "15:15",
+              "to": "15:30",
+              "type": "klub",
+              "free_lanes": [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                3
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "15:30",
+              "to": "16:00",
+              "type": "klub",
+              "free_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "16:00",
+              "to": "18:00",
+              "type": "klub",
+              "free_lanes": [
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "18:00",
+              "to": "21:00",
+              "type": "klub",
+              "free_lanes": [
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "reserved_lanes": [
+                1,
+                2,
+                3
+              ],
+              "note": "Rezervováno klubem"
+            },
+            {
+              "from": "21:00",
               "to": "22:00",
               "type": "volno",
               "free_lanes": [
