@@ -30,41 +30,60 @@ def scrape() -> dict:
         return {}
 
     soup = BeautifulSoup(r.text, "html.parser")
-    text = soup.get_text(" ", strip=True)
 
     data = {}
 
+    # Stránka používá strukturu: číslo v <h2> nebo velkém tagu,
+    # popis hned za ním jako text nebo v dalším elementu.
+    # Získáme celý text ale zachováme newlines pro správné párování.
+    full_text = soup.get_text("\n", strip=True)
+
     # ── Teplota vody ──────────────────────────────────────────────────────────
-    # HTML obsahuje: "26 °C TEPLOTA VODY" nebo varianty
-    m = re.search(r'(\d+)\s*°C\s*TEPLOTA VODY', text, re.IGNORECASE)
+    # Hledáme číslo na řádku před "TEPLOTA VODY" (case-insensitive)
+    m = re.search(r'(\d+)\s*°?\s*C?\s*\n+\s*TEPLOTA VODY', full_text, re.IGNORECASE)
     if not m:
-        # Záloha: najdi číslo před "TEPLOTA VODY"
-        m = re.search(r'(\d+)[^\n]{0,10}TEPLOTA VODY', text, re.IGNORECASE)
+        # Záloha: číslo a label na stejném řádku
+        m = re.search(r'(\d+)\s*°C\s*TEPLOTA VODY', full_text, re.IGNORECASE)
+    if not m:
+        # Záloha 2: najdi "TEPLOTA VODY" a číslo kdekoliv blízko před ním
+        m = re.search(r'(\d+)\b[^\n]{0,30}\n[^\n]{0,10}TEPLOTA VODY', full_text, re.IGNORECASE)
     if m:
         data["water_temp"] = int(m.group(1))
 
     # ── Teplota vzduchu ───────────────────────────────────────────────────────
-    m = re.search(r'(\d+)\s*°C\s*TEPLOTA VZDUCHU', text, re.IGNORECASE)
+    m = re.search(r'(\d+)\s*°?\s*C?\s*\n+\s*TEPLOTA VZDUCHU', full_text, re.IGNORECASE)
     if not m:
-        m = re.search(r'(\d+)[^\n]{0,10}TEPLOTA VZDUCHU', text, re.IGNORECASE)
+        m = re.search(r'(\d+)\s*°C\s*TEPLOTA VZDUCHU', full_text, re.IGNORECASE)
+    if not m:
+        m = re.search(r'(\d+)\b[^\n]{0,30}\n[^\n]{0,10}TEPLOTA VZDUCHU', full_text, re.IGNORECASE)
     if m:
         data["air_temp"] = int(m.group(1))
 
     # ── Počet návštěvníků ─────────────────────────────────────────────────────
-    # "1118 návštěvníků (max 1300)"
-    m = re.search(r'(\d+)\s*návštěvníků\s*\(\s*max\s*(\d+)\s*\)', text, re.IGNORECASE)
+    # Číslo na jednom řádku, "návštěvníků (max N)" na dalším
+    m = re.search(
+        r'(\d+)\s*\n+\s*návštěvníků\s*\(?\s*max\s*(\d+)\s*\)?',
+        full_text, re.IGNORECASE
+    )
+    if not m:
+        # Vše na jednom řádku
+        m = re.search(r'(\d+)\s*návštěvníků\s*\(?\s*max\s*(\d+)\s*\)?', full_text, re.IGNORECASE)
     if m:
         data["visitors"] = int(m.group(1))
         data["visitors_max"] = int(m.group(2))
 
     # ── Volná parkovací místa ─────────────────────────────────────────────────
-    # "0 PARKOVACÍCH MÍST"
-    m = re.search(r'(\d+)\s*PARKOVAC[IÍ]+CH\s*M[IÍ]+ST', text, re.IGNORECASE)
+    # Číslo na řádku před "PARKOVACÍCH MÍST"
+    m = re.search(r'(\d+)\s*\n+\s*PARKOVAC', full_text, re.IGNORECASE)
+    if not m:
+        m = re.search(r'(\d+)\s*PARKOVAC[IÍ]+CH\s*M[IÍ]+ST', full_text, re.IGNORECASE)
     if m:
         data["parking_free"] = int(m.group(1))
 
+    # open = True pokud jsme načetli aspoň teplotu nebo návštěvníky
+    found = any(k in data for k in ("water_temp", "air_temp", "visitors", "parking_free"))
+    data["open"] = found
     data["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    data["open"] = bool(data)  # True pokud jsme cokoliv načetli
 
     return data
 
@@ -73,13 +92,13 @@ def main():
     print("[petynka] Stahuji data...")
     data = scrape()
 
-    if data:
-        print(f"[petynka] ✓ voda={data.get('water_temp')}°C, "
-              f"vzduch={data.get('air_temp')}°C, "
-              f"návštěvníci={data.get('visitors')}/{data.get('visitors_max')}, "
+    if data.get("open"):
+        print(f"[petynka] ✓ voda={data.get('water_temp')}°C "
+              f"vzduch={data.get('air_temp')}°C "
+              f"návštěvníci={data.get('visitors')}/{data.get('visitors_max')} "
               f"parking={data.get('parking_free')}")
     else:
-        print("[petynka] ✗ Žádná data (koupaliště je zřejmě zavřeno nebo mimo sezónu)")
+        print("[petynka] ✗ Žádná data (koupaliště mimo sezónu nebo chyba)")
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT, "w", encoding="utf-8") as f:

@@ -479,6 +479,67 @@ a:hover { text-decoration: underline; }
 }
 .modal-website-btn:hover { background: var(--teal-d); text-decoration: none; }
 
+
+/* =============================================
+   OPEN/CLOSED BADGE + CARD EXTRAS
+   ============================================= */
+
+.lanes-summary-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.open-badge {
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 3px 8px;
+  border: var(--border-thin);
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+}
+.open-badge--open   { background: #c8ffd4; color: var(--black); }
+.open-badge--closed { background: #ffe0d0; color: var(--black); }
+
+/* Webkamera odkaz na kartě Petynky */
+.card-webcam-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--black);
+  border-bottom: 2px solid var(--teal);
+  text-decoration: none;
+  transition: color .12s;
+  font-family: 'DM Sans', sans-serif;
+}
+.card-webcam-link:hover { color: var(--teal-d); text-decoration: none; }
+
+/* Petynka kompaktní živá data na kartě */
+.petynka-card-live {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+.petynka-card-live span {
+  font-size: .75rem;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--black);
+  background: var(--white);
+  border: var(--border-thin);
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
 /* =============================================
    PETYNKA — živá data v modalu
    ============================================= */
