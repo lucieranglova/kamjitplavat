@@ -2,19 +2,76 @@ name: Nightly scrape + deploy
 
 on:
   schedule:
-    # Každou noc ve 23:00 SEČ (21:00 UTC)
-    - cron: '0 21 * * *'
-  workflow_dispatch:  # Možnost spustit ručně z GitHub UI
+    - cron: '0 21 * * *'      # Nightly: všechny scrapery (23:00 SEČ)
+    - cron: '0 6-18/2 * * *'  # Každé 2 hodiny od 8:00 do 20:00 SEČ: jen Petynka
+  workflow_dispatch:
+    inputs:
+      petynka_only:
+        description: 'Spustit jen Petynku (bez nočního scrapingu drah)'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
 
 permissions:
-  contents: write   # Potřeba pro commit + push do repozitáře
+  contents: write
   pages: write
   id-token: write
 
 jobs:
-  scrape:
-    name: Scrape lane data
+  # ──────────────────────────────────────────────────────────────────────────
+  # JOB 1 — Petynka live data (každé 2 hodiny přes den + v nočním běhu)
+  # ──────────────────────────────────────────────────────────────────────────
+  scrape-petynka:
+    name: Petynka live data
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run Petynka scraper
+        run: |
+          SCRIPT=$(find . -name "petynka.py" | head -1)
+          if [ -z "$SCRIPT" ]; then
+            echo "ERROR: petynka.py not found"
+            exit 2
+          fi
+          echo "Found: $SCRIPT"
+          python "$SCRIPT"
+        continue-on-error: true
+
+      - name: Commit petynka_live.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DATA=$(find . -name "petynka_live.json" | head -1)
+          if [ -n "$DATA" ]; then
+            git add "$DATA"
+          fi
+          git diff --cached --quiet || git commit -m "chore: petynka live data $(date +'%Y-%m-%d %H:%M') UTC"
+          git push
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # JOB 2 — Nightly: scrapery drah (jen noční běh nebo ruční spuštění)
+  # ──────────────────────────────────────────────────────────────────────────
+  scrape-lanes:
+    name: Scrape lane data (nightly)
+    runs-on: ubuntu-latest
+    # Spustí se jen při nočním cronu (21:00 UTC) nebo při ručním spuštění bez petynka_only
+    if: |
+      github.event_name == 'workflow_dispatch' && github.event.inputs.petynka_only == 'false' ||
+      github.event_name == 'schedule' && github.event.schedule == '0 21 * * *'
 
     steps:
       - name: Checkout repo
@@ -32,8 +89,7 @@ jobs:
 
       - name: Run scrapers
         run: |
-          # Najdi run_all.py kdekoliv v repozitáři
-          SCRIPT=$(find . -name "runall.py" | head -1)
+          SCRIPT=$(find . -name "run_all.py" | head -1)
           if [ -z "$SCRIPT" ]; then
             echo "ERROR: run_all.py not found"
             find . -name "*.py" | head -20
@@ -54,9 +110,13 @@ jobs:
           git diff --cached --quiet || git commit -m "chore: update lanes data $(date +'%Y-%m-%d')"
           git push
 
+  # ──────────────────────────────────────────────────────────────────────────
+  # JOB 3 — Deploy (vždy, po obou scraperech)
+  # ──────────────────────────────────────────────────────────────────────────
   deploy:
     name: Deploy to GitHub Pages
-    needs: scrape
+    needs: [scrape-petynka, scrape-lanes]
+    if: always()   # Deployni i když scrape-lanes neproběhl (přes den)
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -66,7 +126,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          ref: main   # Po commitu scraperů
+          ref: main
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -74,7 +134,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'   # Celý root repozitáře = index.html + data/ + style.css + script.js
+          path: '.'
 
       - name: Deploy to GitHub Pages
         id: deployment
