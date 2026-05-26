@@ -218,10 +218,7 @@ function cardHTML(pool, idx, day, timeMins) {
   const weekdayHours = getOpenHoursForDay(pool, day);
   const timeLabel = activeFilters.time === 'now' ? 'Právě teď' : activeFilters.time;
 
-  // Webkamera odkaz pro Petynku
-  const webcamLink = pool.id === 'petynka'
-    ? `<a href="https://koupalistepetynka.cz/foto-a-kamery/bazen" target="_blank" rel="noopener" class="card-webcam-link" onclick="event.stopPropagation()">📷 Webkamera</a>`
-    : '';
+  const webcamLink = ''; // přesunuto do footer
 
   return `
     <article class="pool-card" data-pool-id="${pool.id}"
@@ -238,13 +235,13 @@ function cardHTML(pool, idx, day, timeMins) {
           <span>🕐 ${weekdayHours}</span>
           ${minPrice ? `<span>💰 od ${minPrice} Kč / hod</span>` : ''}
         </div>
-        ${webcamLink}
       </div>
       <div class="lanes-summary">
         ${buildLanesSummaryHTML(pool, day, timeMins, timeLabel)}
       </div>
       <div class="card-footer">
         <button class="btn btn-primary">Detail</button>
+        ${pool.id === 'petynka' ? `<a href="https://koupalistepetynka.cz/foto-a-kamery/bazen" target="_blank" rel="noopener" class="btn btn-webcam-card" onclick="event.stopPropagation()">📷 Webkamera</a>` : ''}
       </div>
     </article>`;
 }
