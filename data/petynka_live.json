@@ -1,9 +1,9 @@
 {
   "water_temp": 26,
-  "air_temp": 28,
-  "visitors": 560,
+  "air_temp": 31,
+  "visitors": 406,
   "visitors_max": 1300,
-  "parking_free": 8,
-  "updated_at": "2026-08-07T14:59:11Z",
+  "parking_free": 44,
+  "updated_at": "2026-08-07T16:58:26Z",
   "open": true
 }
