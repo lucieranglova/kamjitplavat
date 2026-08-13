@@ -89,9 +89,9 @@ jobs:
 
       - name: Run scrapers
         run: |
-          SCRIPT=$(find . -name "run_all.py" | head -1)
+          SCRIPT=$(find . -name "runall.py" | head -1)
           if [ -z "$SCRIPT" ]; then
-            echo "ERROR: run_all.py not found"
+            echo "ERROR: runall.py not found"
             find . -name "*.py" | head -20
             exit 2
           fi
