@@ -157,20 +157,15 @@ def parse_csv(rows: list, total_lanes: int) -> dict:
         n_slots = end_col - hour_col  # = 64 slots from 6:00 to 22:00
 
         # Build per-lane reserved array
-        # Collect all event columns across ALL lanes for this day
-        all_event_cols = sorted(set(
-            col for ln_evts in lanes.values() for col, _ in ln_evts
-        ) | {end_col})
-
         lane_reserved: dict[int, list[bool]] = {}
         for ln in range(1, total_lanes + 1):
             res = [False] * n_slots
             lane_evts = lanes.get(ln, [])
             for ei, (col, val) in enumerate(lane_evts):
-                # End = nearest event col in ANY lane that is > this col
-                next_any = next((c for c in all_event_cols if c > col), end_col)
+                # End = next event col on the SAME lane, or end_col if this is the last one
+                next_col = lane_evts[ei + 1][0] if ei + 1 < len(lane_evts) else end_col
                 start_slot = max(0, col - hour_col)
-                end_slot   = max(0, min(next_any - hour_col, n_slots))
+                end_slot   = max(0, min(next_col - hour_col, n_slots))
                 for s in range(start_slot, end_slot):
                     res[s] = True
             lane_reserved[ln] = res
