@@ -43,13 +43,34 @@ function parseMins(str) {
   return h * 60 + (m || 0);
 }
 
+// open_hours[day]: ["06:00","22:00"], více úseků [["06:00","08:00"],["12:00","14:00"]], [] = zavřeno
+function dayRanges(pool, day) {
+  const dayHours = pool.open_hours?.[day];
+  if (!dayHours) return null;
+  return Array.isArray(dayHours[0]) ? dayHours : (dayHours.length ? [dayHours] : []);
+}
+
+// season: {"from":"05-15","to":"09-30"} (MM-DD) — mimo sezónu je koupaliště zavřené
+function isInSeason(pool, date = new Date()) {
+  if (!pool.season) return true;
+  const md = String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+  return md >= pool.season.from && md <= pool.season.to;
+}
+
+// Základní vstupné = první položka ceníku, např. "190 Kč / 60 min"
+function basePriceText(pool) {
+  const p = pool.pricing[0];
+  if (!p) return null;
+  const what = p.label.replace(/^Dospělý\s*/, '');
+  return `${p.price} Kč${what ? ' / ' + what : ''}`;
+}
+
 function isPoolOpen(pool, day, timeMins) {
-  const oh = pool.open_hours;
-  if (!oh) return true;
-  const dayHours = oh[day];
-  if (!dayHours) return true;
-  const [openStr, closeStr] = dayHours;
-  return timeMins >= parseMins(openStr) && timeMins < parseMins(closeStr);
+  if (!isInSeason(pool)) return false;
+  const ranges = dayRanges(pool, day);
+  if (!ranges) return true;
+  return ranges.some(([openStr, closeStr]) =>
+    timeMins >= parseMins(openStr) && timeMins < parseMins(closeStr));
 }
 
 function getSlotAtTime(poolLaneData, day, timeMins, poolKey) {
@@ -243,7 +264,7 @@ function renderCards() {
 }
 
 function cardHTML(pool, idx, day, timeMins) {
-  const minPrice = pool.pricing.length ? Math.min(...pool.pricing.map(p => p.price)) : null;
+  const basePrice = basePriceText(pool);
 
   const poolChips = pool.pools.map(p =>
     `<span class="pool-chip${p.type === 'outdoor' ? ' outdoor' : ''}">` +
@@ -267,7 +288,7 @@ function cardHTML(pool, idx, day, timeMins) {
         <div class="card-pools">${poolChips}</div>
         <div class="card-meta">
           <span>🕐 ${weekdayHours}</span>
-          ${minPrice ? `<span>💰 od ${minPrice} Kč / hod</span>` : ''}
+          ${basePrice ? `<span>💰 ${basePrice}</span>` : ''}
         </div>
       </div>
       <div class="lanes-summary">
@@ -281,8 +302,9 @@ function cardHTML(pool, idx, day, timeMins) {
 }
 
 function getOpenHoursForDay(pool, day) {
-  const oh = pool.open_hours;
-  if (oh && oh[day]) return oh[day].join('–');
+  if (!isInSeason(pool)) return 'mimo sezónu';
+  const ranges = dayRanges(pool, day);
+  if (ranges) return ranges.length ? ranges.map(r => r.join('–')).join(', ') : 'zavřeno';
   const ohText = pool.opening_hours;
   const isWeekend = day === 'so' || day === 'ne';
   return (isWeekend ? ohText.weekend : ohText.weekday) || ohText.note || '—';
@@ -368,13 +390,13 @@ function renderPins() {
     const marker = L.marker([pool.lat, pool.lng], { icon: icon(pool.multisport) })
       .addTo(leafletMap);
 
-    const minPrice = pool.pricing.length ? Math.min(...pool.pricing.map(p => p.price)) : null;
+    const basePrice = basePriceText(pool);
     marker.bindPopup(`
       <div style="font-family:'DM Sans',sans-serif;min-width:180px;">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.04em;margin-bottom:4px;">${pool.name}</div>
         <div style="font-size:.78rem;color:#666;margin-bottom:8px;">📍 ${pool.address}</div>
         ${pool.multisport ? '<div style="font-size:.72rem;font-weight:700;background:#c8ffd4;border:1.5px solid #0d0d0d;padding:2px 8px;display:inline-block;margin-bottom:8px;">💳 MULTISPORT</div>' : ''}
-        ${minPrice ? `<div style="font-size:.8rem;font-weight:700;">od ${minPrice} Kč / hod</div>` : ''}
+        ${basePrice ? `<div style="font-size:.8rem;font-weight:700;">${basePrice}</div>` : ''}
         <button onclick="window.__openPoolModal('${pool.id}')" style="
           margin-top:10px;width:100%;padding:7px;
           background:#00b4d8;border:2px solid #0d0d0d;
@@ -455,7 +477,7 @@ function closeModal() {
 
 function buildModalHTML(pool) {
   const pricingRows = pool.pricing.map(p =>
-    `<tr><td>${p.label}</td><td>${p.price} Kč</td></tr>`).join('');
+    `<tr><td>${p.label}</td><td>${p.price ? p.price + ' Kč' : 'zdarma'}</td></tr>`).join('');
 
   const poolsRows = pool.pools.map(p => `
     <div class="modal-pool-row">
@@ -466,7 +488,7 @@ function buildModalHTML(pool) {
     </div>`).join('');
 
   const amenities = pool.amenities.map(a => `<span class="amenity-tag">${a}</span>`).join('');
-  const hoursHtml = formatHours(pool.opening_hours);
+  const hoursHtml = formatHours(pool);
 
   const laneSection = buildModalLaneSection(pool);
 
@@ -510,6 +532,8 @@ function buildModalHTML(pool) {
     ${pool.id === 'petynka' ? buildPetynkaLiveHTML(petynkaLive) : ''}
 
     ${pool.website ? `<a class="modal-website-btn" href="${pool.website}" target="_blank" rel="noopener">Přejít na web bazénu ↗</a>` : ''}
+
+    ${pool.verified ? `<p style="font-size:.75rem;color:var(--muted);margin-top:10px;">Údaje ověřeny ${new Date(pool.verified).toLocaleDateString('cs-CZ')} — změny vždy potvrdí web bazénu.</p>` : ''}
   `;
 }
 
@@ -561,19 +585,19 @@ function buildScheduleHTML(pool, day, poolKey) {
 
   if (!slots.length) return '<p class="lanes-no-data">Pro tento den není rozvrh k dispozici.</p>';
 
-  const oh = pool.open_hours?.[day];
-  if (oh) {
-    const openMins  = parseMins(oh[0]);
-    const closeMins = parseMins(oh[1]);
-    slots = slots.filter(s => parseMins(s.to) > openMins && parseMins(s.from) < closeMins);
-    if (slots.length) {
-      slots = slots.map((s, i) => {
-        let from = s.from, to = s.to;
-        if (i === 0 && parseMins(from) < openMins)  from = oh[0];
-        if (i === slots.length - 1 && parseMins(to) > closeMins) to = oh[1];
-        return { ...s, from, to };
-      });
-    }
+  const ranges = dayRanges(pool, day);
+  if (ranges) {
+    slots = ranges.flatMap(([openStr, closeStr]) => {
+      const openMins  = parseMins(openStr);
+      const closeMins = parseMins(closeStr);
+      return slots
+        .filter(s => parseMins(s.to) > openMins && parseMins(s.from) < closeMins)
+        .map(s => ({
+          ...s,
+          from: parseMins(s.from) < openMins ? openStr : s.from,
+          to:   parseMins(s.to) > closeMins ? closeStr : s.to,
+        }));
+    });
   }
 
   if (!slots.length) return '<p class="lanes-no-data">V tento den zavřeno.</p>';
@@ -609,8 +633,25 @@ function buildScheduleHTML(pool, day, poolKey) {
   }).join('');
 }
 
-function formatHours(oh) {
+function formatHours(pool) {
+  const oh = pool.opening_hours || {};
   const parts = [];
+  if (pool.open_hours) {
+    // Po–Ne z open_hours, sousední dny se stejnými časy sloučí
+    const dayNames = { po:'Po', ut:'Út', st:'St', ct:'Čt', pa:'Pá', so:'So', ne:'Ne' };
+    const groups = [];
+    for (const d of Object.keys(dayNames)) {
+      const ranges = dayRanges(pool, d);
+      const txt = !ranges ? '—' : ranges.length ? ranges.map(r => r.join('–')).join(', ') : 'zavřeno';
+      const last = groups[groups.length - 1];
+      if (last && last.txt === txt) last.to = d;
+      else groups.push({ from: d, to: d, txt });
+    }
+    groups.forEach(g => parts.push(
+      `<strong>${dayNames[g.from]}${g.to !== g.from ? '–' + dayNames[g.to] : ''}:</strong> ${g.txt}`));
+    if (oh.note) parts.push(`<em>${oh.note}</em>`);
+    return parts.join('<br/>');
+  }
   if (oh.weekday)  parts.push(`<strong>Po–Pá:</strong> ${oh.weekday}`);
   if (oh.weekend)  parts.push(`<strong>So–Ne:</strong> ${oh.weekend}`);
   if (oh.mon)      parts.push(`<strong>Po:</strong> ${oh.mon}`);
