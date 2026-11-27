@@ -3,7 +3,7 @@
   "air_temp": 1,
   "visitors": 0,
   "visitors_max": 1300,
-  "parking_free": 0,
-  "updated_at": "2026-11-27T08:15:35Z",
+  "parking_free": 1,
+  "updated_at": "2026-11-27T10:11:40Z",
   "open": true
 }
